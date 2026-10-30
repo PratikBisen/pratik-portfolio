@@ -1,131 +1,180 @@
 /**
  * glass.css
- * Authentic 3D Glassmorphism Material System.
- * Real optical glass effects: refraction blur, saturation boost,
- * directional specular highlights, inset surface reflections, and soft ambient depth.
+ * Apple iOS 26 Liquid Glass Material System.
+ * Real optical physics: high transparency, lens refraction, Fresnel edge highlights,
+ * convex specular reflections, and multi-tier ambient shadows.
  */
 
-/* Core glass primitive base */
-.glass-base {
+/* ==========================================================================
+   1. Core Liquid Glass Foundation
+   ========================================================================== */
+
+.liquid-glass-base {
   position: relative;
-  background-color: var(--glass-fill);
-  border: 1px solid var(--glass-border);
-  border-top-color: var(--glass-border-highlight);
-  box-shadow: var(--glass-inset-highlight), var(--glass-shadow);
-  backdrop-filter: blur(16px) saturate(160%);
-  -webkit-backdrop-filter: blur(16px) saturate(160%);
-  border-radius: var(--radius-lg);
+  background-color: var(--liquid-fill);
+  border: 1px solid var(--liquid-rim);
+  border-top-color: var(--liquid-rim-highlight);
+  border-bottom-color: var(--liquid-rim-shadow);
+  box-shadow: var(--liquid-inset-bevel), var(--liquid-shadow-contact), var(--liquid-shadow-ambient);
+  backdrop-filter: blur(28px) saturate(190%) contrast(104%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%) contrast(104%);
+  border-radius: var(--radius-squircle);
   color: var(--text);
   overflow: hidden;
   transition: var(--transition-theme);
 }
 
-/* Subtle internal surface sheen layer */
-.glass-base::before {
+/* Specular light crescent reflecting off top curved surface */
+.liquid-glass-base::before {
   content: '';
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: linear-gradient(
-    135deg,
-    var(--glass-specular) 0%,
-    transparent 40%,
-    transparent 80%,
-    rgba(255, 255, 255, 0.02) 100%
-  );
+  background: var(--liquid-specular-crescent);
   pointer-events: none;
   z-index: 1;
 }
 
-/* Variant 1: Subtle glass for badges, metadata chips, subtle containers */
-.glass-subtle {
-  position: relative;
-  background-color: var(--glass-fill-subtle);
-  border: 1px solid var(--glass-border-subtle);
-  border-top-color: var(--glass-border);
-  box-shadow: var(--glass-shadow-subtle);
-  backdrop-filter: blur(10px) saturate(140%);
-  -webkit-backdrop-filter: blur(10px) saturate(140%);
-  border-radius: var(--radius-md);
-  color: var(--text);
-  transition: var(--transition-theme);
-}
-
-/* Variant 2: Standard glass panel for content sections & feature cards */
-.glass-panel {
-  position: relative;
-  background-color: var(--glass-fill);
-  border: 1px solid var(--glass-border);
-  border-top-color: var(--glass-border-highlight);
-  box-shadow: var(--glass-inset-highlight), var(--glass-shadow);
-  backdrop-filter: blur(16px) saturate(160%);
-  -webkit-backdrop-filter: blur(16px) saturate(160%);
-  border-radius: var(--radius-xl);
-  color: var(--text);
-  overflow: hidden;
-  transition: var(--transition-theme);
-}
-
-.glass-panel::before {
+/* Prismatic chromatic rim highlight on glancing angles */
+.liquid-glass-base::after {
   content: '';
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: linear-gradient(
-    135deg,
-    var(--glass-specular) 0%,
-    transparent 45%,
-    transparent 85%,
-    rgba(255, 255, 255, 0.03) 100%
-  );
+  padding: 1px;
+  background: var(--liquid-fresnel);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
   pointer-events: none;
-  z-index: 1;
+  z-index: 2;
+  opacity: 0.65;
 }
 
-/* Variant 3: Floating glass for elevated modals, hero highlight cards, nav bar */
-.glass-floating {
+/* ==========================================================================
+   2. Liquid Material Variants
+   ========================================================================== */
+
+/* Variant: Liquid Glass Surface (Large content sections & feature canvases) */
+.liquid-glass-surface {
   position: relative;
-  background-color: var(--glass-fill-floating);
-  border: 1px solid var(--glass-border-floating);
-  border-top-color: var(--glass-border-highlight);
-  box-shadow: var(--glass-inset-highlight), var(--glass-shadow-floating);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-radius: var(--radius-xl);
+  background-color: var(--liquid-fill);
+  border: 1px solid var(--liquid-rim);
+  border-top-color: var(--liquid-rim-highlight);
+  border-bottom-color: var(--liquid-rim-shadow);
+  box-shadow: var(--liquid-inset-bevel), var(--liquid-shadow-ambient);
+  backdrop-filter: blur(32px) saturate(190%);
+  -webkit-backdrop-filter: blur(32px) saturate(190%);
+  border-radius: var(--radius-squircle);
   color: var(--text);
   overflow: hidden;
   transition: var(--transition-theme);
 }
 
-.glass-floating::before {
+.liquid-glass-surface::before {
   content: '';
   position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(
-    125deg,
-    var(--glass-specular) 0%,
-    transparent 50%,
-    transparent 90%,
-    rgba(255, 255, 255, 0.04) 100%
-  );
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--liquid-rim-highlight) 50%, transparent 100%);
   pointer-events: none;
   z-index: 1;
 }
 
-/* Variant 4: Glass controls for buttons, theme toggles, interactive pills */
-.glass-control {
+/* Variant: Liquid Glass Lens (Portrait enclosure & focal optical features) */
+.liquid-glass-lens {
+  position: relative;
+  background-color: var(--liquid-fill-raised);
+  border: 1.5px solid var(--liquid-rim);
+  border-top-color: var(--liquid-rim-highlight);
+  border-bottom-color: var(--liquid-rim-shadow);
+  box-shadow: var(--liquid-inset-lens), var(--liquid-shadow-floating);
+  backdrop-filter: blur(36px) saturate(210%) brightness(102%);
+  -webkit-backdrop-filter: blur(36px) saturate(210%) brightness(102%);
+  border-radius: var(--radius-pod);
+  color: var(--text);
+  overflow: hidden;
+  transition: var(--transition-theme), transform var(--duration-normal) var(--ease-spring);
+}
+
+.liquid-glass-lens::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at 50% 10%, rgba(255, 255, 255, 0.28) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Variant: Liquid Glass Pill (Floating dynamic island dock & buttons) */
+.liquid-glass-pill {
+  position: relative;
+  background-color: var(--liquid-fill-dock);
+  border: 1px solid var(--liquid-rim);
+  border-top-color: var(--liquid-rim-highlight);
+  box-shadow: var(--liquid-inset-pill), var(--liquid-shadow-floating);
+  backdrop-filter: blur(30px) saturate(200%);
+  -webkit-backdrop-filter: blur(30px) saturate(200%);
+  border-radius: var(--radius-full);
+  color: var(--text);
+  transition: var(--transition-liquid-hover), var(--transition-theme);
+}
+
+.liquid-glass-pill::before {
+  content: '';
+  position: absolute;
+  top: 1px;
+  left: 20%;
+  right: 20%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.75) 50%, transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Variant: Liquid Glass Droplet (Tactile skill pebbles, metadata chips, status badges) */
+.liquid-glass-droplet {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background-color: var(--liquid-fill);
+  border: 1px solid var(--liquid-rim);
+  border-top-color: var(--liquid-rim-highlight);
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.35), var(--liquid-shadow-contact);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-radius: var(--radius-full);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  transition: var(--transition-liquid-hover), var(--transition-theme);
+}
+
+.liquid-glass-droplet:hover {
+  background-color: var(--liquid-fill-hover);
+  border-color: var(--liquid-rim-highlight);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.5), 0 8px 20px -4px rgba(0, 0, 0, 0.35);
+}
+
+/* Variant: Liquid Glass Interactive Control (Buttons, switches, navigation links) */
+.liquid-glass-control {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  background-color: var(--glass-fill-control);
-  border: 1px solid var(--glass-border);
-  border-top-color: var(--glass-border-highlight);
-  box-shadow: var(--glass-inset-control), var(--glass-shadow-subtle);
-  backdrop-filter: blur(12px) saturate(150%);
-  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  background-color: var(--liquid-fill);
+  border: 1px solid var(--liquid-rim);
+  border-top-color: var(--liquid-rim-highlight);
+  border-bottom-color: var(--liquid-rim-shadow);
+  box-shadow: var(--liquid-inset-pill), var(--liquid-shadow-contact);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-radius: var(--radius-full);
   color: var(--text);
   font-family: var(--font-sans);
@@ -133,86 +182,100 @@
   text-decoration: none;
   cursor: pointer;
   user-select: none;
-  transition: var(--transition-hover), var(--transition-theme);
+  transition: var(--transition-liquid-hover), var(--transition-theme);
 }
 
-.glass-control:hover {
-  background-color: var(--glass-fill-hover);
-  border-color: var(--glass-border-highlight);
-  box-shadow: var(--glass-inset-control), 0 6px 16px -2px rgba(0, 0, 0, 0.15);
-  transform: translateY(-1px);
+.liquid-glass-control:hover {
+  background-color: var(--liquid-fill-hover);
+  border-color: var(--liquid-rim-highlight);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: var(--liquid-inset-pill), 0 12px 28px -6px rgba(0, 0, 0, 0.4);
 }
 
-.glass-control:active {
-  transform: translateY(1px);
-  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+.liquid-glass-control:active {
+  transform: translateY(1px) scale(0.98);
+  background-color: var(--liquid-fill-active);
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.4);
 }
 
-/* Interactive lift & sheen animation for cards */
-.glass-interactive {
-  cursor: pointer;
-  transition: transform var(--duration-normal) var(--ease-out),
-              box-shadow var(--duration-normal) var(--ease-out),
-              border-color var(--duration-normal) var(--ease-out),
-              background-color var(--duration-normal) var(--ease-out);
-}
+/* ==========================================================================
+   3. Liquid Glass Buttons
+   ========================================================================== */
 
-.glass-interactive:hover {
-  transform: translateY(-3px);
-  background-color: var(--glass-fill-hover);
-  border-color: var(--glass-border-highlight);
-  box-shadow: var(--glass-inset-highlight), var(--glass-shadow-floating);
-}
-
-/* Primary Glass Action Button */
-.glass-btn-primary {
+/* Primary Liquid Glass Action Button (Crystalline jewel over glowing sapphire core) */
+.liquid-btn-primary {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  padding: 0.75rem 1.625rem;
+  padding: 0.85rem 1.85rem;
   background: var(--accent-gradient);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.45), 0 8px 24px -6px var(--accent-glow);
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  box-shadow: 
+    inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.75),
+    inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.35),
+    0 8px 24px -4px var(--accent-glow),
+    0 2px 6px -1px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-radius: var(--radius-full);
   color: #FFFFFF !important;
   font-family: var(--font-sans);
   font-weight: 600;
   font-size: var(--text-sm);
+  letter-spacing: -0.01em;
   text-decoration: none;
   cursor: pointer;
   user-select: none;
-  transition: transform var(--duration-fast) var(--ease-out),
-              box-shadow var(--duration-fast) var(--ease-out),
-              filter var(--duration-fast) var(--ease-out);
+  overflow: hidden;
+  transition: transform var(--duration-normal) var(--ease-spring),
+              box-shadow var(--duration-normal) var(--ease-liquid),
+              filter var(--duration-fast) var(--ease-liquid);
 }
 
-.glass-btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.6), 0 12px 28px -4px var(--accent-glow);
-  filter: brightness(1.08);
+.liquid-btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, transparent 100%);
+  border-radius: var(--radius-full) var(--radius-full) 0 0;
+  pointer-events: none;
 }
 
-.glass-btn-primary:active {
-  transform: translateY(1px);
+.liquid-btn-primary:hover {
+  transform: translateY(-2.5px) scale(1.02);
+  box-shadow: 
+    inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.25),
+    0 16px 36px -6px var(--accent-glow),
+    0 4px 10px -2px rgba(0, 0, 0, 0.3);
+  filter: brightness(1.07);
+}
+
+.liquid-btn-primary:active {
+  transform: translateY(1px) scale(0.98);
   box-shadow: 0 4px 12px -2px var(--accent-glow);
 }
 
-/* Secondary Glass Action Button */
-.glass-btn-secondary {
+/* Secondary Liquid Glass Action Button (Pure optical refraction capsule) */
+.liquid-btn-secondary {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  padding: 0.75rem 1.5rem;
-  background-color: var(--glass-fill-control);
-  border: 1px solid var(--glass-border);
-  border-top-color: var(--glass-border-highlight);
-  box-shadow: var(--glass-inset-control), var(--glass-shadow-subtle);
-  backdrop-filter: blur(12px) saturate(150%);
-  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  padding: 0.85rem 1.75rem;
+  background-color: var(--liquid-fill);
+  border: 1px solid var(--liquid-rim);
+  border-top-color: var(--liquid-rim-highlight);
+  border-bottom-color: var(--liquid-rim-shadow);
+  box-shadow: var(--liquid-inset-pill), var(--liquid-shadow-contact);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
   border-radius: var(--radius-full);
   color: var(--text);
   font-family: var(--font-sans);
@@ -221,30 +284,46 @@
   text-decoration: none;
   cursor: pointer;
   user-select: none;
-  transition: var(--transition-hover), var(--transition-theme);
+  overflow: hidden;
+  transition: var(--transition-liquid-hover), var(--transition-theme);
 }
 
-.glass-btn-secondary:hover {
-  background-color: var(--glass-fill-hover);
-  border-color: var(--glass-border-highlight);
+.liquid-btn-secondary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 45%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.liquid-btn-secondary:hover {
+  background-color: var(--liquid-fill-hover);
+  border-color: var(--liquid-rim-highlight);
   color: var(--accent);
-  transform: translateY(-2px);
-  box-shadow: var(--glass-inset-control), 0 8px 20px -4px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2.5px) scale(1.02);
+  box-shadow: var(--liquid-inset-pill), 0 14px 32px -8px rgba(0, 0, 0, 0.4);
 }
 
-.glass-btn-secondary:active {
-  transform: translateY(1px);
+.liquid-btn-secondary:active {
+  transform: translateY(1px) scale(0.98);
 }
 
-/* Robust Fallback for browsers without backdrop-filter */
+/* ==========================================================================
+   4. Fallback for non-backdrop-filter browsers
+   ========================================================================== */
+
 @supports not (backdrop-filter: blur(1px)) {
-  .glass-base,
-  .glass-subtle,
-  .glass-panel,
-  .glass-floating,
-  .glass-control,
-  .glass-btn-secondary {
-    background-color: var(--glass-fallback);
-    border-color: var(--glass-fallback-border);
+  .liquid-glass-base,
+  .liquid-glass-surface,
+  .liquid-glass-lens,
+  .liquid-glass-pill,
+  .liquid-glass-droplet,
+  .liquid-glass-control,
+  .liquid-btn-secondary {
+    background-color: var(--liquid-fallback-bg);
+    border-color: var(--liquid-fallback-border);
   }
 }

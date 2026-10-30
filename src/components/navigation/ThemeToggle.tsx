@@ -20,7 +20,7 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
     <button
       type="button"
       onClick={onToggle}
-      className={`glass-control ${className}`}
+      className={`liquid-glass-control theme-toggle-btn ${className}`}
       style={{
         width: '42px',
         height: '42px',
@@ -29,6 +29,7 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
         display: 'inline-flex',
         alignItems: 'center',
         justifyContent: 'center',
+        borderRadius: 'var(--radius-full)',
       }}
       aria-label={label}
       title={label}
@@ -38,12 +39,12 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          transition: 'transform 300ms var(--ease-bounce), opacity 200ms ease',
-          transform: isDark ? 'rotate(0deg)' : 'rotate(90deg)',
-          color: isDark ? '#7AA8FF' : '#2563EB',
+          transition: 'transform 400ms var(--ease-spring), color 300ms ease',
+          transform: isDark ? 'rotate(0deg) scale(1)' : 'rotate(90deg) scale(1)',
+          color: isDark ? '#5EA2FF' : '#1D4ED8',
         }}
       >
-        {isDark ? <Sun size={19} aria-hidden="true" /> : <Moon size={19} aria-hidden="true" />}
+        {isDark ? <Sun size={18} aria-hidden="true" /> : <Moon size={18} aria-hidden="true" />}
       </span>
       <span className="sr-only">{label}</span>
     </button>

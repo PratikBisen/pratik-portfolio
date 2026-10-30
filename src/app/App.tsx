@@ -7,6 +7,7 @@ import { Hero } from '../sections/Hero';
 import { About } from '../sections/About';
 import { Skills } from '../sections/Skills';
 import { Projects } from '../sections/Projects';
+import { Experience } from '../sections/Experience';
 import { Education } from '../sections/Education';
 import { Contact } from '../sections/Contact';
 
@@ -49,15 +50,15 @@ export const App: React.FC = () => {
         Skip to main content
       </a>
 
-      {/* Atmospheric Ambient Lighting Background */}
+      {/* Atmospheric Luminous Fluid Aura Environment */}
       <div className="ambient-background" aria-hidden="true">
-        <div className="ambient-orb ambient-orb-primary" />
-        <div className="ambient-orb ambient-orb-secondary" />
-        <div className="ambient-orb ambient-orb-tertiary" />
-        <div className="ambient-grid" />
+        <div className="aura-field aura-primary" />
+        <div className="aura-field aura-secondary" />
+        <div className="aura-field aura-tertiary" />
+        <div className="aura-field aura-quaternary" />
       </div>
 
-      {/* Main Application Container */}
+      {/* App Shell */}
       <div className="app-shell">
         <Header
           navItems={NAV_ITEMS}
@@ -72,6 +73,7 @@ export const App: React.FC = () => {
           <About />
           <Skills />
           <Projects />
+          <Experience />
           <Education />
           <Contact />
         </main>

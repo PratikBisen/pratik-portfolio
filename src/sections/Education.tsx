@@ -7,48 +7,54 @@ export const Education: React.FC = () => {
   return (
     <Section
       id="education"
-      tag="Academic Background"
+      tag="Academic Foundation"
       title="Education"
-      subtitle="Formal university education and ongoing academic coursework in Information Technology."
+      subtitle="Formal university education and foundational engineering coursework in Information Technology."
     >
-      <div className="education-container">
-        <GlassPanel variant="panel" className="education-card">
-          <div className="education-icon-col">
-            <div className="education-badge">
-              <GraduationCap size={28} aria-hidden="true" />
+      <div className="education-liquid-container">
+        <GlassPanel variant="surface" className="education-liquid-card">
+          <div className="education-badge-pod">
+            <div className="education-crystal-lens">
+              <GraduationCap size={32} aria-hidden="true" />
             </div>
           </div>
-          <div className="education-details">
-            <div className="education-header">
-              <div>
-                <h3 className="education-degree">Bachelor of Technology (B.Tech)</h3>
-                <h4 className="education-branch">Information Technology</h4>
-              </div>
+
+          <div className="education-body-flow">
+            <div className="education-title-group">
+              <h3 className="education-degree-text">Bachelor of Technology (B.Tech)</h3>
+              <h4 className="education-branch-highlight">Information Technology</h4>
             </div>
 
-            <p className="education-institution">
+            <p className="education-campus-name">
               Shri Guru Gobind Singhji Institute of Engineering and Technology (SGGSIE&T)
             </p>
 
-            <div className="education-meta">
-              <span className="education-meta-item">
-                <MapPin size={14} aria-hidden="true" />
-                Vishnupuri, Nanded, Maharashtra, India
+            <div className="education-meta-ribbon">
+              <span className="education-meta-chip liquid-glass-droplet">
+                <MapPin size={13} aria-hidden="true" />
+                <span>Vishnupuri, Nanded, Maharashtra, India</span>
               </span>
-              <span className="education-meta-item">
-                <BookOpen size={14} aria-hidden="true" />
-                Undergraduate Degree Program
+              <span className="education-meta-chip liquid-glass-droplet">
+                <BookOpen size={13} aria-hidden="true" />
+                <span>Undergraduate Degree Program</span>
               </span>
             </div>
 
-            <div className="education-coursework">
-              <span className="coursework-label">Key Subjects:</span>
-              <div className="coursework-tags">
-                <span className="glass-subtle coursework-pill">Data Structures & Algorithms</span>
-                <span className="glass-subtle coursework-pill">Object-Oriented Programming</span>
-                <span className="glass-subtle coursework-pill">Database Management</span>
-                <span className="glass-subtle coursework-pill">Computer Networks</span>
-                <span className="glass-subtle coursework-pill">Operating Systems</span>
+            <div className="education-subjects-block">
+              <span className="subjects-heading">Core Academic Curriculum</span>
+              <div className="subjects-droplets-grid">
+                {[
+                  'Data Structures & Algorithms',
+                  'Object-Oriented Programming',
+                  'Database Management Systems',
+                  'Computer Networks',
+                  'Operating Systems',
+                  'Discrete Mathematics',
+                ].map((subject) => (
+                  <span key={subject} className="liquid-glass-droplet subject-droplet">
+                    {subject}
+                  </span>
+                ))}
               </div>
             </div>
           </div>

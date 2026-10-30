@@ -82,7 +82,7 @@ async function run() {
   }
 
   console.log('--- TEST 3: Navigation Targets & Anchors ---');
-  const navIds = ['about', 'skills', 'projects', 'education', 'contact'];
+  const navIds = ['about', 'skills', 'projects', 'experience', 'education', 'contact'];
   for (const navId of navIds) {
     const exists = await evalExpr(`Boolean(document.getElementById("${navId}"))`);
     console.log(`Section #${navId} exists:`, exists ? '✓' : '✗');
@@ -116,9 +116,9 @@ async function run() {
   console.log('Mobile drawer closed on Escape:', isClosedAfterEscape ? '✓' : '✗');
 
   console.log('--- TEST 5: Glass Material & Backdrop Filter Check ---');
-  const glassPanelExists = await evalExpr('Boolean(document.querySelector(".glass-panel, .glass-floating"))');
-  const glassStyle = await evalExpr('getComputedStyle(document.querySelector(".glass-floating")).backdropFilter');
-  console.log('Glass element present:', glassPanelExists ? '✓' : '✗', 'Computed backdrop-filter:', glassStyle);
+  const glassPanelExists = await evalExpr('Boolean(document.querySelector(".liquid-glass-surface, .liquid-glass-lens, .liquid-glass-pill"))');
+  const glassStyle = await evalExpr('getComputedStyle(document.querySelector(".liquid-glass-lens, .liquid-glass-surface")).backdropFilter');
+  console.log('Liquid Glass element present:', glassPanelExists ? '✓' : '✗', 'Computed backdrop-filter:', glassStyle);
 
   console.log('--- TEST 6: Console Errors & Exceptions Check ---');
   console.log('Console logs count:', consoleMessages.length);

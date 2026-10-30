@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, Mail, Sparkles, MapPin } from 'lucide-react';
+import { ArrowRight, Mail, Sparkles, Terminal, Laptop } from 'lucide-react';
 import { GitHubIcon, LinkedInIcon } from '../components/ui/Icons';
 import { PROFILE } from '../data/profile';
 import { GlassButton } from '../components/glass/GlassButton';
@@ -17,12 +17,12 @@ export const Hero: React.FC = () => {
             <div className="hero-status-pill">
               <GlassBadge variant="accent" pulse>
                 <Sparkles size={13} aria-hidden="true" />
-                <span>IT Engineering Student • SGGSIE&T Nanded</span>
+                <span>IT Engineering • SGGSIE&T Nanded</span>
               </GlassBadge>
             </div>
 
             <h1 className="hero-title">
-              Hi, I’m <span className="hero-name-gradient">{PROFILE.name}</span>
+              Hi, I’m <span className="hero-name-liquid">{PROFILE.name}</span>
             </h1>
 
             <p className="hero-headline">
@@ -35,7 +35,7 @@ export const Hero: React.FC = () => {
               and contributing to technical communities.
             </p>
 
-            {/* Call to Actions */}
+            {/* Liquid Glass Action Buttons */}
             <div className="hero-actions">
               <GlassButton
                 as="a"
@@ -58,99 +58,89 @@ export const Hero: React.FC = () => {
               </GlassButton>
             </div>
 
-            {/* Social Profile Links */}
+            {/* Optical Profile Links */}
             <div className="hero-socials">
-              <span className="hero-socials-label">Connect:</span>
+              <span className="hero-socials-label">Profiles:</span>
               <div className="hero-socials-group">
                 <a
                   href={PROFILE.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="glass-control hero-social-link"
+                  className="liquid-glass-control hero-social-link"
                   aria-label="Visit Pratik Bisen's GitHub profile"
                   title="GitHub"
                 >
-                  <GitHubIcon size={18} aria-hidden="true" />
+                  <GitHubIcon size={17} aria-hidden="true" />
                   <span>GitHub</span>
                 </a>
                 <a
                   href={PROFILE.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="glass-control hero-social-link"
+                  className="liquid-glass-control hero-social-link"
                   aria-label="Connect with Pratik Bisen on LinkedIn"
                   title="LinkedIn"
                 >
-                  <LinkedInIcon size={18} aria-hidden="true" />
+                  <LinkedInIcon size={17} aria-hidden="true" />
                   <span>LinkedIn</span>
                 </a>
               </div>
             </div>
           </div>
 
-          {/* Right Column: 3D Glass Portrait Showcase (Designed Abstract Placeholder) */}
+          {/* Right Column: iOS 26 Liquid Glass Portrait Enclosure */}
           <div className="hero-visual">
-            <div className="portrait-glass-stage">
-              {/* Backing glow */}
-              <div className="portrait-glow-halo" aria-hidden="true" />
+            <div className="liquid-portrait-stage">
+              {/* Environmental Caustic Light Glow */}
+              <div className="portrait-caustic-aura" aria-hidden="true" />
 
-              {/* Primary 3D Glass Showcase Card */}
-              <GlassPanel variant="floating" className="portrait-glass-card">
-                {/* Visual Glass Header with window controls */}
-                <div className="portrait-card-bar">
-                  <span className="card-dot" />
-                  <span className="card-dot" />
-                  <span className="card-dot" />
-                  <span className="card-bar-title">identity.matrix</span>
+              {/* Sculpted Liquid Glass Lens Pod */}
+              <GlassPanel variant="lens" className="liquid-portrait-pod">
+                {/* Convex specular light crescent */}
+                <div className="lens-specular-sheen" aria-hidden="true" />
+
+                {/* Internal Refractive Chamber */}
+                <div className="portrait-refraction-chamber">
+                  {/* Concentric Optical Lens Ripples */}
+                  <div className="optical-lens-rings" aria-hidden="true">
+                    <div className="lens-ring lens-ring-outer" />
+                    <div className="lens-ring lens-ring-mid" />
+                  </div>
+
+                  {/* Crystalline Core Identity Gem */}
+                  <div className="portrait-crystal-core">
+                    <span className="crystal-initials">PB</span>
+                  </div>
+
+                  {/* Refined Suspended Glass Badge */}
+                  <div className="portrait-status-capsule liquid-glass-droplet">
+                    <span className="status-bead" aria-hidden="true" />
+                    <span>Portrait • Photo Pending</span>
+                  </div>
                 </div>
 
-                {/* Abstract Refractive Geometric Frame */}
-                <div className="portrait-frame">
-                  <div className="portrait-geometric-artwork" aria-hidden="true">
-                    <div className="artwork-ring artwork-ring-1" />
-                    <div className="artwork-ring artwork-ring-2" />
-                    <div className="artwork-core">
-                      <span className="artwork-initials">PB</span>
-                    </div>
-                  </div>
+                {/* Sub-lens Reflection Gradient */}
+                <div className="lens-bottom-bevel" aria-hidden="true" />
+              </GlassPanel>
 
-                  <div className="portrait-placeholder-label">
-                    <span className="status-indicator" />
-                    <span>Portrait Pending Supply</span>
-                  </div>
-                </div>
-
-                {/* Card Sub-info */}
-                <div className="portrait-card-footer">
-                  <div className="portrait-stat-item">
-                    <span className="stat-label">Discipline</span>
-                    <span className="stat-value">B.Tech IT</span>
-                  </div>
-                  <div className="portrait-stat-divider" />
-                  <div className="portrait-stat-item">
-                    <span className="stat-label">Location</span>
-                    <span className="stat-value">
-                      <MapPin size={12} style={{ display: 'inline', marginRight: '3px' }} />
-                      Nanded, IN
-                    </span>
-                  </div>
+              {/* Floating Optical Glass Satellite Chips */}
+              <GlassPanel variant="droplet" className="floating-satellite satellite-left">
+                <span className="satellite-icon-wrap">
+                  <Terminal size={15} aria-hidden="true" />
+                </span>
+                <div>
+                  <div className="satellite-title">Core Focus</div>
+                  <div className="satellite-desc">DSA & Web Systems</div>
                 </div>
               </GlassPanel>
 
-              {/* Floating Ambient Glass Chips to emphasize layered depth */}
-              <GlassPanel variant="subtle" className="floating-chip chip-left">
-                <span className="chip-icon">⚡</span>
+              <GlassPanel variant="droplet" className="floating-satellite satellite-right">
+                <span className="satellite-icon-wrap">
+                  <Laptop size={15} aria-hidden="true" />
+                </span>
                 <div>
-                  <div className="chip-heading">Core Focus</div>
-                  <div className="chip-detail">DSA & Web Systems</div>
-                </div>
-              </GlassPanel>
-
-              <GlassPanel variant="subtle" className="floating-chip chip-right">
-                <span className="chip-icon">🐧</span>
-                <div>
-                  <div className="chip-heading">Environment</div>
-                  <div className="chip-detail">Linux & Modern Tools</div>
+                  <div className="satellite-title">Environment</div>
+                  <div className="satellite-desc">Linux & Git Workflows</div>
                 </div>
               </GlassPanel>
             </div>

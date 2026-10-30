@@ -2,7 +2,7 @@ import React, { ElementType, forwardRef } from 'react';
 
 export interface GlassPanelProps extends React.HTMLAttributes<HTMLElement> {
   as?: ElementType;
-  variant?: 'base' | 'subtle' | 'panel' | 'floating' | 'control';
+  variant?: 'base' | 'surface' | 'lens' | 'pill' | 'droplet' | 'control';
   interactive?: boolean;
   className?: string;
   children?: React.ReactNode;
@@ -12,7 +12,7 @@ export const GlassPanel = forwardRef<HTMLElement, GlassPanelProps>(
   (
     {
       as: Component = 'div',
-      variant = 'panel',
+      variant = 'base',
       interactive = false,
       className = '',
       children,
@@ -20,8 +20,8 @@ export const GlassPanel = forwardRef<HTMLElement, GlassPanelProps>(
     },
     ref
   ) => {
-    const variantClass = `glass-${variant}`;
-    const interactiveClass = interactive ? 'glass-interactive' : '';
+    const variantClass = `liquid-glass-${variant}`;
+    const interactiveClass = interactive ? 'liquid-glass-control' : '';
     const combinedClasses = [variantClass, interactiveClass, className].filter(Boolean).join(' ');
 
     return (

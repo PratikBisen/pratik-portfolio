@@ -35,20 +35,20 @@ export const GlassButton = forwardRef<HTMLButtonElement | HTMLAnchorElement, Gla
       ...rest
     } = props;
 
-    let variantClass = 'glass-btn-secondary';
+    let variantClass = 'liquid-btn-secondary';
     if (variant === 'primary') {
-      variantClass = 'glass-btn-primary';
+      variantClass = 'liquid-btn-primary';
     } else if (variant === 'control') {
-      variantClass = 'glass-control';
+      variantClass = 'liquid-glass-control';
     }
 
     const classes = [variantClass, className].filter(Boolean).join(' ');
 
     const content = (
       <>
-        {icon && iconPosition === 'left' && <span className="glass-btn-icon">{icon}</span>}
+        {icon && iconPosition === 'left' && <span className="liquid-btn-icon" style={{ display: 'inline-flex', alignItems: 'center' }}>{icon}</span>}
         <span>{children}</span>
-        {icon && iconPosition === 'right' && <span className="glass-btn-icon">{icon}</span>}
+        {icon && iconPosition === 'right' && <span className="liquid-btn-icon" style={{ display: 'inline-flex', alignItems: 'center' }}>{icon}</span>}
       </>
     );
 

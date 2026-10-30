@@ -16,33 +16,30 @@ export const GlassBadge: React.FC<GlassBadgeProps> = ({
   ...rest
 }) => {
   let badgeStyle: React.CSSProperties = {
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 'var(--space-2)',
-    padding: '0.45rem 1rem',
+    padding: '0.42rem 1rem',
     borderRadius: 'var(--radius-full)',
     fontSize: 'var(--text-xs)',
     fontWeight: 600,
-    letterSpacing: '0.04em',
+    letterSpacing: '0.03em',
     lineHeight: 1.35,
     textAlign: 'center',
     maxWidth: '100%',
     ...style,
   };
 
-  let colorClass = 'glass-subtle';
+  let colorClass = 'liquid-glass-droplet';
   if (variant === 'accent') {
     badgeStyle = {
       ...badgeStyle,
       backgroundColor: 'var(--accent-surface)',
       border: '1px solid var(--accent-surface-border)',
       color: 'var(--accent)',
+      boxShadow: 'inset 0 1px 1px 0 rgba(255, 255, 255, 0.45), 0 4px 14px -2px var(--accent-glow)',
     };
     colorClass = '';
   }
 
-  const classes = ['glass-badge', colorClass, className].filter(Boolean).join(' ');
+  const classes = ['liquid-badge', colorClass, className].filter(Boolean).join(' ');
 
   return (
     <span className={classes} style={badgeStyle} {...rest}>
@@ -53,7 +50,7 @@ export const GlassBadge: React.FC<GlassBadgeProps> = ({
             height: '6px',
             borderRadius: '50%',
             backgroundColor: variant === 'accent' ? 'var(--accent)' : '#10B981',
-            boxShadow: variant === 'accent' ? '0 0 8px var(--accent)' : '0 0 8px #10B981',
+            boxShadow: variant === 'accent' ? '0 0 10px var(--accent)' : '0 0 10px #10B981',
             display: 'inline-block',
             flexShrink: 0,
           }}

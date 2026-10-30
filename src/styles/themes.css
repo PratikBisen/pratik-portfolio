@@ -1,127 +1,129 @@
 /**
  * themes.css
- * Semantic color systems and environmental lighting for dark and light themes.
+ * Art-directed color systems & environmental luminance for iOS 26 Liquid Glass.
  */
 
 :root,
 [data-theme="dark"] {
   color-scheme: dark;
 
-  /* Surfaces & Canvas */
-  --bg: #070B14;
-  --bg-elevated: #0D1422;
-  --bg-surface: #11192C;
+  /* Canvas & Foundations */
+  --bg: #07080D;
+  --bg-elevated: #0C0E17;
+  --bg-surface: #10131E;
 
   /* Typography */
-  --text: #F3F6FC;
-  --text-muted: #AAB6CA;
-  --text-subtle: #72829D;
+  --text: #F4F6FC;
+  --text-muted: #9AA5BE;
+  --text-subtle: #66728E;
 
   /* Brand Accents */
-  --accent: #7AA8FF;
-  --accent-hover: #9bbdff;
-  --accent-secondary: #B3A0FF;
-  --accent-glow: rgba(122, 168, 255, 0.25);
-  --accent-gradient: linear-gradient(135deg, #7AA8FF 0%, #B3A0FF 100%);
-  --accent-surface: rgba(122, 168, 255, 0.10);
-  --accent-surface-border: rgba(122, 168, 255, 0.25);
+  --accent: #5EA2FF;
+  --accent-hover: #80B6FF;
+  --accent-secondary: #A885FF;
+  --accent-glow: rgba(94, 162, 255, 0.35);
+  --accent-gradient: linear-gradient(135deg, #5EA2FF 0%, #A885FF 100%);
+  --accent-surface: rgba(94, 162, 255, 0.12);
+  --accent-surface-border: rgba(94, 162, 255, 0.30);
 
-  /* Glass Material Tokens */
-  --glass-fill: rgba(13, 20, 34, 0.58);
-  --glass-fill-subtle: rgba(13, 20, 34, 0.35);
-  --glass-fill-floating: rgba(17, 25, 44, 0.72);
-  --glass-fill-control: rgba(22, 32, 54, 0.65);
-  --glass-fill-hover: rgba(28, 40, 68, 0.8);
+  /* iOS 26 Liquid Glass Material Tokens */
+  --liquid-fill: rgba(255, 255, 255, 0.045);
+  --liquid-fill-raised: rgba(255, 255, 255, 0.08);
+  --liquid-fill-dock: rgba(12, 15, 24, 0.52);
+  --liquid-fill-hover: rgba(255, 255, 255, 0.11);
+  --liquid-fill-active: rgba(255, 255, 255, 0.15);
 
-  --glass-border: rgba(255, 255, 255, 0.10);
-  --glass-border-subtle: rgba(255, 255, 255, 0.06);
-  --glass-border-highlight: rgba(255, 255, 255, 0.26);
-  --glass-border-floating: rgba(255, 255, 255, 0.18);
-  --glass-specular: rgba(255, 255, 255, 0.14);
+  /* Optical Specular & Fresnel Rim */
+  --liquid-rim: rgba(255, 255, 255, 0.16);
+  --liquid-rim-highlight: rgba(255, 255, 255, 0.55);
+  --liquid-rim-shadow: rgba(0, 0, 0, 0.5);
+  --liquid-fresnel: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(140, 200, 255, 0.25) 30%, rgba(200, 160, 255, 0.12) 70%, rgba(255, 255, 255, 0.04) 100%);
+  --liquid-specular-crescent: radial-gradient(ellipse 70% 35% at 50% 0%, rgba(255, 255, 255, 0.22) 0%, transparent 100%);
 
-  /* Inset reflection & lighting */
-  --glass-inset-highlight: inset 0 1px 1px 0 rgba(255, 255, 255, 0.18), inset 0 0 0 1px rgba(255, 255, 255, 0.04);
-  --glass-inset-control: inset 0 1px 1px 0 rgba(255, 255, 255, 0.24);
+  /* Inset Refraction & Convex Bevels */
+  --liquid-inset-bevel: inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 0.35), inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.45);
+  --liquid-inset-lens: inset 0 2px 3px 0 rgba(255, 255, 255, 0.45), inset 0 -2px 4px 0 rgba(0, 0, 0, 0.6), inset 0 0 20px 0 rgba(255, 255, 255, 0.04);
+  --liquid-inset-pill: inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.4), inset 0 -1px 2px 0 rgba(0, 0, 0, 0.35);
 
-  /* Shadows */
-  --glass-shadow: 0 16px 36px -12px rgba(0, 4, 12, 0.6), 0 2px 6px 0 rgba(0, 0, 0, 0.4);
-  --glass-shadow-floating: 0 24px 50px -14px rgba(0, 3, 10, 0.75), 0 4px 12px 0 rgba(0, 0, 0, 0.5);
-  --glass-shadow-subtle: 0 8px 20px -6px rgba(0, 3, 10, 0.4);
+  /* Multi-tier Optical Shadows */
+  --liquid-shadow-contact: 0 2px 8px -2px rgba(0, 0, 0, 0.6);
+  --liquid-shadow-ambient: 0 24px 48px -12px rgba(0, 0, 0, 0.65);
+  --liquid-shadow-floating: 0 32px 64px -16px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.12);
 
-  /* Fallback for non-backdrop-filter browsers */
-  --glass-fallback: #0D1422;
-  --glass-fallback-border: #1E293B;
+  /* Fallback for non-backdrop-filter engines */
+  --liquid-fallback-bg: #0D101A;
+  --liquid-fallback-border: #1E2435;
 
   /* Focus & Indicators */
-  --focus: #7AA8FF;
-  --focus-ring: 0 0 0 3px rgba(122, 168, 255, 0.45);
+  --focus: #5EA2FF;
+  --focus-ring: 0 0 0 3px rgba(94, 162, 255, 0.45);
   --divider: rgba(255, 255, 255, 0.08);
 
-  /* Atmospheric Light Fields */
-  --orb-primary: rgba(122, 168, 255, 0.15);
-  --orb-secondary: rgba(179, 160, 255, 0.12);
-  --orb-tertiary: rgba(56, 189, 248, 0.09);
-  --mesh-grid: rgba(255, 255, 255, 0.02);
-  --mesh-radial: radial-gradient(circle at 50% -20%, rgba(122, 168, 255, 0.15) 0%, transparent 60%);
+  /* Atmospheric Environmental Luminance */
+  --aura-1: rgba(70, 130, 255, 0.22);
+  --aura-2: rgba(150, 100, 255, 0.17);
+  --aura-3: rgba(30, 200, 255, 0.15);
+  --aura-4: rgba(255, 90, 180, 0.08);
 }
 
 [data-theme="light"] {
   color-scheme: light;
 
-  /* Surfaces & Canvas */
-  --bg: #F4F7FC;
-  --bg-elevated: #E9F0FA;
+  /* Canvas & Foundations */
+  --bg: #F3F5FA;
+  --bg-elevated: #E8EDF6;
   --bg-surface: #FFFFFF;
 
   /* Typography */
-  --text: #0E1726;
+  --text: #0B1120;
   --text-muted: #475569;
   --text-subtle: #64748B;
 
   /* Brand Accents */
-  --accent: #2563EB;
-  --accent-hover: #1D4ED8;
-  --accent-secondary: #7C3AED;
-  --accent-glow: rgba(37, 99, 235, 0.2);
-  --accent-gradient: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
-  --accent-surface: rgba(37, 99, 235, 0.08);
-  --accent-surface-border: rgba(37, 99, 235, 0.22);
+  --accent: #1D4ED8;
+  --accent-hover: #1E40AF;
+  --accent-secondary: #6D28D9;
+  --accent-glow: rgba(29, 78, 216, 0.22);
+  --accent-gradient: linear-gradient(135deg, #1D4ED8 0%, #6D28D9 100%);
+  --accent-surface: rgba(29, 78, 216, 0.08);
+  --accent-surface-border: rgba(29, 78, 216, 0.24);
 
-  /* Glass Material Tokens */
-  --glass-fill: rgba(255, 255, 255, 0.68);
-  --glass-fill-subtle: rgba(255, 255, 255, 0.45);
-  --glass-fill-floating: rgba(255, 255, 255, 0.82);
-  --glass-fill-control: rgba(255, 255, 255, 0.75);
-  --glass-fill-hover: rgba(255, 255, 255, 0.92);
+  /* iOS 26 Liquid Glass Material Tokens */
+  --liquid-fill: rgba(255, 255, 255, 0.42);
+  --liquid-fill-raised: rgba(255, 255, 255, 0.65);
+  --liquid-fill-dock: rgba(255, 255, 255, 0.68);
+  --liquid-fill-hover: rgba(255, 255, 255, 0.85);
+  --liquid-fill-active: rgba(255, 255, 255, 0.95);
 
-  --glass-border: rgba(203, 218, 238, 0.65);
-  --glass-border-subtle: rgba(203, 218, 238, 0.45);
-  --glass-border-highlight: rgba(255, 255, 255, 0.95);
-  --glass-border-floating: rgba(186, 206, 233, 0.8);
-  --glass-specular: rgba(255, 255, 255, 0.8);
+  /* Optical Specular & Fresnel Rim */
+  --liquid-rim: rgba(255, 255, 255, 0.85);
+  --liquid-rim-highlight: #FFFFFF;
+  --liquid-rim-shadow: rgba(180, 195, 215, 0.5);
+  --liquid-fresnel: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(200, 225, 255, 0.6) 35%, rgba(230, 215, 255, 0.35) 70%, rgba(255, 255, 255, 0.3) 100%);
+  --liquid-specular-crescent: radial-gradient(ellipse 70% 35% at 50% 0%, rgba(255, 255, 255, 0.65) 0%, transparent 100%);
 
-  /* Inset reflection & lighting */
-  --glass-inset-highlight: inset 0 1px 1px 0 rgba(255, 255, 255, 0.9), inset 0 0 0 1px rgba(255, 255, 255, 0.4);
-  --glass-inset-control: inset 0 1px 1px 0 rgba(255, 255, 255, 0.9);
+  /* Inset Refraction & Convex Bevels */
+  --liquid-inset-bevel: inset 0 1.5px 1.5px 0 #FFFFFF, inset 0 -1.5px 2px 0 rgba(160, 180, 210, 0.3);
+  --liquid-inset-lens: inset 0 2px 3px 0 #FFFFFF, inset 0 -2px 4px 0 rgba(160, 180, 210, 0.4), inset 0 0 20px 0 rgba(255, 255, 255, 0.5);
+  --liquid-inset-pill: inset 0 1.5px 2px 0 #FFFFFF, inset 0 -1px 2px 0 rgba(160, 180, 210, 0.25);
 
-  /* Shadows */
-  --glass-shadow: 0 16px 36px -12px rgba(15, 23, 42, 0.08), 0 2px 6px 0 rgba(15, 23, 42, 0.03);
-  --glass-shadow-floating: 0 24px 50px -14px rgba(15, 23, 42, 0.12), 0 6px 16px -2px rgba(15, 23, 42, 0.05);
-  --glass-shadow-subtle: 0 6px 18px -4px rgba(15, 23, 42, 0.05);
+  /* Multi-tier Optical Shadows */
+  --liquid-shadow-contact: 0 2px 6px -1px rgba(15, 23, 42, 0.08);
+  --liquid-shadow-ambient: 0 20px 40px -15px rgba(15, 23, 42, 0.12);
+  --liquid-shadow-floating: 0 28px 60px -18px rgba(15, 23, 42, 0.16), 0 0 0 1px rgba(255, 255, 255, 0.85);
 
-  /* Fallback for non-backdrop-filter browsers */
-  --glass-fallback: #FFFFFF;
-  --glass-fallback-border: #CBD5E1;
+  /* Fallback for non-backdrop-filter engines */
+  --liquid-fallback-bg: #FFFFFF;
+  --liquid-fallback-border: #D1D9E6;
 
   /* Focus & Indicators */
-  --focus: #2563EB;
-  --focus-ring: 0 0 0 3px rgba(37, 99, 235, 0.35);
+  --focus: #1D4ED8;
+  --focus-ring: 0 0 0 3px rgba(29, 78, 216, 0.35);
   --divider: rgba(15, 23, 42, 0.08);
 
-  /* Atmospheric Light Fields */
-  --orb-primary: rgba(122, 168, 255, 0.25);
-  --orb-secondary: rgba(179, 160, 255, 0.20);
-  --orb-tertiary: rgba(96, 165, 250, 0.18);
-  --mesh-grid: rgba(15, 23, 42, 0.03);
-  --mesh-radial: radial-gradient(circle at 50% -20%, rgba(122, 168, 255, 0.2) 0%, transparent 60%);
+  /* Atmospheric Environmental Luminance */
+  --aura-1: rgba(90, 160, 255, 0.32);
+  --aura-2: rgba(170, 130, 255, 0.25);
+  --aura-3: rgba(50, 190, 255, 0.20);
+  --aura-4: rgba(255, 150, 190, 0.15);
 }

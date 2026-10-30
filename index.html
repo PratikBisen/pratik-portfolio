@@ -25,9 +25,35 @@
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
   </head>
   <body>
+    <!-- SVG Optical Refraction & Caustic Filters for iOS 26 Liquid Glass -->
+    <svg class="liquid-glass-svg-defs" aria-hidden="true" style="position: absolute; width: 0; height: 0; pointer-events: none; overflow: hidden;">
+      <defs>
+        <!-- Optical Edge Refraction Displacement -->
+        <filter id="liquid-edge-refract" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+          <feTurbulence type="fractalNoise" baseFrequency="0.035 0.035" numOctaves="2" result="noise" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" xChannelSelector="R" yChannelSelector="G" result="displaced" />
+          <feGaussianBlur in="displaced" stdDeviation="0.4" result="blurred" />
+          <feMerge>
+            <feMergeNode in="blurred" />
+            <feMergeNode in="SourceGraphic" opacity="0.6" />
+          </feMerge>
+        </filter>
+
+        <!-- Specular Fresnel Lighting for Glass Curvature -->
+        <filter id="liquid-fresnel-specular" x="-10%" y="-10%" width="120%" height="120%">
+          <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur" />
+          <feSpecularLighting in="blur" surfaceScale="4" specularConstant="1.4" specularExponent="24" lighting-color="#ffffff" result="specOut">
+            <fePointLight x="120" y="-80" z="220" />
+          </feSpecularLighting>
+          <feComposite in="specOut" in2="SourceAlpha" operator="in" result="specular" />
+          <feComposite in="SourceGraphic" in2="specular" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" />
+        </filter>
+      </defs>
+    </svg>
+
     <div id="root"></div>
     <script type="module" src="/src/app/main.tsx"></script>
   </body>

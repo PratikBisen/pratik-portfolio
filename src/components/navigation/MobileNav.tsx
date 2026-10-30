@@ -34,7 +34,6 @@ export const MobileNav: React.FC<MobileNavProps> = ({
 
     if (isOpen) {
       document.addEventListener('keydown', handleKeyDown);
-      // Prevent body scroll when mobile menu is open
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -52,11 +51,11 @@ export const MobileNav: React.FC<MobileNavProps> = ({
   };
 
   return (
-    <div className="mobile-nav-container">
+    <div className="mobile-nav-wrapper">
       <button
         ref={toggleBtnRef}
         type="button"
-        className="glass-control mobile-toggle-btn"
+        className="liquid-glass-control mobile-toggle-btn"
         onClick={onToggle}
         aria-expanded={isOpen}
         aria-controls="mobile-navigation-drawer"
@@ -68,6 +67,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({
           display: 'inline-flex',
           alignItems: 'center',
           justifyContent: 'center',
+          borderRadius: 'var(--radius-full)',
         }}
       >
         {isOpen ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
@@ -82,9 +82,9 @@ export const MobileNav: React.FC<MobileNavProps> = ({
           style={{
             position: 'fixed',
             inset: 0,
-            backgroundColor: 'rgba(0, 3, 10, 0.65)',
-            backdropFilter: 'blur(8px)',
-            WebkitBackdropFilter: 'blur(8px)',
+            backgroundColor: 'rgba(5, 7, 12, 0.65)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
             zIndex: 'var(--z-overlay)',
           }}
         />
@@ -100,18 +100,18 @@ export const MobileNav: React.FC<MobileNavProps> = ({
           aria-label="Navigation Menu"
           style={{
             position: 'fixed',
-            top: 'calc(var(--header-height) + 12px)',
+            top: 'calc(var(--header-height) + 1.25rem)',
             left: 'var(--gutter)',
             right: 'var(--gutter)',
             zIndex: 'var(--z-modal)',
           }}
         >
           <GlassPanel
-            variant="floating"
+            variant="surface"
             style={{
               padding: 'var(--space-6)',
-              borderRadius: 'var(--radius-xl)',
-              boxShadow: 'var(--glass-shadow-floating)',
+              borderRadius: 'var(--radius-squircle)',
+              boxShadow: 'var(--liquid-shadow-floating)',
             }}
           >
             <nav aria-label="Mobile Navigation">
@@ -132,17 +132,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({
                       <a
                         href={item.href}
                         onClick={() => handleLinkClick(item.id)}
-                        style={{
-                          display: 'block',
-                          padding: '0.875rem 1.25rem',
-                          borderRadius: 'var(--radius-md)',
-                          fontSize: 'var(--text-base)',
-                          fontWeight: 600,
-                          color: isActive ? 'var(--accent)' : 'var(--text)',
-                          backgroundColor: isActive ? 'var(--accent-surface)' : 'transparent',
-                          border: isActive ? '1px solid var(--accent-surface-border)' : '1px solid transparent',
-                          transition: 'all var(--duration-fast) var(--ease-out)',
-                        }}
+                        className={`mobile-nav-link ${isActive ? 'active' : ''}`}
                       >
                         {item.label}
                       </a>

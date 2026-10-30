@@ -4,7 +4,7 @@ import { GlassPanel } from './GlassPanel';
 export interface GlassCardProps extends React.HTMLAttributes<HTMLElement> {
   as?: ElementType;
   hoverEffect?: boolean;
-  floating?: boolean;
+  lens?: boolean;
   className?: string;
   children?: React.ReactNode;
 }
@@ -14,7 +14,7 @@ export const GlassCard = forwardRef<HTMLElement, GlassCardProps>(
     {
       as = 'div',
       hoverEffect = true,
-      floating = false,
+      lens = false,
       className = '',
       children,
       style,
@@ -31,8 +31,7 @@ export const GlassCard = forwardRef<HTMLElement, GlassCardProps>(
       <GlassPanel
         ref={ref}
         as={as}
-        variant={floating ? 'floating' : 'panel'}
-        interactive={hoverEffect}
+        variant={lens ? 'lens' : 'surface'}
         className={className}
         style={cardStyle}
         {...rest}
