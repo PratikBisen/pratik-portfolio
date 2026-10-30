@@ -1,0 +1,250 @@
+/**
+ * glass.css
+ * Authentic 3D Glassmorphism Material System.
+ * Real optical glass effects: refraction blur, saturation boost,
+ * directional specular highlights, inset surface reflections, and soft ambient depth.
+ */
+
+/* Core glass primitive base */
+.glass-base {
+  position: relative;
+  background-color: var(--glass-fill);
+  border: 1px solid var(--glass-border);
+  border-top-color: var(--glass-border-highlight);
+  box-shadow: var(--glass-inset-highlight), var(--glass-shadow);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border-radius: var(--radius-lg);
+  color: var(--text);
+  overflow: hidden;
+  transition: var(--transition-theme);
+}
+
+/* Subtle internal surface sheen layer */
+.glass-base::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    var(--glass-specular) 0%,
+    transparent 40%,
+    transparent 80%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Variant 1: Subtle glass for badges, metadata chips, subtle containers */
+.glass-subtle {
+  position: relative;
+  background-color: var(--glass-fill-subtle);
+  border: 1px solid var(--glass-border-subtle);
+  border-top-color: var(--glass-border);
+  box-shadow: var(--glass-shadow-subtle);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  border-radius: var(--radius-md);
+  color: var(--text);
+  transition: var(--transition-theme);
+}
+
+/* Variant 2: Standard glass panel for content sections & feature cards */
+.glass-panel {
+  position: relative;
+  background-color: var(--glass-fill);
+  border: 1px solid var(--glass-border);
+  border-top-color: var(--glass-border-highlight);
+  box-shadow: var(--glass-inset-highlight), var(--glass-shadow);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border-radius: var(--radius-xl);
+  color: var(--text);
+  overflow: hidden;
+  transition: var(--transition-theme);
+}
+
+.glass-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    var(--glass-specular) 0%,
+    transparent 45%,
+    transparent 85%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Variant 3: Floating glass for elevated modals, hero highlight cards, nav bar */
+.glass-floating {
+  position: relative;
+  background-color: var(--glass-fill-floating);
+  border: 1px solid var(--glass-border-floating);
+  border-top-color: var(--glass-border-highlight);
+  box-shadow: var(--glass-inset-highlight), var(--glass-shadow-floating);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-radius: var(--radius-xl);
+  color: var(--text);
+  overflow: hidden;
+  transition: var(--transition-theme);
+}
+
+.glass-floating::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    125deg,
+    var(--glass-specular) 0%,
+    transparent 50%,
+    transparent 90%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Variant 4: Glass controls for buttons, theme toggles, interactive pills */
+.glass-control {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  background-color: var(--glass-fill-control);
+  border: 1px solid var(--glass-border);
+  border-top-color: var(--glass-border-highlight);
+  box-shadow: var(--glass-inset-control), var(--glass-shadow-subtle);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  border-radius: var(--radius-full);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  transition: var(--transition-hover), var(--transition-theme);
+}
+
+.glass-control:hover {
+  background-color: var(--glass-fill-hover);
+  border-color: var(--glass-border-highlight);
+  box-shadow: var(--glass-inset-control), 0 6px 16px -2px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.glass-control:active {
+  transform: translateY(1px);
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Interactive lift & sheen animation for cards */
+.glass-interactive {
+  cursor: pointer;
+  transition: transform var(--duration-normal) var(--ease-out),
+              box-shadow var(--duration-normal) var(--ease-out),
+              border-color var(--duration-normal) var(--ease-out),
+              background-color var(--duration-normal) var(--ease-out);
+}
+
+.glass-interactive:hover {
+  transform: translateY(-3px);
+  background-color: var(--glass-fill-hover);
+  border-color: var(--glass-border-highlight);
+  box-shadow: var(--glass-inset-highlight), var(--glass-shadow-floating);
+}
+
+/* Primary Glass Action Button */
+.glass-btn-primary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 0.75rem 1.625rem;
+  background: var(--accent-gradient);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.45), 0 8px 24px -6px var(--accent-glow);
+  border-radius: var(--radius-full);
+  color: #FFFFFF !important;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: var(--text-sm);
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  transition: transform var(--duration-fast) var(--ease-out),
+              box-shadow var(--duration-fast) var(--ease-out),
+              filter var(--duration-fast) var(--ease-out);
+}
+
+.glass-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.6), 0 12px 28px -4px var(--accent-glow);
+  filter: brightness(1.08);
+}
+
+.glass-btn-primary:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 12px -2px var(--accent-glow);
+}
+
+/* Secondary Glass Action Button */
+.glass-btn-secondary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 0.75rem 1.5rem;
+  background-color: var(--glass-fill-control);
+  border: 1px solid var(--glass-border);
+  border-top-color: var(--glass-border-highlight);
+  box-shadow: var(--glass-inset-control), var(--glass-shadow-subtle);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  border-radius: var(--radius-full);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: var(--text-sm);
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  transition: var(--transition-hover), var(--transition-theme);
+}
+
+.glass-btn-secondary:hover {
+  background-color: var(--glass-fill-hover);
+  border-color: var(--glass-border-highlight);
+  color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: var(--glass-inset-control), 0 8px 20px -4px rgba(0, 0, 0, 0.2);
+}
+
+.glass-btn-secondary:active {
+  transform: translateY(1px);
+}
+
+/* Robust Fallback for browsers without backdrop-filter */
+@supports not (backdrop-filter: blur(1px)) {
+  .glass-base,
+  .glass-subtle,
+  .glass-panel,
+  .glass-floating,
+  .glass-control,
+  .glass-btn-secondary {
+    background-color: var(--glass-fallback);
+    border-color: var(--glass-fallback-border);
+  }
+}
