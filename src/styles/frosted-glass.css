@@ -1,34 +1,52 @@
 /**
  * frosted-glass.css
- * 3D Frosted Glassmorphism Material System.
- * Synthesizing Reference 1 (heavy frosted diffusion & realistic background visibility)
- * and Reference 2 (dimensional 3D glass, physical bevels, thickness, luminous edges,
- * perspective & iridescent highlights).
+ * Refined 3D Frosted Glass Material Engine.
+ * Synthesizes Reference 1 (genuine background diffusion, optical transparency,
+ * and environmental light transmission) with Reference 2 (thick dimensional glass,
+ * polished chamfered bevels, simulated sidewall extrusion, directional softbox highlights,
+ * and realistic contact shadows).
  */
 
 /* ==========================================================================
-   1. Core 3D Frosted Glass Base
+   1. Core 3D Frosted Optical Surface (7-Layer Construction)
    ========================================================================== */
 
 .glass-3d-base {
   position: relative;
+  /* Layer 1: Front Optical Surface (Low-opacity neutral fill + directional gradient) */
   background-color: var(--fg-fill);
   background-image: var(--fg-surface-gradient);
   backdrop-filter: blur(var(--fg-blur)) saturate(var(--fg-saturation));
   -webkit-backdrop-filter: blur(var(--fg-blur)) saturate(var(--fg-saturation));
   border-radius: var(--radius-lg);
-  border: 1px solid var(--fg-border);
-  border-top: 1.5px solid var(--fg-bevel-top);
-  border-left: 1.5px solid var(--fg-bevel-left);
-  border-bottom: 1.5px solid var(--fg-bevel-bottom);
-  border-right: 1.5px solid var(--fg-bevel-right);
-  box-shadow: var(--fg-inset-bevel), var(--fg-shadow-contact), var(--fg-shadow-thickness), var(--fg-shadow-ambient);
+
+  /* Layer 3: Directional Specular Highlights & Dark Contact Boundaries */
+  border-style: solid;
+  border-top-width: 1.5px;
+  border-left-width: 1.5px;
+  border-right-width: 1px;
+  border-bottom-width: 1.5px;
+  border-top-color: var(--fg-bevel-top);
+  border-left-color: var(--fg-bevel-left);
+  border-right-color: var(--fg-bevel-right);
+  border-bottom-color: var(--fg-bevel-bottom);
+
+  /* Layer 2, 4, 5, 6: Inset Bevels, Extrusion Depth, Contact & Ambient Shadows */
+  box-shadow: 
+    var(--fg-inset-bevel),
+    var(--fg-shadow-contact),
+    var(--fg-shadow-thickness),
+    var(--fg-shadow-ambient);
+
   color: var(--text);
   overflow: hidden;
-  transition: var(--transition-theme), transform var(--duration-normal) var(--ease-spring), box-shadow var(--duration-normal) var(--ease-liquid);
+  transform-style: preserve-3d;
+  transition: var(--transition-theme), 
+              transform var(--duration-normal) var(--ease-spring), 
+              box-shadow var(--duration-normal) var(--ease-liquid);
 }
 
-/* Overhead soft ambient reflection sheen */
+/* Layer 7: Directional Softbox Key Light Sheen (Top-left 25% illumination angle) */
 .glass-3d-base::before {
   content: '';
   position: absolute;
@@ -39,7 +57,7 @@
   z-index: 1;
 }
 
-/* Iridescent prism refraction edge highlight */
+/* Layer 3b: Prismatic Rim Refraction (Directional Iridescent Highlight) */
 .glass-3d-base::after {
   content: '';
   position: absolute;
@@ -59,54 +77,79 @@
    2. Component-Specific Material Variants
    ========================================================================== */
 
-/* 1. Frosted Glass Panel (Reference 1: Heavy diffusion, layered depth) */
+/* 1. Frosted Glass Panel (Reference 1: Heavy Diffusion, High Background Visibility) */
 .glass-3d-panel {
   position: relative;
   background-color: var(--fg-panel-fill);
   background-image: var(--fg-panel-gradient);
-  backdrop-filter: blur(30px) saturate(170%);
-  -webkit-backdrop-filter: blur(30px) saturate(170%);
+  backdrop-filter: blur(var(--fg-blur)) saturate(var(--fg-saturation));
+  -webkit-backdrop-filter: blur(var(--fg-blur)) saturate(var(--fg-saturation));
   border-radius: var(--radius-squircle);
-  border: 1px solid var(--fg-border);
-  border-top: 1.5px solid var(--fg-bevel-top);
-  border-left: 1.5px solid var(--fg-bevel-left);
-  box-shadow: var(--fg-inset-bevel), var(--fg-shadow-thickness), var(--fg-shadow-ambient);
+
+  border-style: solid;
+  border-top-width: 1.5px;
+  border-left-width: 1.5px;
+  border-right-width: 1px;
+  border-bottom-width: 1.5px;
+  border-top-color: var(--fg-bevel-top);
+  border-left-color: var(--fg-bevel-left);
+  border-right-color: var(--fg-bevel-right);
+  border-bottom-color: var(--fg-bevel-bottom);
+
+  box-shadow: 
+    var(--fg-inset-bevel),
+    var(--fg-shadow-contact),
+    var(--fg-shadow-thickness),
+    var(--fg-shadow-ambient);
+
   color: var(--text);
   overflow: hidden;
-  transition: var(--transition-theme);
+  transform-style: preserve-3d;
+  transition: var(--transition-theme), 
+              transform var(--duration-normal) var(--ease-spring), 
+              box-shadow var(--duration-normal) var(--ease-liquid);
 }
 
 .glass-3d-panel::before {
   content: '';
   position: absolute;
   top: 0;
-  left: 5%;
-  right: 5%;
-  height: 50%;
-  background: radial-gradient(ellipse 80% 40% at 50% 0%, var(--fg-sheen-color) 0%, transparent 100%);
+  left: 0;
+  right: 0;
+  height: 55%;
+  background: radial-gradient(ellipse 90% 45% at 20% 0%, var(--fg-sheen-color) 0%, transparent 100%);
   border-radius: var(--radius-squircle) var(--radius-squircle) 0 0;
   pointer-events: none;
   z-index: 1;
 }
 
-/* 2. Thick 3D Glass Card (Reference 2: Dimensional thickness, physical bevels, perspective tilt) */
+/* 2. Thick 3D Glass Card (Reference 2: Visible Thickness, Physical Bevels, 3D Tilt) */
 .glass-3d-card {
   position: relative;
   background-color: var(--fg-card-fill);
   background-image: var(--fg-card-gradient);
-  backdrop-filter: blur(28px) saturate(180%);
-  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  backdrop-filter: blur(var(--fg-blur)) saturate(var(--fg-saturation));
+  -webkit-backdrop-filter: blur(var(--fg-blur)) saturate(var(--fg-saturation));
   border-radius: var(--radius-xl);
-  border: 1.5px solid var(--fg-border);
-  border-top: 2px solid var(--fg-bevel-top);
-  border-left: 2px solid var(--fg-bevel-left);
-  border-bottom: 2px solid var(--fg-bevel-bottom);
-  border-right: 2px solid var(--fg-bevel-right);
+
+  /* Deep polished chamfer edges */
+  border-style: solid;
+  border-top-width: 2px;
+  border-left-width: 2px;
+  border-right-width: 1px;
+  border-bottom-width: 2px;
+  border-top-color: var(--fg-bevel-top);
+  border-left-color: var(--fg-bevel-left);
+  border-right-color: var(--fg-bevel-right);
+  border-bottom-color: var(--fg-bevel-bottom);
+
+  /* Deep compound extrusion shadows simulating 12mm physical glass thickness */
   box-shadow: 
     var(--fg-inset-bevel-thick),
     var(--fg-shadow-contact),
     var(--fg-shadow-thickness-deep),
     var(--fg-shadow-ambient);
+
   color: var(--text);
   transform-style: preserve-3d;
   transition: transform var(--duration-normal) var(--ease-spring),
@@ -136,17 +179,17 @@
   mask-composite: exclude;
   pointer-events: none;
   z-index: 2;
-  opacity: 0.8;
+  opacity: var(--fg-rim-opacity);
 }
 
 .glass-3d-card-interactive:hover {
-  transform: translateY(-5px) scale(1.02);
+  transform: translateY(-5px) scale(1.015);
   box-shadow: 
     var(--fg-inset-bevel-thick),
     var(--fg-shadow-contact),
-    0 20px 40px -8px rgba(0, 0, 0, 0.5),
-    0 36px 72px -16px rgba(0, 0, 0, 0.65),
-    0 0 24px -4px var(--accent-glow);
+    0 22px 48px -8px rgba(0, 0, 0, 0.6),
+    0 40px 80px -16px rgba(0, 0, 0, 0.7),
+    0 0 20px -2px var(--accent-glow);
 }
 
 /* 3. Floating 3D Glass Button */
@@ -159,16 +202,25 @@
   padding: 0.85rem 1.85rem;
   background-color: var(--fg-btn-fill);
   background-image: var(--fg-btn-gradient);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(24px) saturate(175%);
+  -webkit-backdrop-filter: blur(24px) saturate(175%);
   border-radius: var(--radius-full);
-  border: 1px solid var(--fg-border);
-  border-top: 1.5px solid var(--fg-bevel-top);
-  border-bottom: 1.5px solid var(--fg-bevel-bottom);
+
+  border-style: solid;
+  border-top-width: 1.5px;
+  border-left-width: 1.5px;
+  border-right-width: 1px;
+  border-bottom-width: 1.5px;
+  border-top-color: var(--fg-bevel-top);
+  border-left-color: var(--fg-bevel-left);
+  border-right-color: var(--fg-bevel-right);
+  border-bottom-color: var(--fg-bevel-bottom);
+
   box-shadow: 
     var(--fg-inset-bevel),
     var(--fg-shadow-contact),
-    0 10px 24px -6px rgba(0, 0, 0, 0.4);
+    0 8px 20px -4px rgba(0, 0, 0, 0.4);
+
   color: var(--text);
   font-family: var(--font-sans);
   font-weight: 600;
@@ -177,6 +229,7 @@
   cursor: pointer;
   user-select: none;
   overflow: hidden;
+  transform-style: preserve-3d;
   transition: transform var(--duration-normal) var(--ease-spring),
               box-shadow var(--duration-normal) var(--ease-liquid),
               background-color var(--duration-fast) ease,
@@ -187,8 +240,8 @@
   content: '';
   position: absolute;
   top: 0;
-  left: 15%;
-  right: 15%;
+  left: 10%;
+  right: 10%;
   height: 50%;
   background: linear-gradient(180deg, var(--fg-sheen-color) 0%, transparent 100%);
   border-radius: var(--radius-full) var(--radius-full) 0 0;
@@ -197,54 +250,62 @@
 }
 
 .glass-3d-button:hover {
-  transform: translateY(-3px) scale(1.03);
+  transform: translateY(-2.5px) scale(1.025);
   background-color: var(--fg-btn-hover);
   border-top-color: #FFFFFF;
   box-shadow: 
-    inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.9),
+    inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.95),
     var(--fg-shadow-contact),
-    0 16px 32px -6px rgba(0, 0, 0, 0.5),
+    0 14px 30px -6px rgba(0, 0, 0, 0.5),
     0 0 16px 0 var(--accent-glow);
 }
 
 .glass-3d-button:active {
   transform: translateY(1px) scale(0.98);
-  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.4);
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.5);
 }
 
-/* Primary Glass Button Variant (with luminous sapphire/iridescent tint) */
+/* Primary Glass Button Variant (Directional luminous core + specular bevel) */
 .glass-3d-btn-primary {
   background: var(--fg-btn-primary-bg);
-  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
   border-top: 2px solid #FFFFFF;
   box-shadow: 
     inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.9),
-    inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.35),
-    0 10px 28px -4px var(--accent-glow),
+    inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.4),
+    0 8px 24px -4px var(--accent-glow),
     var(--fg-shadow-contact);
   color: #FFFFFF !important;
 }
 
 .glass-3d-btn-primary:hover {
-  transform: translateY(-3px) scale(1.03);
+  transform: translateY(-2.5px) scale(1.025);
   box-shadow: 
-    inset 0 2px 3px 0 rgba(255, 255, 255, 1),
-    0 18px 38px -6px var(--accent-glow),
+    inset 0 2px 3px 0 #FFFFFF,
+    0 16px 36px -6px var(--accent-glow),
     0 4px 12px rgba(0, 0, 0, 0.4);
-  filter: brightness(1.08);
+  filter: brightness(1.06);
 }
 
-/* 4. Glass Navigation Dock (Translucent floating control shelf) */
+/* 4. Glass Navigation Dock (Translucent Floating Control Shelf) */
 .glass-3d-nav {
   position: relative;
   background-color: var(--fg-dock-fill);
   background-image: var(--fg-dock-gradient);
-  backdrop-filter: blur(32px) saturate(190%);
-  -webkit-backdrop-filter: blur(32px) saturate(190%);
+  backdrop-filter: blur(32px) saturate(185%);
+  -webkit-backdrop-filter: blur(32px) saturate(185%);
   border-radius: var(--radius-full);
-  border: 1px solid var(--fg-border);
-  border-top: 1.5px solid var(--fg-bevel-top);
-  border-bottom: 1.5px solid var(--fg-bevel-bottom);
+
+  border-style: solid;
+  border-top-width: 1.5px;
+  border-left-width: 1.5px;
+  border-right-width: 1px;
+  border-bottom-width: 1.5px;
+  border-top-color: var(--fg-bevel-top);
+  border-left-color: var(--fg-bevel-left);
+  border-right-color: var(--fg-bevel-right);
+  border-bottom-color: var(--fg-bevel-bottom);
+
   box-shadow: 
     var(--fg-inset-bevel),
     var(--fg-shadow-contact),
@@ -258,14 +319,14 @@
   content: '';
   position: absolute;
   top: 1px;
-  left: 20%;
-  right: 20%;
+  left: 15%;
+  right: 15%;
   height: 1px;
   background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.85) 50%, transparent 100%);
   pointer-events: none;
 }
 
-/* 5. Glass Pill (Sculpted continuous squircle pill) */
+/* 5. Glass Pill (Continuous Squircle Pill with Status Optics) */
 .glass-3d-pill {
   position: relative;
   display: inline-flex;
@@ -274,11 +335,20 @@
   padding: 0.45rem 1.15rem;
   background-color: var(--fg-pill-fill);
   background-image: var(--fg-pill-gradient);
-  backdrop-filter: blur(20px) saturate(170%);
-  -webkit-backdrop-filter: blur(20px) saturate(170%);
+  backdrop-filter: blur(20px) saturate(165%);
+  -webkit-backdrop-filter: blur(20px) saturate(165%);
   border-radius: var(--radius-full);
-  border: 1px solid var(--fg-border);
-  border-top: 1.5px solid var(--fg-bevel-top);
+
+  border-style: solid;
+  border-top-width: 1.5px;
+  border-left-width: 1.5px;
+  border-right-width: 1px;
+  border-bottom-width: 1px;
+  border-top-color: var(--fg-bevel-top);
+  border-left-color: var(--fg-bevel-left);
+  border-right-color: var(--fg-bevel-right);
+  border-bottom-color: var(--fg-bevel-bottom);
+
   box-shadow: var(--fg-inset-bevel), var(--fg-shadow-contact);
   font-size: var(--text-xs);
   font-weight: 600;
@@ -287,8 +357,8 @@
 }
 
 .glass-3d-pill-interactive:hover {
-  transform: translateY(-2px) scale(1.04);
-  box-shadow: inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.75), 0 8px 18px -4px rgba(0, 0, 0, 0.35);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.85), 0 6px 16px -4px rgba(0, 0, 0, 0.4);
   border-top-color: #FFFFFF;
 }
 
@@ -300,11 +370,19 @@
   border-radius: 50%;
   background-color: var(--fg-btn-fill);
   background-image: var(--fg-btn-gradient);
-  backdrop-filter: blur(22px) saturate(180%);
-  -webkit-backdrop-filter: blur(22px) saturate(180%);
-  border: 1px solid var(--fg-border);
-  border-top: 1.5px solid var(--fg-bevel-top);
-  border-bottom: 1.5px solid var(--fg-bevel-bottom);
+  backdrop-filter: blur(22px) saturate(175%);
+  -webkit-backdrop-filter: blur(22px) saturate(175%);
+
+  border-style: solid;
+  border-top-width: 1.5px;
+  border-left-width: 1.5px;
+  border-right-width: 1px;
+  border-bottom-width: 1.5px;
+  border-top-color: var(--fg-bevel-top);
+  border-left-color: var(--fg-bevel-left);
+  border-right-color: var(--fg-bevel-right);
+  border-bottom-color: var(--fg-bevel-bottom);
+
   box-shadow: var(--fg-inset-bevel), var(--fg-shadow-contact);
   display: inline-flex;
   align-items: center;
@@ -316,33 +394,43 @@
 }
 
 .glass-3d-icon-btn:hover {
-  transform: translateY(-2.5px) scale(1.06);
+  transform: translateY(-2.5px) scale(1.05);
   border-top-color: #FFFFFF;
-  box-shadow: inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.8), 0 12px 24px -4px rgba(0, 0, 0, 0.45);
+  box-shadow: inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.9), 0 10px 22px -4px rgba(0, 0, 0, 0.45);
 }
 
 .glass-3d-icon-btn:active {
   transform: translateY(1px) scale(0.96);
 }
 
-/* 7. Glass Image Frame (Dedicated 3D glass photo enclosure) */
+/* 7. Dedicated 3D Glass Image Frame (Refined Lens Enclosure) */
 .glass-3d-image-frame {
   position: relative;
   background-color: var(--fg-card-fill);
+  background-image: var(--fg-card-gradient);
   border-radius: var(--radius-pod);
-  border: 2px solid var(--fg-border);
-  border-top: 2.5px solid var(--fg-bevel-top);
-  border-left: 2px solid var(--fg-bevel-left);
-  border-bottom: 2px solid var(--fg-bevel-bottom);
+
+  border-style: solid;
+  border-top-width: 2.5px;
+  border-left-width: 2px;
+  border-right-width: 1px;
+  border-bottom-width: 2.5px;
+  border-top-color: var(--fg-bevel-top);
+  border-left-color: var(--fg-bevel-left);
+  border-right-color: var(--fg-bevel-right);
+  border-bottom-color: var(--fg-bevel-bottom);
+
   box-shadow: 
     var(--fg-inset-bevel-thick),
     var(--fg-shadow-contact),
     var(--fg-shadow-thickness-deep),
     var(--fg-shadow-ambient);
-  backdrop-filter: blur(34px) saturate(190%);
-  -webkit-backdrop-filter: blur(34px) saturate(190%);
+
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
   padding: var(--space-6);
   overflow: hidden;
+  transform-style: preserve-3d;
   transition: transform var(--duration-normal) var(--ease-spring);
 }
 
@@ -350,10 +438,10 @@
   content: '';
   position: absolute;
   top: 0;
-  left: 10%;
-  right: 10%;
-  height: 45%;
-  background: radial-gradient(ellipse 80% 35% at 50% 0%, rgba(255, 255, 255, 0.5) 0%, transparent 100%);
+  left: 5%;
+  right: 5%;
+  height: 50%;
+  background: radial-gradient(ellipse 85% 40% at 25% 0%, var(--fg-sheen-color) 0%, transparent 100%);
   border-radius: var(--radius-pod) var(--radius-pod) 0 0;
   pointer-events: none;
   z-index: 3;
@@ -364,17 +452,17 @@
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  padding: 2px;
+  padding: 1.5px;
   background: var(--fg-iridescent-rim);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
   z-index: 4;
-  opacity: 0.85;
+  opacity: var(--fg-rim-opacity);
 }
 
-/* 8. Glass Floating Element (Ambient satellite chip with layered depth) */
+/* 8. Glass Floating Element (Hovering Satellite Chip with Separation) */
 .glass-3d-floating {
   position: relative;
   display: inline-flex;
@@ -383,48 +471,97 @@
   padding: 0.65rem 1.25rem;
   background-color: var(--fg-floating-fill);
   background-image: var(--fg-floating-gradient);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(24px) saturate(175%);
+  -webkit-backdrop-filter: blur(24px) saturate(175%);
   border-radius: var(--radius-full);
-  border: 1px solid var(--fg-border);
-  border-top: 1.5px solid var(--fg-bevel-top);
+
+  border-style: solid;
+  border-top-width: 1.5px;
+  border-left-width: 1.5px;
+  border-right-width: 1px;
+  border-bottom-width: 1.5px;
+  border-top-color: var(--fg-bevel-top);
+  border-left-color: var(--fg-bevel-left);
+  border-right-color: var(--fg-bevel-right);
+  border-bottom-color: var(--fg-bevel-bottom);
+
   box-shadow: 
     var(--fg-inset-bevel),
     var(--fg-shadow-contact),
-    0 16px 36px -8px rgba(0, 0, 0, 0.5);
+    0 14px 32px -8px rgba(0, 0, 0, 0.55);
+
   color: var(--text);
-  transition: transform var(--duration-normal) var(--ease-spring);
+  transform-style: preserve-3d;
+  transition: transform var(--duration-normal) var(--ease-spring),
+              box-shadow var(--duration-normal) var(--ease-liquid);
 }
 
 /* ==========================================================================
-   3. Material Comparison Variations (For Phase 2 Lab)
-   ========================================================================= */
+   3. The Four Optical Material Profiles (Task 2 & Phase 2 Refinement)
+   ========================================================================== */
 
-/* Variant A: Heavily Frosted (Reference 1) */
+/* Profile A: Heavily Frosted Glass (Reference 1)
+   Strong diffusion (32px), recognizable shapes, soft light transmission, 
+   neutral low-opacity fill (8-10%) so background details are preserved but diffused. */
 .material-sample-frosted {
   --fg-blur: 32px;
-  --fg-fill: rgba(255, 255, 255, 0.12);
-  --fg-surface-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 50%, rgba(255, 255, 255, 0.12) 100%);
+  --fg-saturation: 175%;
+  --fg-panel-fill: rgba(255, 255, 255, 0.08);
+  --fg-panel-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.01) 40%, rgba(255, 255, 255, 0.05) 100%);
 }
 
-/* Variant B: Clear Optical Glass */
+[data-theme="light"] .material-sample-frosted {
+  --fg-panel-fill: rgba(255, 255, 255, 0.40);
+  --fg-panel-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.20) 40%, rgba(255, 255, 255, 0.35) 100%);
+}
+
+/* Profile B: Clear Optical Glass
+   Low diffusion (12px), high transparency (3-5% fill), crisp background visibility,
+   pronounced directional reflections and sharp specular chamfers. */
 .material-sample-clear {
-  --fg-blur: 14px;
-  --fg-fill: rgba(255, 255, 255, 0.04);
-  --fg-surface-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.01) 50%, rgba(255, 255, 255, 0.06) 100%);
+  --fg-blur: 12px;
+  --fg-saturation: 130%;
+  --fg-panel-fill: rgba(255, 255, 255, 0.035);
+  --fg-panel-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.005) 45%, rgba(255, 255, 255, 0.04) 100%);
+  --fg-bevel-top: rgba(255, 255, 255, 0.95);
+  --fg-bevel-left: rgba(255, 255, 255, 0.70);
 }
 
-/* Variant C: Thick 3D Glass (Reference 2) */
+[data-theme="light"] .material-sample-clear {
+  --fg-panel-fill: rgba(255, 255, 255, 0.25);
+  --fg-panel-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.50) 0%, rgba(255, 255, 255, 0.10) 45%, rgba(255, 255, 255, 0.20) 100%);
+}
+
+/* Profile C: Thick 3D Glass (Reference 2)
+   12mm simulated physical extrusion, 3D perspective rotation, deep compound shadows,
+   luminous directional chamfers, and an iridescent prism edge. */
 .material-sample-thick-3d {
-  --fg-blur: 36px;
-  --fg-fill: rgba(255, 255, 255, 0.10);
-  border-width: 2px;
-  transform: perspective(800px) rotateX(6deg) rotateY(-8deg);
+  --fg-blur: 34px;
+  --fg-saturation: 180%;
+  --fg-card-fill: rgba(255, 255, 255, 0.07);
+  --fg-card-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.01) 40%, rgba(255, 255, 255, 0.06) 100%);
+  transform: perspective(900px) rotateX(5deg) rotateY(-6deg);
 }
 
-/* Variant D: Lightly Tinted Glass (Sapphire/Iris Refraction) */
+[data-theme="light"] .material-sample-thick-3d {
+  --fg-card-fill: rgba(255, 255, 255, 0.38);
+  --fg-card-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.60) 0%, rgba(255, 255, 255, 0.18) 40%, rgba(255, 255, 255, 0.32) 100%);
+  transform: perspective(900px) rotateX(5deg) rotateY(-6deg);
+}
+
+/* Profile D: Lightly Tinted Glass (Sapphire & Iris Prism)
+   Subtle chromatic dispersion (no heavy painted color!), translucent color transmission
+   (6% sapphire core), preserving clear background visibility. */
 .material-sample-tinted {
   --fg-blur: 26px;
-  --fg-fill: rgba(94, 162, 255, 0.09);
-  --fg-surface-gradient: linear-gradient(135deg, rgba(94, 162, 255, 0.22) 0%, rgba(168, 133, 255, 0.10) 60%, rgba(255, 255, 255, 0.15) 100%);
+  --fg-saturation: 165%;
+  --fg-panel-fill: rgba(94, 162, 255, 0.05);
+  --fg-panel-gradient: linear-gradient(135deg, rgba(94, 162, 255, 0.12) 0%, rgba(168, 133, 255, 0.03) 40%, rgba(94, 162, 255, 0.06) 100%);
+  --fg-border: rgba(94, 162, 255, 0.25);
+}
+
+[data-theme="light"] .material-sample-tinted {
+  --fg-panel-fill: rgba(94, 162, 255, 0.12);
+  --fg-panel-gradient: linear-gradient(135deg, rgba(94, 162, 255, 0.25) 0%, rgba(168, 133, 255, 0.08) 40%, rgba(94, 162, 255, 0.15) 100%);
+  --fg-border: rgba(94, 162, 255, 0.35);
 }

@@ -27,6 +27,7 @@ import {
   Cpu,
   Palette,
   Terminal,
+  Bookmark,
 } from 'lucide-react';
 
 interface GlassLabProps {
@@ -35,30 +36,99 @@ interface GlassLabProps {
   onBackToPortfolio: () => void;
 }
 
+type PresetKey = 'frosted' | 'clear' | 'crystal' | 'tinted' | 'hybrid' | 'custom';
+
 export const GlassLab: React.FC<GlassLabProps> = ({
   theme,
   onToggleTheme,
   onBackToPortfolio,
 }) => {
-  // Live Tuner Controls
+  // Live Tuner Controls (Task 7)
   const [backgroundScene, setBackgroundScene] = useState<'aurora' | 'chroma' | 'cyber' | 'studio'>(() => {
     if (typeof window === 'undefined') return 'aurora';
     const s = new URLSearchParams(window.location.search).get('scene');
     if (s === 'chroma' || s === 'cyber' || s === 'studio') return s;
     return 'aurora';
   });
+
+  // 8 Material-Engineering Parameters
   const [blurAmount, setBlurAmount] = useState<number>(28);
-  const [saturationAmount, setSaturationAmount] = useState<number>(180);
-  const [fillOpacity, setFillOpacity] = useState<number>(10);
-  const [bevelIntensity, setBevelIntensity] = useState<number>(75);
+  const [fillOpacity, setFillOpacity] = useState<number>(7);
+  const [saturationAmount, setSaturationAmount] = useState<number>(165);
+  const [tintIntensity, setTintIntensity] = useState<number>(8);
+  const [edgeReflection, setEdgeReflection] = useState<number>(80);
+  const [bevelIntensity, setBevelIntensity] = useState<number>(85);
+  const [thicknessAmount, setThicknessAmount] = useState<number>(16);
+  const [ambientShadow, setAmbientShadow] = useState<number>(44);
   const [enableTilt, setEnableTilt] = useState<boolean>(true);
+  const [activePreset, setActivePreset] = useState<PresetKey>('hybrid');
   const [activeNavTab, setActiveNavTab] = useState<string>('material');
 
+  // 5 Specialized Presets
+  const applyPreset = (key: PresetKey) => {
+    setActivePreset(key);
+    switch (key) {
+      case 'frosted': // Pure Frosted (Ref 1)
+        setBlurAmount(34);
+        setFillOpacity(8);
+        setSaturationAmount(175);
+        setTintIntensity(0);
+        setEdgeReflection(75);
+        setBevelIntensity(80);
+        setThicknessAmount(12);
+        setAmbientShadow(48);
+        break;
+      case 'clear': // Optical Clear
+        setBlurAmount(12);
+        setFillOpacity(3);
+        setSaturationAmount(130);
+        setTintIntensity(0);
+        setEdgeReflection(90);
+        setBevelIntensity(95);
+        setThicknessAmount(6);
+        setAmbientShadow(28);
+        break;
+      case 'crystal': // Thick Crystal (Ref 2)
+        setBlurAmount(36);
+        setFillOpacity(7);
+        setSaturationAmount(185);
+        setTintIntensity(5);
+        setEdgeReflection(85);
+        setBevelIntensity(90);
+        setThicknessAmount(24);
+        setAmbientShadow(56);
+        break;
+      case 'tinted': // Subtle Tinted
+        setBlurAmount(26);
+        setFillOpacity(6);
+        setSaturationAmount(160);
+        setTintIntensity(25);
+        setEdgeReflection(70);
+        setBevelIntensity(75);
+        setThicknessAmount(14);
+        setAmbientShadow(40);
+        break;
+      case 'hybrid': // Premium Hybrid
+      default:
+        setBlurAmount(28);
+        setFillOpacity(7);
+        setSaturationAmount(165);
+        setTintIntensity(8);
+        setEdgeReflection(80);
+        setBevelIntensity(85);
+        setThicknessAmount(16);
+        setAmbientShadow(44);
+        break;
+    }
+  };
+
+  const handleSliderChange = (setter: React.Dispatch<React.SetStateAction<number>>, value: number) => {
+    setter(value);
+    setActivePreset('custom');
+  };
+
   const resetDefaults = () => {
-    setBlurAmount(28);
-    setSaturationAmount(180);
-    setFillOpacity(10);
-    setBevelIntensity(75);
+    applyPreset('hybrid');
   };
 
   // Dynamic CSS variables applied directly to the lab container
@@ -67,17 +137,29 @@ export const GlassLab: React.FC<GlassLabProps> = ({
     ['--fg-saturation' as string]: `${saturationAmount}%`,
     ['--fg-fill' as string]: theme === 'dark' 
       ? `rgba(255, 255, 255, ${fillOpacity / 100})` 
-      : `rgba(255, 255, 255, ${Math.min(0.9, (fillOpacity + 40) / 100)})`,
+      : `rgba(255, 255, 255, ${Math.min(0.85, (fillOpacity + 30) / 100)})`,
+    ['--fg-panel-fill' as string]: theme === 'dark'
+      ? `rgba(255, 255, 255, ${fillOpacity / 100})`
+      : `rgba(255, 255, 255, ${Math.min(0.85, (fillOpacity + 32) / 100)})`,
+    ['--fg-card-fill' as string]: theme === 'dark'
+      ? `rgba(255, 255, 255, ${fillOpacity / 100})`
+      : `rgba(255, 255, 255, ${Math.min(0.85, (fillOpacity + 28) / 100)})`,
     ['--fg-bevel-top' as string]: theme === 'dark'
       ? `rgba(255, 255, 255, ${bevelIntensity / 100})`
       : `#FFFFFF`,
-    ['--fg-rim-opacity' as string]: `${bevelIntensity / 100}`,
+    ['--fg-bevel-left' as string]: theme === 'dark'
+      ? `rgba(255, 255, 255, ${(bevelIntensity * 0.65) / 100})`
+      : `rgba(255, 255, 255, 0.9)`,
+    ['--fg-rim-opacity' as string]: `${edgeReflection / 100}`,
+    ['--fg-shadow-thickness' as string]: `0 ${thicknessAmount / 2}px ${thicknessAmount}px -4px rgba(0, 0, 0, ${theme === 'dark' ? 0.55 : 0.12})`,
+    ['--fg-shadow-thickness-deep' as string]: `0 ${thicknessAmount}px ${thicknessAmount * 2}px -4px rgba(0, 0, 0, ${theme === 'dark' ? 0.65 : 0.16})`,
+    ['--fg-shadow-ambient' as string]: `0 ${ambientShadow}px ${ambientShadow * 2}px -16px rgba(0, 0, 0, ${theme === 'dark' ? 0.75 : 0.15})`,
   };
 
   return (
     <div className={`glass-lab-root scene-${backgroundScene}`} style={labCustomStyles}>
       {/* =========================================================================
-          High-Contrast Atmospheric Background Test Patterns
+          High-Contrast Atmospheric Background Test Patterns (Task 6)
           ========================================================================= */}
       <div className="lab-background-canvas" aria-hidden="true">
         {backgroundScene === 'aurora' && (
@@ -113,10 +195,25 @@ export const GlassLab: React.FC<GlassLabProps> = ({
 
         {backgroundScene === 'studio' && (
           <div className="scene-elements scene-studio">
-            <div className="studio-spotlight" />
-            <div className="studio-contrast-card c1" />
-            <div className="studio-contrast-card c2" />
-            <div className="studio-typography">OPTICAL DEPTH</div>
+            <div className="studio-tech-grid" />
+            <div className="studio-major-grid" />
+            {/* Resolution Line Gauges (1px, 2px, 4px pairs) */}
+            <div className="studio-resolution-gauge-1" />
+            <div className="studio-resolution-gauge-2" />
+            {/* Calibrated Color Target Swatches */}
+            <div className="studio-color-swatches">
+              <div className="studio-swatch swatch-cyan" title="Cyan 100%" />
+              <div className="studio-swatch swatch-magenta" title="Magenta 100%" />
+              <div className="studio-swatch swatch-yellow" title="Yellow 100%" />
+              <div className="studio-swatch swatch-blue" title="Blue 100%" />
+              <div className="studio-swatch swatch-green" title="Green 100%" />
+              <div className="studio-swatch swatch-red" title="Red 100%" />
+              <div className="studio-swatch swatch-gray" title="50% Neutral Gray" />
+              <div className="studio-swatch swatch-white" title="Pure White" />
+            </div>
+            {/* Siemens Starburst Target */}
+            <div className="studio-siemens-star" />
+            <div className="studio-tech-label">OPTICAL TEST BENCH // 2026</div>
           </div>
         )}
       </div>
@@ -137,7 +234,7 @@ export const GlassLab: React.FC<GlassLabProps> = ({
                 <span>Return to Portfolio</span>
               </button>
               <div className="lab-brand-title">
-                <span className="lab-badge-live">PHASE 2 MATERIAL LAB</span>
+                <span className="lab-badge-live">PHASE 2 MATERIAL ENGINE</span>
                 <h1>3D Frosted Glassmorphism</h1>
               </div>
             </div>
@@ -150,13 +247,13 @@ export const GlassLab: React.FC<GlassLabProps> = ({
                   <Palette size={14} /> Background:
                 </label>
                 <div className="scene-switcher-buttons" id="scene-select">
-                  {(['aurora', 'chroma', 'cyber', 'studio'] as const).map((sc) => (
+                  {(['studio', 'aurora', 'chroma', 'cyber'] as const).map((sc) => (
                     <button
                       key={sc}
                       onClick={() => setBackgroundScene(sc)}
                       className={`scene-chip ${backgroundScene === sc ? 'active' : ''}`}
                     >
-                      {sc.charAt(0).toUpperCase() + sc.slice(1)}
+                      {sc === 'studio' ? 'Neutral Studio' : sc.charAt(0).toUpperCase() + sc.slice(1)}
                     </button>
                   ))}
                 </div>
@@ -174,7 +271,45 @@ export const GlassLab: React.FC<GlassLabProps> = ({
             </div>
           </GlassPanel>
 
-          {/* Live Parameter Sliders Bar */}
+          {/* Quick Presets Bar (Task 7) */}
+          <GlassPanel className="lab-presets-bar">
+            <span className="presets-label">
+              <Bookmark size={13} style={{ display: 'inline', verticalAlign: '-1px', marginRight: '4px' }} />
+              Presets:
+            </span>
+            <button
+              onClick={() => applyPreset('hybrid')}
+              className={`preset-chip ${activePreset === 'hybrid' ? 'active' : ''}`}
+            >
+              Premium Hybrid
+            </button>
+            <button
+              onClick={() => applyPreset('frosted')}
+              className={`preset-chip ${activePreset === 'frosted' ? 'active' : ''}`}
+            >
+              Pure Frosted (Ref 1)
+            </button>
+            <button
+              onClick={() => applyPreset('clear')}
+              className={`preset-chip ${activePreset === 'clear' ? 'active' : ''}`}
+            >
+              Optical Clear
+            </button>
+            <button
+              onClick={() => applyPreset('crystal')}
+              className={`preset-chip ${activePreset === 'crystal' ? 'active' : ''}`}
+            >
+              Thick Crystal (Ref 2)
+            </button>
+            <button
+              onClick={() => applyPreset('tinted')}
+              className={`preset-chip ${activePreset === 'tinted' ? 'active' : ''}`}
+            >
+              Subtle Tinted
+            </button>
+          </GlassPanel>
+
+          {/* Expanded Live Parameter Sliders Bar (8 Controls - Task 7) */}
           <GlassPanel className="lab-sliders-bar">
             <div className="slider-item">
               <div className="slider-header">
@@ -184,9 +319,9 @@ export const GlassLab: React.FC<GlassLabProps> = ({
               <input
                 type="range"
                 min="8"
-                max="50"
+                max="48"
                 value={blurAmount}
-                onChange={(e) => setBlurAmount(Number(e.target.value))}
+                onChange={(e) => handleSliderChange(setBlurAmount, Number(e.target.value))}
                 aria-label="Diffusion blur slider"
                 className="lab-range"
               />
@@ -194,53 +329,117 @@ export const GlassLab: React.FC<GlassLabProps> = ({
 
             <div className="slider-item">
               <div className="slider-header">
-                <span className="slider-title">Optical Saturation</span>
+                <span className="slider-title">Optical Transparency</span>
+                <span className="slider-val">{fillOpacity}%</span>
+              </div>
+              <input
+                type="range"
+                min="2"
+                max="25"
+                value={fillOpacity}
+                onChange={(e) => handleSliderChange(setFillOpacity, Number(e.target.value))}
+                aria-label="Optical transparency slider"
+                className="lab-range"
+              />
+            </div>
+
+            <div className="slider-item">
+              <div className="slider-header">
+                <span className="slider-title">Saturation Boost</span>
                 <span className="slider-val">{saturationAmount}%</span>
               </div>
               <input
                 type="range"
                 min="100"
-                max="250"
+                max="220"
                 value={saturationAmount}
-                onChange={(e) => setSaturationAmount(Number(e.target.value))}
-                aria-label="Optical saturation slider"
+                onChange={(e) => handleSliderChange(setSaturationAmount, Number(e.target.value))}
+                aria-label="Saturation boost slider"
                 className="lab-range"
               />
             </div>
 
             <div className="slider-item">
               <div className="slider-header">
-                <span className="slider-title">Surface Fill Opacity</span>
-                <span className="slider-val">{fillOpacity}%</span>
+                <span className="slider-title">Surface Tint</span>
+                <span className="slider-val">{tintIntensity}%</span>
               </div>
               <input
                 type="range"
-                min="3"
+                min="0"
                 max="35"
-                value={fillOpacity}
-                onChange={(e) => setFillOpacity(Number(e.target.value))}
-                aria-label="Surface fill opacity slider"
+                value={tintIntensity}
+                onChange={(e) => handleSliderChange(setTintIntensity, Number(e.target.value))}
+                aria-label="Surface tint slider"
                 className="lab-range"
               />
             </div>
 
             <div className="slider-item">
               <div className="slider-header">
-                <span className="slider-title">Specular Bevel Luminance</span>
-                <span className="slider-val">{bevelIntensity}%</span>
+                <span className="slider-title">Edge Reflection</span>
+                <span className="slider-val">{edgeReflection}%</span>
               </div>
               <input
                 type="range"
                 min="20"
                 max="100"
-                value={bevelIntensity}
-                onChange={(e) => setBevelIntensity(Number(e.target.value))}
-                aria-label="Specular bevel intensity slider"
+                value={edgeReflection}
+                onChange={(e) => handleSliderChange(setEdgeReflection, Number(e.target.value))}
+                aria-label="Edge reflection slider"
                 className="lab-range"
               />
             </div>
 
-            <div className="slider-toggles">
+            <div className="slider-item">
+              <div className="slider-header">
+                <span className="slider-title">Bevel Highlight</span>
+                <span className="slider-val">{bevelIntensity}%</span>
+              </div>
+              <input
+                type="range"
+                min="30"
+                max="100"
+                value={bevelIntensity}
+                onChange={(e) => handleSliderChange(setBevelIntensity, Number(e.target.value))}
+                aria-label="Bevel highlight slider"
+                className="lab-range"
+              />
+            </div>
+
+            <div className="slider-item">
+              <div className="slider-header">
+                <span className="slider-title">Simulated Thickness</span>
+                <span className="slider-val">{thicknessAmount}px</span>
+              </div>
+              <input
+                type="range"
+                min="4"
+                max="28"
+                value={thicknessAmount}
+                onChange={(e) => handleSliderChange(setThicknessAmount, Number(e.target.value))}
+                aria-label="Simulated thickness slider"
+                className="lab-range"
+              />
+            </div>
+
+            <div className="slider-item">
+              <div className="slider-header">
+                <span className="slider-title">Ambient Shadow</span>
+                <span className="slider-val">{ambientShadow}px</span>
+              </div>
+              <input
+                type="range"
+                min="16"
+                max="64"
+                value={ambientShadow}
+                onChange={(e) => handleSliderChange(setAmbientShadow, Number(e.target.value))}
+                aria-label="Ambient shadow slider"
+                className="lab-range"
+              />
+            </div>
+
+            <div className="sliders-footer-row">
               <button
                 onClick={() => setEnableTilt(!enableTilt)}
                 className={`tilt-toggle ${enableTilt ? 'active' : ''}`}
@@ -255,7 +454,7 @@ export const GlassLab: React.FC<GlassLabProps> = ({
                 title="Reset parameters to tuned reference values"
               >
                 <RotateCw size={14} />
-                <span>Reset</span>
+                <span>Reset Defaults</span>
               </button>
             </div>
           </GlassPanel>
@@ -269,7 +468,7 @@ export const GlassLab: React.FC<GlassLabProps> = ({
         <div className="lab-container">
 
           {/* -------------------------------------------------------------------
-              SECTION 1: THE 4-WAY MATERIAL COMPARISON MATRIX
+              SECTION 1: THE 4 OPTICAL MATERIAL PROFILES (Task 2)
               ------------------------------------------------------------------- */}
           <section className="lab-section">
             <div className="section-heading">
@@ -278,12 +477,12 @@ export const GlassLab: React.FC<GlassLabProps> = ({
               </div>
               <h2>Optical Material Variations</h2>
               <p>
-                Visual comparison demonstrating four distinct glass physics profiles over identical background elements.
+                Visual comparison demonstrating four distinct glass physics profiles over identical background elements. Notice how the underlying patterns remain visible through all surfaces.
               </p>
             </div>
 
             <div className="matrix-grid">
-              {/* Variant 1: Frosted Glass (Reference 1) */}
+              {/* Profile A: Heavily Frosted Glass (Reference 1) */}
               <div className="matrix-card-wrap">
                 <div className="matrix-card-header">
                   <span className="matrix-pill">REFERENCE 1</span>
@@ -293,28 +492,28 @@ export const GlassLab: React.FC<GlassLabProps> = ({
                 <GlassPanel variant="frosted" className="matrix-card-content">
                   <div className="material-spec-details">
                     <p className="spec-desc">
-                      Multi-layer diffusion completely softens background geometries into ethereal hues while preserving authentic environmental light transmission.
+                      Strong optical diffusion softening underlying shapes into luminous gradients while preserving true background light transmission.
                     </p>
                     <div className="spec-indicators">
-                      <span className="indicator-chip">High Diffusion</span>
-                      <span className="indicator-chip">Diffused Visibility</span>
-                      <span className="indicator-chip">Chamfer Sheen</span>
+                      <span className="indicator-chip">Strong Diffusion</span>
+                      <span className="indicator-chip">Diffuse Visibility</span>
+                      <span className="indicator-chip">Directional Sheen</span>
                     </div>
                   </div>
                 </GlassPanel>
               </div>
 
-              {/* Variant 2: Clear Optical Glass */}
+              {/* Profile B: Clear Optical Glass */}
               <div className="matrix-card-wrap">
                 <div className="matrix-card-header">
                   <span className="matrix-pill">OPTICAL LENS</span>
                   <h3>Clear Optical Glass</h3>
-                  <span className="matrix-meta">blur: 14px · sat: 130% · high clarity</span>
+                  <span className="matrix-meta">blur: 12px · sat: 130% · high clarity</span>
                 </div>
                 <GlassPanel variant="clear" className="matrix-card-content">
                   <div className="material-spec-details">
                     <p className="spec-desc">
-                      Minimal diffusion prioritizing background object visibility with high-contrast specular borders and internal caustic refraction.
+                      Minimal diffusion with maximum optical transparency. The underlying chart and shapes remain crisp with sharp specular borders.
                     </p>
                     <div className="spec-indicators">
                       <span className="indicator-chip">High Transparency</span>
@@ -325,7 +524,7 @@ export const GlassLab: React.FC<GlassLabProps> = ({
                 </GlassPanel>
               </div>
 
-              {/* Variant 3: Thick 3D Glass (Reference 2) */}
+              {/* Profile C: Thick 3D Glass (Reference 2) */}
               <div className="matrix-card-wrap">
                 <div className="matrix-card-header">
                   <span className="matrix-pill">REFERENCE 2</span>
@@ -335,7 +534,7 @@ export const GlassLab: React.FC<GlassLabProps> = ({
                 <GlassCard variant="thick-3d" interactive perspectiveTilt={enableTilt} className="matrix-card-content">
                   <div className="material-spec-details">
                     <p className="spec-desc">
-                      Physical bevels, simulated sidewall thickness via multi-tier ambient shadows, and an iridescent prism edge rim.
+                      Physical chamfer bevels, simulated sidewall thickness via multi-tier ambient shadows, and an iridescent prism edge rim.
                     </p>
                     <div className="spec-indicators">
                       <span className="indicator-chip">Physical Bevel</span>
@@ -346,7 +545,7 @@ export const GlassLab: React.FC<GlassLabProps> = ({
                 </GlassCard>
               </div>
 
-              {/* Variant 4: Lightly Tinted Glass */}
+              {/* Profile D: Lightly Tinted Glass */}
               <div className="matrix-card-wrap">
                 <div className="matrix-card-header">
                   <span className="matrix-pill">SPECTRAL DISPERSION</span>
@@ -356,7 +555,7 @@ export const GlassLab: React.FC<GlassLabProps> = ({
                 <GlassPanel variant="tinted" className="matrix-card-content">
                   <div className="material-spec-details">
                     <p className="spec-desc">
-                      Subtle chromatic prism dispersion adding ethereal blue-violet depth to directional surface light.
+                      Subtle chromatic prism dispersion adding ethereal blue-violet depth to directional surface light without concealing background details.
                     </p>
                     <div className="spec-indicators">
                       <span className="indicator-chip">Prismatic Iris</span>
@@ -370,7 +569,7 @@ export const GlassLab: React.FC<GlassLabProps> = ({
           </section>
 
           {/* -------------------------------------------------------------------
-              SECTION 2: LAYERED OVERLAPPING GLASS PANELS (DEPTH STACK)
+              SECTION 2: REBUILT LAYERED GLASS STACK (Task 5)
               ------------------------------------------------------------------- */}
           <section className="lab-section">
             <div className="section-heading">
@@ -379,57 +578,65 @@ export const GlassLab: React.FC<GlassLabProps> = ({
               </div>
               <h2>Layered Overlapping Glass Panels</h2>
               <p>
-                Verification of multi-layer transparency and depth. Background elements remain visible and diffuse consecutively through multiple stacked glass layers.
+                True 3D physical separation across three Z-depth planes. The underlying high-contrast chart progressively diffuses through consecutive glass surfaces while contact shadows ground each elevated plane.
               </p>
             </div>
 
             <div className="layered-stack-stage">
               {/* Background Reference High-Contrast Graphic (Underneath all glass) */}
               <div className="stack-underlay-pattern">
-                <div className="underlay-text-big">PRATIK BISEN</div>
+                <div className="underlay-color-bars">
+                  <div style={{ background: '#EF4444' }} />
+                  <div style={{ background: '#F59E0B' }} />
+                  <div style={{ background: '#10B981' }} />
+                  <div style={{ background: '#06B6D4' }} />
+                  <div style={{ background: '#3B82F6' }} />
+                  <div style={{ background: '#8B5CF6' }} />
+                </div>
+                <div className="underlay-text-big">OPTICAL RESOLUTION 2026</div>
                 <div className="underlay-radial-target" />
                 <div className="underlay-stripe-band" />
               </div>
 
-              {/* Glass Layer 1: Base Floor Panel */}
+              {/* Glass Layer 1: Base Floor Panel (Z: 10px, Light Diffusion) */}
               <GlassPanel variant="panel" className="glass-layer layer-1">
                 <div className="layer-badge">
-                  <span className="layer-dot" /> Layer 01: Base Translucent Plane
+                  <span className="layer-dot" /> Layer 01: Substratum Plane (Z: 10px • blur: 14px)
                 </div>
                 <div className="layer-content">
-                  <h4>Atmospheric Substratum</h4>
+                  <h4>Atmospheric Base</h4>
                   <p>
-                    Base plane receiving ambient lighting. Notice how the sharp geometric stripes beneath are gracefully diffused.
+                    First translucent pane receiving ambient illumination. Notice how the sharp geometric stripes beneath are gently softened while remaining clearly identifiable.
                   </p>
                 </div>
               </GlassPanel>
 
-              {/* Glass Layer 2: Mid Elevated Panel (Partially Overlapping Layer 1) */}
+              {/* Glass Layer 2: Mid Elevated Panel (Z: 40px, Medium Diffusion, Casts shadow on Layer 1) */}
               <div className="glass-layer layer-2 glass-3d-card">
                 <div className="layer-badge">
-                  <span className="layer-dot" style={{ backgroundColor: '#60A5FA' }} /> Layer 02: Elevated Intermediate Panel
+                  <span className="layer-dot" style={{ backgroundColor: '#60A5FA' }} /> Layer 02: Intermediate Plane (Z: 40px • blur: 24px)
                 </div>
                 <div className="layer-content">
-                  <h4>Refractive Convergence</h4>
+                  <h4>Dual Refractive Convergence</h4>
                   <p>
-                    Cast shadow falls directly on Layer 01 while maintaining secondary backdrop blur through both surfaces simultaneously.
+                    Elevated pane casting a realistic contact shadow directly onto Layer 01. In the overlapping zone, light diffuses through both layers consecutively.
                   </p>
                   <div className="layer-stats">
                     <GlassPill variant="accent" dot>Dual Occlusion</GlassPill>
-                    <GlassPill>Contact Shadow: 18px</GlassPill>
+                    <GlassPill>Contact Shadow: 16px</GlassPill>
                   </div>
                 </div>
               </div>
 
-              {/* Glass Layer 3: Apex Floating Card (Overlapping Layer 1 & 2) */}
+              {/* Glass Layer 3: Apex Floating Card (Z: 80px, Heavy Diffusion, Casts shadow on Layer 2 & 1) */}
               <div className={`glass-layer layer-3 glass-3d-card ${enableTilt ? 'tilt-active' : ''}`}>
                 <div className="layer-badge">
-                  <span className="layer-dot" style={{ backgroundColor: '#A78BFA' }} /> Layer 03: Apex 3D Control Surface
+                  <span className="layer-dot" style={{ backgroundColor: '#A78BFA' }} /> Layer 03: Apex 3D Control Surface (Z: 80px • blur: 34px)
                 </div>
                 <div className="layer-content">
-                  <h4>3D Polished Apex</h4>
+                  <h4>Triple Optical Overlap</h4>
                   <p>
-                    Uppermost dimensional surface with full chamfer beveling and iridescent rim refraction.
+                    Uppermost dimensional surface with full chamfer beveling and iridescent rim refraction. Background stripes transmit through all 3 tiers.
                   </p>
                   <div className="apex-buttons">
                     <GlassButton variant="primary" icon={<Sparkles size={14} />}>
@@ -473,7 +680,7 @@ export const GlassLab: React.FC<GlassLabProps> = ({
                   </div>
                   <h3>Full-Stack Core Architecture</h3>
                   <p>
-                    Engineered with React 19, TypeScript 5.7, and Vite 6. Features multi-stage CSS tokenization and hardware-accelerated transforms.
+                    Engineered with React 19, TypeScript 5.7, and Vite 6. Features multi-stage CSS tokenization, directional softbox highlights, and hardware-accelerated transforms.
                   </p>
                 </div>
                 <div className="card-footer-stats">
@@ -487,7 +694,7 @@ export const GlassLab: React.FC<GlassLabProps> = ({
                   </div>
                   <div className="stat-chunk">
                     <span className="chunk-label">EXTRUSION</span>
-                    <span className="chunk-value">12mm</span>
+                    <span className="chunk-value">{thicknessAmount}px</span>
                   </div>
                 </div>
               </GlassCard>
@@ -508,7 +715,7 @@ export const GlassLab: React.FC<GlassLabProps> = ({
                   </div>
                   <h3>Beveled Edge Chamfering</h3>
                   <p>
-                    Calculated 45-degree angle reflection boundaries. Specular white top edge catches simulated environmental light while bottom border grounds the object.
+                    Calculated 45-degree angle reflection boundaries. Specular white top edge catches overhead key light while bottom border grounds the object with realistic contact occlusion.
                   </p>
                 </div>
                 <div className="card-buttons-row">
@@ -660,16 +867,16 @@ export const GlassLab: React.FC<GlassLabProps> = ({
           </section>
 
           {/* -------------------------------------------------------------------
-              SECTION 6: DEDICATED 3D GLASS IMAGE FRAME & SATELLITE CHIPS
+              SECTION 6: DEDICATED 3D GLASS IMAGE FRAME & PB GLASS GEM (Task 8)
               ------------------------------------------------------------------- */}
           <section className="lab-section">
             <div className="section-heading">
               <div className="section-eyebrow">
                 <Eye size={16} /> IDENTITY & SATELLITE SYSTEM
               </div>
-              <h2>Dedicated 3D Glass Image Frame & Satellite Chips</h2>
+              <h2>Dedicated 3D Glass Image Frame & PB Glass Gem</h2>
               <p>
-                Visual frame with thick beveled borders, internal lens refraction shadow, specular top crescent, and hovering satellite info chips.
+                Visual frame with thick beveled borders, internal optical lens chamber, and a faceted thick glass PB identity block floating inside.
               </p>
             </div>
 
@@ -681,14 +888,18 @@ export const GlassLab: React.FC<GlassLabProps> = ({
                   interactive
                   className="showcase-photo-frame"
                 >
-                  {/* Framed Graphic Representation */}
+                  {/* Framed Graphic Representation with Crystalline PB Block */}
                   <div className="photo-placeholder-art">
-                    <div className="portrait-silhouette">
-                      <div className="silhouette-head" />
-                      <div className="silhouette-torso" />
-                    </div>
                     <div className="portrait-geometric-rings" />
-                    <div className="portrait-brand-mark">PB</div>
+                    
+                    {/* The Thick 3D Glass PB Identity Gem */}
+                    <div className="portrait-glass-gem">
+                      <span className="gem-initials">PB</span>
+                    </div>
+
+                    <div className="portrait-silhouette" style={{ position: 'absolute', bottom: '0', opacity: 0.35 }}>
+                      <div className="silhouette-torso" style={{ width: '160px', height: '60px' }} />
+                    </div>
                   </div>
                 </GlassImageFrame>
 
@@ -696,7 +907,7 @@ export const GlassLab: React.FC<GlassLabProps> = ({
                 <GlassFloatingElement
                   icon={<Cpu size={16} />}
                   label="IT Engineering"
-                  sublabel="Pillai College of Engineering"
+                  sublabel="SGGSIE&T Nanded"
                   className="satellite-chip satellite-top-right"
                 />
 
@@ -724,35 +935,35 @@ export const GlassLab: React.FC<GlassLabProps> = ({
             <GlassPanel className="lab-summary-box">
               <div className="summary-header">
                 <span className="summary-pill">VERIFICATION CHECKLIST</span>
-                <h3>Phase 1 & 2 Material Readiness</h3>
+                <h3>Phase 1 & 2 Refinement Readiness</h3>
               </div>
               <div className="summary-checklist-grid">
                 <div className="check-item">
                   <div className="check-icon"><Check size={16} /></div>
                   <div className="check-text">
-                    <strong>Reference 1 Diffusion</strong>
-                    <span>Tested with 32px backdrop blur, 175% saturation, and realistic background visibility.</span>
+                    <strong>Genuine Background Transparency</strong>
+                    <span>Neutral 5–15% opacity fills with real backdrop diffusion, eliminating heavy opaque card backgrounds.</span>
                   </div>
                 </div>
                 <div className="check-item">
                   <div className="check-icon"><Check size={16} /></div>
                   <div className="check-text">
-                    <strong>Reference 2 3D Geometry</strong>
-                    <span>Polished 45° chamfer bevels, simulated sidewall extrusion, contact and ambient shadows.</span>
+                    <strong>7-Layer 3D Physical Geometry</strong>
+                    <span>Polished 45° chamfer bevels, simulated sidewalls, directional softbox highlights, and contact shadows.</span>
                   </div>
                 </div>
                 <div className="check-item">
                   <div className="check-icon"><Check size={16} /></div>
                   <div className="check-text">
-                    <strong>8 Reusable Components</strong>
-                    <span>GlassPanel, GlassCard, GlassButton, GlassNavigation, GlassPill, GlassIconButton, GlassImageFrame, GlassFloatingElement.</span>
+                    <strong>High-Contrast Neutral Studio</strong>
+                    <span>Tested against resolution line gauges, Siemens star, and color charts to prove real material physics.</span>
                   </div>
                 </div>
                 <div className="check-item">
                   <div className="check-icon"><Check size={16} /></div>
                   <div className="check-text">
-                    <strong>Light & Dark Coherence</strong>
-                    <span>Full light mode support with white specular highlights, cool-grey bottom bevels, and WCAG AA contrast.</span>
+                    <strong>8 Real-Time Sliders & 5 Presets</strong>
+                    <span>Full control over blur, transparency, saturation, tint, edge sheen, bevels, thickness, and shadows.</span>
                   </div>
                 </div>
               </div>

@@ -5,6 +5,7 @@ import { PROFILE } from '../data/profile';
 import { GlassButton } from '../components/glass/GlassButton';
 import { GlassPanel } from '../components/glass/GlassPanel';
 import { GlassBadge } from '../components/glass/GlassBadge';
+import { GlassFloatingElement } from '../components/glass/GlassFloatingElement';
 import { Container } from '../components/layout/Container';
 
 export const Hero: React.FC = () => {
@@ -123,26 +124,20 @@ export const Hero: React.FC = () => {
                 <div className="lens-bottom-bevel" aria-hidden="true" />
               </GlassPanel>
 
-              {/* Floating Optical Glass Satellite Chips */}
-              <GlassPanel variant="droplet" className="floating-satellite satellite-left">
-                <span className="satellite-icon-wrap">
-                  <Terminal size={15} aria-hidden="true" />
-                </span>
-                <div>
-                  <div className="satellite-title">Core Focus</div>
-                  <div className="satellite-desc">DSA & Web Systems</div>
-                </div>
-              </GlassPanel>
+              {/* Floating Optical Glass Satellite Chips (Refined Task 8) */}
+              <GlassFloatingElement
+                icon={<Terminal size={15} aria-hidden="true" />}
+                label="Core Focus"
+                sublabel="DSA & Web Systems"
+                className="floating-satellite satellite-left"
+              />
 
-              <GlassPanel variant="droplet" className="floating-satellite satellite-right">
-                <span className="satellite-icon-wrap">
-                  <Laptop size={15} aria-hidden="true" />
-                </span>
-                <div>
-                  <div className="satellite-title">Environment</div>
-                  <div className="satellite-desc">Linux & Git Workflows</div>
-                </div>
-              </GlassPanel>
+              <GlassFloatingElement
+                icon={<Laptop size={15} aria-hidden="true" />}
+                label="Environment"
+                sublabel="Linux & Git Workflows"
+                className="floating-satellite satellite-right"
+              />
             </div>
           </div>
         </div>
