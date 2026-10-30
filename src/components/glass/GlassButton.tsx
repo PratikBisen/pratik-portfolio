@@ -1,7 +1,7 @@
 import React, { AnchorHTMLAttributes, ButtonHTMLAttributes, forwardRef } from 'react';
 
 type BaseProps = {
-  variant?: 'primary' | 'secondary' | 'control';
+  variant?: 'primary' | 'secondary' | 'glass' | 'control';
   icon?: React.ReactNode;
   iconPosition?: 'left' | 'right';
   className?: string;
@@ -35,20 +35,24 @@ export const GlassButton = forwardRef<HTMLButtonElement | HTMLAnchorElement, Gla
       ...rest
     } = props;
 
-    let variantClass = 'liquid-btn-secondary';
+    let variantClass = 'glass-3d-button';
     if (variant === 'primary') {
-      variantClass = 'liquid-btn-primary';
+      variantClass = 'glass-3d-button glass-3d-btn-primary';
     } else if (variant === 'control') {
-      variantClass = 'liquid-glass-control';
+      variantClass = 'glass-3d-button';
     }
 
     const classes = [variantClass, className].filter(Boolean).join(' ');
 
     const content = (
       <>
-        {icon && iconPosition === 'left' && <span className="liquid-btn-icon" style={{ display: 'inline-flex', alignItems: 'center' }}>{icon}</span>}
+        {icon && iconPosition === 'left' && (
+          <span style={{ display: 'inline-flex', alignItems: 'center' }}>{icon}</span>
+        )}
         <span>{children}</span>
-        {icon && iconPosition === 'right' && <span className="liquid-btn-icon" style={{ display: 'inline-flex', alignItems: 'center' }}>{icon}</span>}
+        {icon && iconPosition === 'right' && (
+          <span style={{ display: 'inline-flex', alignItems: 'center' }}>{icon}</span>
+        )}
       </>
     );
 
@@ -61,9 +65,9 @@ export const GlassButton = forwardRef<HTMLButtonElement | HTMLAnchorElement, Gla
         <a
           ref={ref as React.Ref<HTMLAnchorElement>}
           href={href}
-          className={classes}
           target={externalTarget}
           rel={externalRel}
+          className={classes}
           {...anchorProps}
         >
           {content}
@@ -71,7 +75,7 @@ export const GlassButton = forwardRef<HTMLButtonElement | HTMLAnchorElement, Gla
       );
     }
 
-    const buttonProps = rest as ButtonHTMLAttributes<HTMLButtonElement>;
+    const buttonProps = rest as ButtonAsButton;
     return (
       <button
         ref={ref as React.Ref<HTMLButtonElement>}

@@ -10,13 +10,60 @@ import { Projects } from '../sections/Projects';
 import { Experience } from '../sections/Experience';
 import { Education } from '../sections/Education';
 import { Contact } from '../sections/Contact';
+import { GlassLab } from '../pages/GlassLab';
+import { FlaskConical } from 'lucide-react';
 
 export const App: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
   const [activeSection, setActiveSection] = useState<string>('hero');
 
-  // Track active section on scroll
+  // Simple client-side routing for /glass-lab
+  const checkIsLab = () => {
+    if (typeof window === 'undefined') return false;
+    const path = window.location.pathname;
+    const hash = window.location.hash;
+    const search = new URLSearchParams(window.location.search);
+    return (
+      path === '/glass-lab' ||
+      path.endsWith('/glass-lab') ||
+      hash === '#/glass-lab' ||
+      hash === '#glass-lab' ||
+      search.get('view') === 'glass-lab'
+    );
+  };
+
+  const [isLab, setIsLab] = useState<boolean>(checkIsLab);
+
   useEffect(() => {
+    const handleLocationChange = () => {
+      setIsLab(checkIsLab());
+    };
+
+    window.addEventListener('popstate', handleLocationChange);
+    window.addEventListener('hashchange', handleLocationChange);
+
+    return () => {
+      window.removeEventListener('popstate', handleLocationChange);
+      window.removeEventListener('hashchange', handleLocationChange);
+    };
+  }, []);
+
+  const navigateToLab = () => {
+    window.history.pushState({}, '', '/glass-lab');
+    setIsLab(true);
+    window.scrollTo(0, 0);
+  };
+
+  const navigateToPortfolio = () => {
+    window.history.pushState({}, '', '/');
+    setIsLab(false);
+    window.scrollTo(0, 0);
+  };
+
+  // Track active section on scroll for main portfolio
+  useEffect(() => {
+    if (isLab) return;
+
     const sectionIds = ['hero', ...NAV_ITEMS.map((item) => item.id)];
     const sections = sectionIds
       .map((id) => document.getElementById(id))
@@ -41,7 +88,17 @@ export const App: React.FC = () => {
     return () => {
       sections.forEach((section) => observer.unobserve(section));
     };
-  }, []);
+  }, [isLab]);
+
+  if (isLab) {
+    return (
+      <GlassLab
+        theme={theme}
+        onToggleTheme={toggleTheme}
+        onBackToPortfolio={navigateToPortfolio}
+      />
+    );
+  }
 
   return (
     <>
@@ -80,6 +137,34 @@ export const App: React.FC = () => {
 
         <Footer />
       </div>
+
+      {/* Floating launcher to Material Test Lab */}
+      <button
+        onClick={navigateToLab}
+        className="glass-3d-button lab-floating-launcher"
+        aria-label="Open 3D Frosted Glass Laboratory"
+        style={{
+          position: 'fixed',
+          bottom: '24px',
+          right: '24px',
+          zIndex: 9999,
+          padding: '0.65rem 1.25rem',
+          fontSize: '0.8rem',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          background: 'rgba(20, 26, 44, 0.75)',
+          backdropFilter: 'blur(20px)',
+          border: '1.5px solid rgba(255, 255, 255, 0.4)',
+          borderTop: '2px solid #FFFFFF',
+          borderRadius: '9999px',
+          boxShadow: '0 12px 32px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.8)',
+          cursor: 'pointer',
+        }}
+      >
+        <FlaskConical size={16} color="var(--accent)" />
+        <span style={{ fontWeight: 700 }}>Material Lab</span>
+      </button>
     </>
   );
 };

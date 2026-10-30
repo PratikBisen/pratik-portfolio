@@ -1,0 +1,1211 @@
+/**
+ * glass-lab.css
+ * Dedicated visual verification laboratory for Phase 2.
+ * High-contrast scenes, layered stacking, and interactive 3D material testing.
+ */
+
+.glass-lab-root {
+  position: relative;
+  min-height: 100vh;
+  background-color: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  padding-bottom: var(--space-16);
+  transition: background-color var(--duration-normal) var(--ease-liquid);
+}
+
+/* ==========================================================================
+   Background Test Scenes (High-contrast patterns to test refraction & frost)
+   ========================================================================== */
+
+.lab-background-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+/* 1. Aurora Cosmic Scene */
+.scene-aurora {
+  position: absolute;
+  inset: 0;
+}
+
+.aurora-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.6;
+  animation: floatOrb 20s infinite alternate ease-in-out;
+}
+
+.orb-1 {
+  width: 650px;
+  height: 650px;
+  background: radial-gradient(circle, #3B82F6 0%, #1D4ED8 60%, transparent 80%);
+  top: -150px;
+  left: -100px;
+}
+
+.orb-2 {
+  width: 550px;
+  height: 550px;
+  background: radial-gradient(circle, #8B5CF6 0%, #6D28D9 60%, transparent 80%);
+  top: 30%;
+  right: -80px;
+  animation-delay: -5s;
+}
+
+.orb-3 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, #EC4899 0%, #BE185D 60%, transparent 80%);
+  bottom: 10%;
+  left: 20%;
+  animation-delay: -10s;
+}
+
+.orb-4 {
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, #06B6D4 0%, #0891B2 60%, transparent 80%);
+  top: 60%;
+  right: 25%;
+  animation-delay: -15s;
+}
+
+.aurora-mesh-lines {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.7;
+}
+
+@keyframes floatOrb {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(40px, -30px) scale(1.08); }
+  100% { transform: translate(-30px, 40px) scale(0.95); }
+}
+
+/* 2. Chroma High-Contrast Geometric Scene */
+.scene-chroma {
+  position: absolute;
+  inset: 0;
+}
+
+.chroma-stripe {
+  position: absolute;
+  transform: rotate(-35deg);
+  opacity: 0.65;
+}
+
+.stripe-1 {
+  width: 300px;
+  height: 2000px;
+  background: linear-gradient(180deg, #FF0055 0%, #FFAA00 100%);
+  top: -400px;
+  left: 10%;
+}
+
+.stripe-2 {
+  width: 240px;
+  height: 2000px;
+  background: linear-gradient(180deg, #00F0FF 0%, #0044FF 100%);
+  top: -300px;
+  left: 45%;
+}
+
+.stripe-3 {
+  width: 200px;
+  height: 2000px;
+  background: linear-gradient(180deg, #7928CA 0%, #FF0080 100%);
+  top: -500px;
+  left: 75%;
+}
+
+.chroma-disc {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.disc-1 {
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, #FFE600 0%, #FF5E00 100%);
+  top: 25%;
+  left: 15%;
+}
+
+.disc-2 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, #00FF66 0%, #0099FF 100%);
+  bottom: 20%;
+  right: 15%;
+}
+
+.chroma-checkerboard {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(45deg, rgba(255, 255, 255, 0.08) 25%, transparent 25%), 
+    linear-gradient(-45deg, rgba(255, 255, 255, 0.08) 25%, transparent 25%), 
+    linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.08) 75%), 
+    linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.08) 75%);
+  background-size: 40px 40px;
+  background-position: 0 0, 0 20px, 20px -20px, -20px 0px;
+}
+
+/* 3. Cyber Grid Scene */
+.scene-cyber {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 30%, #150030 0%, #050010 100%);
+}
+
+.cyber-grid {
+  position: absolute;
+  bottom: 0;
+  left: -50%;
+  right: -50%;
+  height: 60%;
+  background-image: 
+    linear-gradient(rgba(0, 240, 255, 0.35) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, 0.35) 1px, transparent 1px);
+  background-size: 50px 50px;
+  transform: perspective(500px) rotateX(65deg);
+  transform-origin: bottom center;
+}
+
+.cyber-horizon {
+  position: absolute;
+  top: 40%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, #00F0FF 25%, #FF00AA 75%, transparent 100%);
+  box-shadow: 0 0 20px #00F0FF;
+}
+
+.cyber-glow-cone {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255, 0, 170, 0.45) 0%, transparent 70%);
+  filter: blur(40px);
+}
+
+.cyber-neon-rect {
+  position: absolute;
+  border: 3px solid;
+}
+
+.cyber-neon-rect.r1 {
+  width: 250px;
+  height: 250px;
+  border-color: #00F0FF;
+  box-shadow: 0 0 30px #00F0FF;
+  top: 20%;
+  left: 10%;
+  transform: rotate(25deg);
+}
+
+.cyber-neon-rect.r2 {
+  width: 320px;
+  height: 320px;
+  border-color: #FF0088;
+  box-shadow: 0 0 35px #FF0088;
+  bottom: 15%;
+  right: 8%;
+  transform: rotate(-15deg);
+}
+
+/* 4. Studio Scene */
+.scene-studio {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.studio-spotlight {
+  position: absolute;
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
+  top: 20%;
+}
+
+.studio-contrast-card {
+  position: absolute;
+  border-radius: 20px;
+}
+
+.studio-contrast-card.c1 {
+  width: 400px;
+  height: 600px;
+  background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  top: 15%;
+  left: 8%;
+}
+
+.studio-contrast-card.c2 {
+  width: 380px;
+  height: 550px;
+  background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+  bottom: 15%;
+  right: 8%;
+}
+
+.studio-typography {
+  position: absolute;
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 12vw, 10rem);
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.12);
+  letter-spacing: 0.1em;
+  user-select: none;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   Laboratory Layout & Controls Console
+   ========================================================================== */
+
+.lab-container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+  position: relative;
+  z-index: 10;
+}
+
+.lab-header {
+  padding-top: var(--space-6);
+  padding-bottom: var(--space-6);
+}
+
+.lab-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-6);
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.lab-brand-cluster {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.lab-back-button {
+  padding: 0.55rem 1.15rem !important;
+  font-size: var(--text-xs) !important;
+}
+
+.lab-brand-title {
+  display: flex;
+  flex-direction: column;
+}
+
+.lab-badge-live {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.lab-brand-title h1 {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.lab-actions-cluster {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.lab-control-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.lab-control-label {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.scene-switcher-buttons {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  background: rgba(0, 0, 0, 0.25);
+  padding: 3px;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.scene-chip {
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--duration-fast) ease;
+}
+
+.scene-chip:hover {
+  color: var(--text);
+}
+
+.scene-chip.active {
+  background: var(--accent);
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px var(--accent-glow);
+}
+
+/* Live Sliders Bar */
+.lab-sliders-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr) auto;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-6);
+  margin-top: var(--space-3);
+  align-items: center;
+}
+
+.slider-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--text-xs);
+}
+
+.slider-title {
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.slider-val {
+  font-weight: 700;
+  color: var(--accent);
+  font-family: monospace;
+}
+
+.lab-range {
+  width: 100%;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.slider-toggles {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.tilt-toggle,
+.reset-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  transition: all var(--duration-fast) ease;
+}
+
+.tilt-toggle.active {
+  background: var(--accent-surface);
+  border-color: var(--accent-surface-border);
+  color: var(--accent);
+}
+
+.reset-button:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* ==========================================================================
+   Laboratory Main Sections
+   ========================================================================== */
+
+.lab-section {
+  margin-top: var(--space-12);
+}
+
+.section-heading {
+  margin-bottom: var(--space-6);
+}
+
+.section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: var(--space-1);
+}
+
+.section-heading h2 {
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  margin: 0 0 var(--space-2) 0;
+  line-height: 1.2;
+}
+
+.section-heading p {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  max-width: 680px;
+  margin: 0;
+}
+
+/* ==========================================================================
+   Section 1: Matrix Grid
+   ========================================================================== */
+
+.matrix-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-5);
+}
+
+.matrix-card-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.matrix-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.matrix-pill {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+}
+
+.matrix-card-header h3 {
+  font-size: var(--text-base);
+  font-weight: 700;
+  margin: 0;
+}
+
+.matrix-meta {
+  font-size: 0.72rem;
+  color: var(--text-subtle);
+  font-family: monospace;
+}
+
+.matrix-card-content {
+  min-height: 220px;
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.spec-desc {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: var(--space-3);
+}
+
+.spec-indicators {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.indicator-chip {
+  font-size: 0.68rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   Section 2: Layered Overlapping Stack
+   ========================================================================== */
+
+.layered-stack-stage {
+  position: relative;
+  min-height: 480px;
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  padding: var(--space-8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.stack-underlay-pattern {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.underlay-text-big {
+  font-family: var(--font-display);
+  font-size: 6rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.15);
+  user-select: none;
+}
+
+.underlay-radial-target {
+  position: absolute;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  border: 24px solid rgba(236, 72, 153, 0.4);
+  box-shadow: 0 0 60px rgba(236, 72, 153, 0.5);
+  top: 15%;
+  left: 20%;
+}
+
+.underlay-stripe-band {
+  position: absolute;
+  width: 120%;
+  height: 48px;
+  background: repeating-linear-gradient(
+    45deg,
+    #3B82F6,
+    #3B82F6 20px,
+    #1D4ED8 20px,
+    #1D4ED8 40px
+  );
+  transform: rotate(-15deg);
+  bottom: 20%;
+  opacity: 0.6;
+}
+
+.glass-layer {
+  position: absolute;
+  padding: var(--space-6);
+  transition: transform var(--duration-normal) var(--ease-spring);
+}
+
+.glass-layer.layer-1 {
+  width: 65%;
+  min-height: 300px;
+  top: 40px;
+  left: 40px;
+  z-index: 1;
+}
+
+.glass-layer.layer-2 {
+  width: 55%;
+  min-height: 260px;
+  top: 120px;
+  left: 280px;
+  z-index: 2;
+}
+
+.glass-layer.layer-3 {
+  width: 48%;
+  min-height: 240px;
+  top: 200px;
+  left: 480px;
+  z-index: 3;
+}
+
+.layer-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-3);
+  color: var(--text-muted);
+}
+
+.layer-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #10B981;
+}
+
+.layer-content h4 {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  margin: 0 0 var(--space-2) 0;
+}
+
+.layer-content p {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: var(--space-4);
+}
+
+.layer-stats {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.apex-buttons {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* ==========================================================================
+   Section 3: 3D Showcase Cards
+   ========================================================================== */
+
+.cards-showcase-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-6);
+}
+
+.showcase-card {
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.card-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-serial {
+  font-family: monospace;
+  font-size: 0.72rem;
+  color: var(--text-subtle);
+  letter-spacing: 0.06em;
+}
+
+.card-icon-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-lg);
+  background: var(--accent-surface);
+  border: 1px solid var(--accent-surface-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  margin-bottom: var(--space-3);
+}
+
+.card-body h3 {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  margin: 0 0 var(--space-2) 0;
+}
+
+.card-body p {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.card-footer-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2);
+  padding-top: var(--space-3);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-chunk {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.chunk-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--text-subtle);
+}
+
+.chunk-value {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--text);
+  font-family: monospace;
+}
+
+.card-buttons-row {
+  display: flex;
+  gap: var(--space-3);
+  padding-top: var(--space-2);
+}
+
+/* ==========================================================================
+   Section 4: Navigation Dock Demo Stage
+   ========================================================================== */
+
+.nav-dock-demo-stage {
+  padding: var(--space-10) 0;
+  display: flex;
+  justify-content: center;
+}
+
+.nav-dock-inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.nav-dock-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.dock-logo {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--text-sm);
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dock-title {
+  font-weight: 700;
+  font-size: var(--text-sm);
+  color: var(--text);
+}
+
+.nav-dock-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.nav-tab-btn {
+  position: relative;
+  padding: 0.38rem 0.85rem;
+  border-radius: var(--radius-full);
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--duration-fast) ease;
+}
+
+.nav-tab-btn:hover {
+  color: var(--text);
+}
+
+.nav-tab-btn.active {
+  color: #FFFFFF;
+}
+
+.active-tab-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-full);
+  background: var(--accent-surface);
+  border: 1px solid var(--accent-surface-border);
+  box-shadow: 0 0 12px var(--accent-glow);
+  z-index: -1;
+}
+
+.nav-dock-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* ==========================================================================
+   Section 5: Controls Specimen Grid
+   ========================================================================== */
+
+.controls-specimen-grid {
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.specimen-row {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: var(--space-6);
+  align-items: center;
+  padding-bottom: var(--space-6);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.specimen-row:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.specimen-desc {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.specimen-tag {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+}
+
+.specimen-desc h4 {
+  font-size: var(--text-base);
+  font-weight: 700;
+  margin: 0;
+}
+
+.specimen-items {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+/* ==========================================================================
+   Section 6: Dedicated 3D Image Frame & Satellites
+   ========================================================================== */
+
+.image-frame-showcase-stage {
+  padding: var(--space-8) 0;
+  display: flex;
+  justify-content: center;
+}
+
+.frame-center-column {
+  position: relative;
+  width: 320px;
+  height: 320px;
+}
+
+.showcase-photo-frame {
+  width: 100%;
+  height: 100%;
+}
+
+.photo-placeholder-art {
+  width: 100%;
+  height: 100%;
+  border-radius: calc(var(--radius-pod) - var(--space-4));
+  background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.portrait-silhouette {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0.75;
+}
+
+.silhouette-head {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #60A5FA 0%, #3B82F6 100%);
+  margin-bottom: 6px;
+}
+
+.silhouette-torso {
+  width: 140px;
+  height: 90px;
+  border-radius: 70px 70px 0 0;
+  background: linear-gradient(180deg, #3B82F6 0%, #1E3A8A 100%);
+}
+
+.portrait-geometric-rings {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 255, 255, 0.25);
+  pointer-events: none;
+}
+
+.portrait-brand-mark {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--text-lg);
+  color: rgba(255, 255, 255, 0.2);
+}
+
+/* Satellite Floating Elements */
+.satellite-chip {
+  position: absolute;
+  z-index: 10;
+  white-space: nowrap;
+}
+
+.satellite-top-right {
+  top: -20px;
+  right: -80px;
+}
+
+.satellite-bottom-left {
+  bottom: 20px;
+  left: -90px;
+}
+
+.satellite-bottom-right {
+  bottom: -30px;
+  right: -60px;
+}
+
+/* ==========================================================================
+   Section 7: Summary Box
+   ========================================================================== */
+
+.lab-summary-box {
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.summary-pill {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #10B981;
+}
+
+.summary-header h3 {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  margin: var(--space-1) 0 0 0;
+}
+
+.summary-checklist-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+}
+
+.check-item {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding: var(--space-3);
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.check-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(16, 185, 129, 0.2);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #10B981;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.check-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.check-text strong {
+  font-size: var(--text-sm);
+  color: var(--text);
+}
+
+.check-text span {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.summary-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+  .matrix-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .lab-sliders-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .glass-layer.layer-1 {
+    width: 80%;
+  }
+
+  .glass-layer.layer-2 {
+    width: 75%;
+    left: 120px;
+  }
+
+  .glass-layer.layer-3 {
+    width: 70%;
+    left: 200px;
+  }
+
+  .cards-showcase-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .lab-header-inner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .lab-brand-cluster {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+
+  .lab-actions-cluster {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .lab-control-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .scene-switcher-buttons {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .matrix-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lab-sliders-bar {
+    grid-template-columns: 1fr;
+  }
+
+  .specimen-row {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+
+  .summary-checklist-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .layered-stack-stage {
+    min-height: 600px;
+    padding: var(--space-4);
+  }
+
+  .glass-layer.layer-1 {
+    width: calc(100% - 20px);
+    left: 10px;
+    top: 20px;
+  }
+
+  .glass-layer.layer-2 {
+    width: calc(100% - 20px);
+    left: 10px;
+    top: 200px;
+  }
+
+  .glass-layer.layer-3 {
+    width: calc(100% - 20px);
+    left: 10px;
+    top: 380px;
+  }
+
+  .satellite-chip {
+    position: static;
+    margin-top: var(--space-3);
+  }
+
+  .frame-center-column {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}

@@ -1,10 +1,10 @@
 import React, { ElementType, forwardRef } from 'react';
-import { GlassPanel } from './GlassPanel';
 
 export interface GlassCardProps extends React.HTMLAttributes<HTMLElement> {
   as?: ElementType;
-  hoverEffect?: boolean;
-  lens?: boolean;
+  variant?: 'card' | 'thick-3d' | 'frosted' | 'surface';
+  interactive?: boolean;
+  perspectiveTilt?: boolean;
   className?: string;
   children?: React.ReactNode;
 }
@@ -12,9 +12,10 @@ export interface GlassCardProps extends React.HTMLAttributes<HTMLElement> {
 export const GlassCard = forwardRef<HTMLElement, GlassCardProps>(
   (
     {
-      as = 'div',
-      hoverEffect = true,
-      lens = false,
+      as: Component = 'div',
+      variant = 'card',
+      interactive = true,
+      perspectiveTilt = false,
       className = '',
       children,
       style,
@@ -22,22 +23,29 @@ export const GlassCard = forwardRef<HTMLElement, GlassCardProps>(
     },
     ref
   ) => {
-    const cardStyle: React.CSSProperties = {
-      padding: 'var(--space-6)',
-      ...style,
-    };
+    let baseClass = 'glass-3d-card';
+    if (variant === 'thick-3d') {
+      baseClass = 'glass-3d-card material-sample-thick-3d';
+    } else if (variant === 'frosted') {
+      baseClass = 'glass-3d-card material-sample-frosted';
+    }
+
+    const interactiveClass = interactive ? 'glass-3d-card-interactive' : '';
+    const tiltStyle: React.CSSProperties = perspectiveTilt
+      ? { transform: 'perspective(1000px) rotateX(4deg) rotateY(-4deg)' }
+      : {};
+
+    const combinedClasses = [baseClass, interactiveClass, className].filter(Boolean).join(' ');
 
     return (
-      <GlassPanel
+      <Component
         ref={ref}
-        as={as}
-        variant={lens ? 'lens' : 'surface'}
-        className={className}
-        style={cardStyle}
+        className={combinedClasses}
+        style={{ ...tiltStyle, ...style }}
         {...rest}
       >
         {children}
-      </GlassPanel>
+      </Component>
     );
   }
 );

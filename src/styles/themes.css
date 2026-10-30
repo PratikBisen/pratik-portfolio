@@ -50,6 +50,42 @@
   --liquid-shadow-ambient: 0 24px 48px -12px rgba(0, 0, 0, 0.65);
   --liquid-shadow-floating: 0 32px 64px -16px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.12);
 
+  /* 3D Frosted Glass Material Tokens (Ref 1 Frost + Ref 2 3D Geometry) */
+  --fg-blur: 28px;
+  --fg-saturation: 175%;
+  --fg-fill: rgba(255, 255, 255, 0.08);
+  --fg-surface-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.03) 50%, rgba(255, 255, 255, 0.08) 100%);
+  --fg-border: rgba(255, 255, 255, 0.16);
+  --fg-bevel-top: rgba(255, 255, 255, 0.65);
+  --fg-bevel-left: rgba(255, 255, 255, 0.45);
+  --fg-bevel-bottom: rgba(0, 0, 0, 0.45);
+  --fg-bevel-right: rgba(0, 0, 0, 0.25);
+  --fg-inset-bevel: inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.65), inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.35);
+  --fg-inset-bevel-thick: inset 0 2px 3px 0 rgba(255, 255, 255, 0.8), inset 0 -2px 4px 0 rgba(0, 0, 0, 0.5), inset 1px 0 2px 0 rgba(255, 255, 255, 0.35);
+  --fg-shadow-contact: 0 2px 6px -1px rgba(0, 0, 0, 0.4);
+  --fg-shadow-thickness: 0 10px 24px -5px rgba(0, 0, 0, 0.5);
+  --fg-shadow-thickness-deep: 0 18px 38px -8px rgba(0, 0, 0, 0.65);
+  --fg-shadow-ambient: 0 32px 64px -16px rgba(0, 0, 0, 0.75);
+  --fg-sheen: radial-gradient(ellipse 80% 35% at 50% 0%, rgba(255, 255, 255, 0.25) 0%, transparent 100%);
+  --fg-sheen-color: rgba(255, 255, 255, 0.25);
+  --fg-iridescent-rim: linear-gradient(135deg, rgba(140, 215, 255, 0.75) 0%, rgba(255, 255, 255, 0.9) 25%, rgba(255, 255, 255, 0.1) 60%, rgba(215, 170, 255, 0.65) 100%);
+  --fg-rim-opacity: 0.75;
+  --fg-panel-fill: rgba(20, 26, 44, 0.45);
+  --fg-panel-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.02) 60%, rgba(255, 255, 255, 0.06) 100%);
+  --fg-card-fill: rgba(255, 255, 255, 0.07);
+  --fg-card-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.02) 50%, rgba(255, 255, 255, 0.09) 100%);
+  --fg-card-sheen: radial-gradient(ellipse 90% 40% at 50% 0%, rgba(255, 255, 255, 0.28) 0%, transparent 100%);
+  --fg-btn-fill: rgba(255, 255, 255, 0.10);
+  --fg-btn-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.06) 100%);
+  --fg-btn-hover: rgba(255, 255, 255, 0.16);
+  --fg-btn-primary-bg: linear-gradient(135deg, #2D79FF 0%, #7645D9 100%);
+  --fg-dock-fill: rgba(14, 18, 30, 0.55);
+  --fg-dock-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.03) 100%);
+  --fg-pill-fill: rgba(255, 255, 255, 0.08);
+  --fg-pill-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.04) 100%);
+  --fg-floating-fill: rgba(20, 26, 44, 0.65);
+  --fg-floating-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.04) 100%);
+
   /* Fallback for non-backdrop-filter engines */
   --liquid-fallback-bg: #0D101A;
   --liquid-fallback-border: #1E2435;
@@ -111,6 +147,42 @@
   --liquid-shadow-contact: 0 2px 6px -1px rgba(15, 23, 42, 0.08);
   --liquid-shadow-ambient: 0 20px 40px -15px rgba(15, 23, 42, 0.12);
   --liquid-shadow-floating: 0 28px 60px -18px rgba(15, 23, 42, 0.16), 0 0 0 1px rgba(255, 255, 255, 0.85);
+
+  /* 3D Frosted Glass Material Tokens (Ref 1 Frost + Ref 2 3D Geometry) */
+  --fg-blur: 24px;
+  --fg-saturation: 160%;
+  --fg-fill: rgba(255, 255, 255, 0.52);
+  --fg-surface-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.35) 50%, rgba(255, 255, 255, 0.55) 100%);
+  --fg-border: rgba(255, 255, 255, 0.75);
+  --fg-bevel-top: #FFFFFF;
+  --fg-bevel-left: rgba(255, 255, 255, 0.95);
+  --fg-bevel-bottom: rgba(180, 195, 215, 0.45);
+  --fg-bevel-right: rgba(180, 195, 215, 0.30);
+  --fg-inset-bevel: inset 0 1.5px 2px 0 #FFFFFF, inset 0 -1.5px 2px 0 rgba(160, 180, 210, 0.3);
+  --fg-inset-bevel-thick: inset 0 2px 3px 0 #FFFFFF, inset 0 -2px 3px 0 rgba(160, 180, 210, 0.4), inset 1px 0 2px 0 #FFFFFF;
+  --fg-shadow-contact: 0 2px 6px -1px rgba(15, 23, 42, 0.08);
+  --fg-shadow-thickness: 0 10px 24px -5px rgba(15, 23, 42, 0.12);
+  --fg-shadow-thickness-deep: 0 18px 38px -8px rgba(15, 23, 42, 0.16);
+  --fg-shadow-ambient: 0 30px 60px -16px rgba(15, 23, 42, 0.15);
+  --fg-sheen: radial-gradient(ellipse 80% 35% at 50% 0%, rgba(255, 255, 255, 0.8) 0%, transparent 100%);
+  --fg-sheen-color: rgba(255, 255, 255, 0.8);
+  --fg-iridescent-rim: linear-gradient(135deg, rgba(160, 220, 255, 0.8) 0%, rgba(255, 255, 255, 0.95) 25%, rgba(255, 255, 255, 0.3) 60%, rgba(225, 190, 255, 0.7) 100%);
+  --fg-rim-opacity: 0.9;
+  --fg-panel-fill: rgba(255, 255, 255, 0.62);
+  --fg-panel-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.5) 60%, rgba(255, 255, 255, 0.65) 100%);
+  --fg-card-fill: rgba(255, 255, 255, 0.55);
+  --fg-card-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.45) 50%, rgba(255, 255, 255, 0.6) 100%);
+  --fg-card-sheen: radial-gradient(ellipse 90% 40% at 50% 0%, rgba(255, 255, 255, 0.9) 0%, transparent 100%);
+  --fg-btn-fill: rgba(255, 255, 255, 0.65);
+  --fg-btn-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.65) 100%);
+  --fg-btn-hover: rgba(255, 255, 255, 0.85);
+  --fg-btn-primary-bg: linear-gradient(135deg, #1D4ED8 0%, #6D28D9 100%);
+  --fg-dock-fill: rgba(255, 255, 255, 0.72);
+  --fg-dock-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.68) 100%);
+  --fg-pill-fill: rgba(255, 255, 255, 0.65);
+  --fg-pill-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.6) 100%);
+  --fg-floating-fill: rgba(255, 255, 255, 0.75);
+  --fg-floating-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.65) 100%);
 
   /* Fallback for non-backdrop-filter engines */
   --liquid-fallback-bg: #FFFFFF;
