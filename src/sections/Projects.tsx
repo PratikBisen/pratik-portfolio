@@ -52,12 +52,20 @@ export const Projects: React.FC = () => {
                   </div>
                   <div className="spotlight-image-container">
                     {featuredProject.image ? (
-                      <img
-                        src={featuredProject.image}
-                        alt={`Screenshot of ${featuredProject.title}`}
-                        className="spotlight-preview-img"
-                        loading="lazy"
-                      />
+                      <picture>
+                        <source
+                          srcSet={featuredProject.image.replace(/\.png$/, '.webp')}
+                          type="image/webp"
+                        />
+                        <img
+                          src={featuredProject.image}
+                          alt={`Screenshot of ${featuredProject.title}`}
+                          className="spotlight-preview-img"
+                          loading="lazy"
+                          width={1280}
+                          height={800}
+                        />
+                      </picture>
                     ) : (
                       <div className="spotlight-placeholder-img">
                         <span>Live Preview Pending</span>
@@ -160,17 +168,25 @@ export const Projects: React.FC = () => {
                   <span className="browser-url-text sm">{project.demoUrl || project.repoUrl}</span>
                 </div>
                 {project.image ? (
-                  <img
-                    src={project.image}
-                    alt={`Screenshot of ${project.title}`}
-                    className="secondary-project-img"
-                    loading="lazy"
-                  />
+                  <picture>
+                    <source
+                      srcSet={project.image.replace(/\.png$/, '.webp')}
+                      type="image/webp"
+                    />
+                    <img
+                      src={project.image}
+                      alt={`Screenshot of ${project.title}`}
+                      className="secondary-project-img"
+                      loading="lazy"
+                      width={1280}
+                      height={800}
+                    />
+                  </picture>
                 ) : (
                   <div className="secondary-placeholder-blueprint">
                     <Layers size={28} color="var(--accent)" />
                     <span className="blueprint-title">System Architecture Blueprint</span>
-                    <span className="blueprint-sub">Repository Verification Complete</span>
+                    <span className="blueprint-sub">Prototype & Type-Safe Schema</span>
                   </div>
                 )}
                 <div className="secondary-img-scrim" aria-hidden="true" />
@@ -200,19 +216,25 @@ export const Projects: React.FC = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="secondary-btn-demo"
+                      aria-label={`Open live demo for ${project.title}`}
                     >
                       <span>Live Demo</span>
                       <ExternalLink size={13} aria-hidden="true" />
                     </a>
                   ) : (
-                    <span className="secondary-badge-internal">Modular Core</span>
+                    <span
+                      className="secondary-badge-internal"
+                      title="Collaborative architecture prototype and TypeScript data contracts"
+                    >
+                      Prototype Blueprint
+                    </span>
                   )}
                   <a
                     href={project.repoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="secondary-btn-repo"
-                    aria-label={`GitHub repository for ${project.title}`}
+                    aria-label={`Source: ${project.title} GitHub repository`}
                   >
                     <GitHubIcon size={14} aria-hidden="true" />
                     <span>Source</span>

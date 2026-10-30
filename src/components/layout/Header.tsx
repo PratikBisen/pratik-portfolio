@@ -30,7 +30,7 @@ export const Header: React.FC<HeaderProps> = ({
           <a
             href="#hero"
             className="brand-logo"
-            aria-label="Pratik Bisen Home"
+            aria-label="PB - Pratik Bisen"
           >
             <span className="brand-monogram">
               PB

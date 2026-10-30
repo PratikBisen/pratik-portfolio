@@ -21,11 +21,30 @@ export const Contact: React.FC = () => {
 
   const handleCopyEmail = async () => {
     try {
-      await navigator.clipboard.writeText(PROFILE.email);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 3000);
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(PROFILE.email);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 3000);
+        return;
+      }
+      throw new Error('Clipboard API unavailable or non-secure context');
     } catch {
-      // Fallback
+      // Robust textarea fallback for non-secure contexts or denied permissions
+      try {
+        const textArea = document.createElement('textarea');
+        textArea.value = PROFILE.email;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        textArea.style.top = '-999999px';
+        textArea.setAttribute('readonly', '');
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+      } catch (err) {
+        console.warn('Clipboard fallback failed:', err);
+      }
       setCopied(true);
       setTimeout(() => setCopied(false), 3000);
     }
@@ -68,7 +87,7 @@ export const Contact: React.FC = () => {
             <a
               href={`mailto:${PROFILE.email}`}
               className="hero-btn-primary contact-cta-btn"
-              aria-label={`Send email directly to ${PROFILE.email}`}
+              aria-label={`Send Direct Email to ${PROFILE.email}`}
             >
               <Mail size={16} aria-hidden="true" />
               <span>Send Direct Email</span>
@@ -78,7 +97,7 @@ export const Contact: React.FC = () => {
               type="button"
               onClick={handleCopyEmail}
               className="hero-btn-secondary contact-copy-btn"
-              aria-label="Copy email address to clipboard"
+              aria-label={copied ? "Copied to Clipboard!" : `Copy: ${PROFILE.email}`}
             >
               {copied ? (
                 <>
@@ -147,6 +166,8 @@ export const Contact: React.FC = () => {
                   type="submit"
                   className="hero-btn-primary compose-launch-btn"
                   disabled={!message.trim()}
+                  aria-disabled={!message.trim()}
+                  title={!message.trim() ? 'Please type a message before launching your mail client' : 'Open draft in local mail client'}
                 >
                   <Send size={15} aria-hidden="true" />
                   <span>Open in Mail Client</span>

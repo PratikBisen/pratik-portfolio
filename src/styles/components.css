@@ -888,10 +888,22 @@
   border: 1px solid rgba(56, 189, 248, 0.35);
 }
 
+[data-theme="light"] .proficiency-comfortable {
+  color: #0369A1;
+  background: rgba(3, 105, 161, 0.08);
+  border-color: rgba(3, 105, 161, 0.28);
+}
+
 .proficiency-learning {
   color: #A78BFA;
   background: rgba(167, 139, 250, 0.12);
   border: 1px solid rgba(167, 139, 250, 0.35);
+}
+
+[data-theme="light"] .proficiency-learning {
+  color: #6D28D9;
+  background: rgba(109, 40, 217, 0.08);
+  border-color: rgba(109, 40, 217, 0.28);
 }
 
 .proficiency-exploring {
@@ -900,9 +912,15 @@
   border: 1px solid rgba(244, 114, 182, 0.35);
 }
 
+[data-theme="light"] .proficiency-exploring {
+  color: #BE185D;
+  background: rgba(190, 24, 93, 0.08);
+  border-color: rgba(190, 24, 93, 0.28);
+}
+
 .skills-differentiated-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
   gap: var(--space-6);
 }
 
@@ -1267,7 +1285,7 @@
 /* Secondary Curated Projects Grid */
 .secondary-projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
   gap: var(--space-6);
 }
 
@@ -1759,7 +1777,7 @@
 
 .os-repositories-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
   gap: var(--space-6);
 }
 
@@ -1782,12 +1800,15 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: var(--space-3);
+  flex-wrap: wrap;
 }
 
 .os-repo-identity {
   display: flex;
   align-items: center;
   gap: var(--space-3);
+  min-width: 0;
+  flex: 1 1 200px;
 }
 
 .os-folder-icon {
@@ -1811,6 +1832,9 @@
   color: var(--text);
   font-family: var(--font-mono);
   transition: color 0.2s ease;
+  min-width: 0;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .os-repo-title-link:hover {
@@ -1825,7 +1849,8 @@
   color: var(--accent);
   background: var(--accent-surface);
   border: 1px solid var(--accent-surface-border);
-  white-space: nowrap;
+  white-space: normal;
+  max-width: 100%;
 }
 
 .os-repo-desc {

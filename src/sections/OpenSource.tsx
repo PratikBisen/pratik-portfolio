@@ -76,6 +76,7 @@ export const OpenSource: React.FC = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="os-repo-title-link"
+                    aria-label={`GitHub repository ${repo.name}`}
                   >
                     <span>{repo.name}</span>
                     <ExternalLink size={13} aria-hidden="true" />
@@ -107,6 +108,7 @@ export const OpenSource: React.FC = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="os-action-link demo"
+                      aria-label={`Live Site: ${repo.name} deployment`}
                     >
                       <span>Live Site</span>
                       <ExternalLink size={12} aria-hidden="true" />
@@ -117,6 +119,7 @@ export const OpenSource: React.FC = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="os-action-link source"
+                    aria-label={`View Code: ${repo.name} repository`}
                   >
                     <GitPullRequest size={12} aria-hidden="true" />
                     <span>View Code</span>

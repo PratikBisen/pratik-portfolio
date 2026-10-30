@@ -715,14 +715,6 @@
   pointer-events: auto;
 }
 
-@media (max-width: 768px) {
-  .env-floating-dock {
-    bottom: 76px;
-    left: 16px;
-    right: auto;
-  }
-}
-
 .env-controls-pill {
   display: inline-flex;
   align-items: center;

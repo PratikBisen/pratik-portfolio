@@ -1,0 +1,9 @@
+# robots.txt for Pratik Bisen Portfolio
+User-agent: *
+Allow: /
+
+# Disallow internal build artifacts
+Disallow: /dist/
+
+# Sitemaps
+Sitemap: https://pratikbisen.github.io/pratik-portfolio/sitemap.xml

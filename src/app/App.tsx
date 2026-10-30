@@ -13,8 +13,11 @@ import { Experience } from '../sections/Experience';
 import { OpenSource } from '../sections/OpenSource';
 import { Education } from '../sections/Education';
 import { Contact } from '../sections/Contact';
-import { GlassLab } from '../pages/GlassLab';
 import { FlaskConical } from 'lucide-react';
+
+const GlassLab = React.lazy(() =>
+  import('../pages/GlassLab').then((module) => ({ default: module.GlassLab }))
+);
 
 export const App: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
@@ -96,11 +99,29 @@ export const App: React.FC = () => {
 
   if (isLab) {
     return (
-      <GlassLab
-        theme={theme}
-        onToggleTheme={toggleTheme}
-        onBackToPortfolio={navigateToPortfolio}
-      />
+      <React.Suspense
+        fallback={
+          <div
+            style={{
+              minHeight: '100vh',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'var(--color-bg, #05070D)',
+              color: 'var(--text-muted, #94A3B8)',
+              fontFamily: 'var(--font-sans)',
+            }}
+          >
+            Loading Material Laboratory...
+          </div>
+        }
+      >
+        <GlassLab
+          theme={theme}
+          onToggleTheme={toggleTheme}
+          onBackToPortfolio={navigateToPortfolio}
+        />
+      </React.Suspense>
     );
   }
 
@@ -150,7 +171,7 @@ export const App: React.FC = () => {
       <button
         onClick={navigateToLab}
         className="glass-3d-button lab-floating-launcher"
-        aria-label="Open 3D Frosted Glass Laboratory"
+        aria-label="Material Lab: Open 3D Frosted Glass Laboratory"
         style={{
           position: 'fixed',
           bottom: '24px',

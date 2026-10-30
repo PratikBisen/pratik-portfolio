@@ -23,26 +23,58 @@ export const MobileNav: React.FC<MobileNavProps> = ({
   const menuRef = useRef<HTMLDivElement>(null);
   const toggleBtnRef = useRef<HTMLButtonElement>(null);
 
-  // Close on Escape key press
+  // Close on Escape key press & handle focus trap
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
         onClose();
         toggleBtnRef.current?.focus();
+        return;
+      }
+
+      if (e.key === 'Tab' && isOpen && menuRef.current) {
+        const focusables = menuRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex="0"]'
+        );
+        if (focusables.length === 0) return;
+
+        const firstElement = focusables[0];
+        const lastElement = focusables[focusables.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === firstElement || document.activeElement === toggleBtnRef.current) {
+            e.preventDefault();
+            lastElement.focus();
+          }
+        } else {
+          if (document.activeElement === lastElement) {
+            e.preventDefault();
+            toggleBtnRef.current?.focus();
+          } else if (document.activeElement === toggleBtnRef.current) {
+            e.preventDefault();
+            firstElement.focus();
+          }
+        }
       }
     };
 
     if (isOpen) {
       document.addEventListener('keydown', handleKeyDown);
       document.body.style.overflow = 'hidden';
+
+      const timer = setTimeout(() => {
+        const firstLink = menuRef.current?.querySelector<HTMLElement>('a[href]');
+        firstLink?.focus();
+      }, 50);
+
+      return () => {
+        clearTimeout(timer);
+        document.removeEventListener('keydown', handleKeyDown);
+        document.body.style.overflow = '';
+      };
     } else {
       document.body.style.overflow = '';
     }
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = '';
-    };
   }, [isOpen, onClose]);
 
   const handleLinkClick = (id: string) => {

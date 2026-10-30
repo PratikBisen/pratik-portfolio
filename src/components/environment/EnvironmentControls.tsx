@@ -29,6 +29,7 @@ export const EnvironmentControls: React.FC<EnvironmentControlsProps> = ({
             className={`env-control-btn ${isActive ? 'active' : ''}`}
             onClick={() => onSelectPreset(preset.id)}
             aria-pressed={isActive}
+            aria-label={`Select ${preset.name} environment preset`}
             title={`${preset.name}: ${preset.description}`}
           >
             <span

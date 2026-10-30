@@ -47,7 +47,6 @@ export const Hero: React.FC = () => {
                 variant="primary"
                 icon={<ArrowRight size={17} />}
                 iconPosition="right"
-                aria-label="Explore my projects"
               >
                 Explore Projects
               </GlassButton>

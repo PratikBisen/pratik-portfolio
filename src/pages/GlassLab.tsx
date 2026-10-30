@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../styles/glass-lab.css';
 import { AtmosphericEnvironment } from '../components/environment';
 import {
   GlassPanel,
