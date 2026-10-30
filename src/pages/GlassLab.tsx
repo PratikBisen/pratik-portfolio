@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { AtmosphericEnvironment } from '../components/environment';
 import {
   GlassPanel,
   GlassCard,
@@ -43,10 +44,11 @@ export const GlassLab: React.FC<GlassLabProps> = ({
   onToggleTheme,
   onBackToPortfolio,
 }) => {
-  // Live Tuner Controls (Task 7)
+  // Live Tuner Controls (Phase 3 Unified Environment)
   const [backgroundScene, setBackgroundScene] = useState<'aurora' | 'chroma' | 'cyber' | 'studio'>(() => {
     if (typeof window === 'undefined') return 'aurora';
-    const s = new URLSearchParams(window.location.search).get('scene');
+    const params = new URLSearchParams(window.location.search);
+    const s = params.get('env') || params.get('scene');
     if (s === 'chroma' || s === 'cyber' || s === 'studio') return s;
     return 'aurora';
   });
@@ -159,64 +161,9 @@ export const GlassLab: React.FC<GlassLabProps> = ({
   return (
     <div className={`glass-lab-root scene-${backgroundScene}`} style={labCustomStyles}>
       {/* =========================================================================
-          High-Contrast Atmospheric Background Test Patterns (Task 6)
+          Unified 5-Layer Atmospheric Environment Architecture (Phase 3)
           ========================================================================= */}
-      <div className="lab-background-canvas" aria-hidden="true">
-        {backgroundScene === 'aurora' && (
-          <div className="scene-elements scene-aurora">
-            <div className="aurora-orb orb-1" />
-            <div className="aurora-orb orb-2" />
-            <div className="aurora-orb orb-3" />
-            <div className="aurora-orb orb-4" />
-            <div className="aurora-mesh-lines" />
-          </div>
-        )}
-
-        {backgroundScene === 'chroma' && (
-          <div className="scene-elements scene-chroma">
-            <div className="chroma-stripe stripe-1" />
-            <div className="chroma-stripe stripe-2" />
-            <div className="chroma-stripe stripe-3" />
-            <div className="chroma-disc disc-1" />
-            <div className="chroma-disc disc-2" />
-            <div className="chroma-checkerboard" />
-          </div>
-        )}
-
-        {backgroundScene === 'cyber' && (
-          <div className="scene-elements scene-cyber">
-            <div className="cyber-grid" />
-            <div className="cyber-glow-cone" />
-            <div className="cyber-horizon" />
-            <div className="cyber-neon-rect r1" />
-            <div className="cyber-neon-rect r2" />
-          </div>
-        )}
-
-        {backgroundScene === 'studio' && (
-          <div className="scene-elements scene-studio">
-            <div className="studio-tech-grid" />
-            <div className="studio-major-grid" />
-            {/* Resolution Line Gauges (1px, 2px, 4px pairs) */}
-            <div className="studio-resolution-gauge-1" />
-            <div className="studio-resolution-gauge-2" />
-            {/* Calibrated Color Target Swatches */}
-            <div className="studio-color-swatches">
-              <div className="studio-swatch swatch-cyan" title="Cyan 100%" />
-              <div className="studio-swatch swatch-magenta" title="Magenta 100%" />
-              <div className="studio-swatch swatch-yellow" title="Yellow 100%" />
-              <div className="studio-swatch swatch-blue" title="Blue 100%" />
-              <div className="studio-swatch swatch-green" title="Green 100%" />
-              <div className="studio-swatch swatch-red" title="Red 100%" />
-              <div className="studio-swatch swatch-gray" title="50% Neutral Gray" />
-              <div className="studio-swatch swatch-white" title="Pure White" />
-            </div>
-            {/* Siemens Starburst Target */}
-            <div className="studio-siemens-star" />
-            <div className="studio-tech-label">OPTICAL TEST BENCH // 2026</div>
-          </div>
-        )}
-      </div>
+      <AtmosphericEnvironment preset={backgroundScene} theme={theme} />
 
       {/* =========================================================================
           Top Control Console (Live Material Tuner & Test Controls)

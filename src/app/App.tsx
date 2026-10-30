@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTheme } from '../hooks/useTheme';
+import { useEnvironment } from '../hooks/useEnvironment';
+import { AtmosphericEnvironment, EnvironmentControls } from '../components/environment';
 import { NAV_ITEMS } from '../data/profile';
 import { Header } from '../components/layout/Header';
 import { Footer } from '../components/layout/Footer';
@@ -33,6 +35,7 @@ export const App: React.FC = () => {
   };
 
   const [isLab, setIsLab] = useState<boolean>(checkIsLab);
+  const { environment, setEnvironment } = useEnvironment();
 
   useEffect(() => {
     const handleLocationChange = () => {
@@ -107,13 +110,8 @@ export const App: React.FC = () => {
         Skip to main content
       </a>
 
-      {/* Atmospheric Luminous Fluid Aura Environment */}
-      <div className="ambient-background" aria-hidden="true">
-        <div className="aura-field aura-primary" />
-        <div className="aura-field aura-secondary" />
-        <div className="aura-field aura-tertiary" />
-        <div className="aura-field aura-quaternary" />
-      </div>
+      {/* Phase 3: Dedicated 5-Layer Atmospheric Environment Architecture */}
+      <AtmosphericEnvironment preset={environment} theme={theme} />
 
       {/* App Shell */}
       <div className="app-shell">
@@ -136,6 +134,14 @@ export const App: React.FC = () => {
         </main>
 
         <Footer />
+      </div>
+
+      {/* Floating Environment Selector Dock */}
+      <div className="env-floating-dock" aria-label="Environment Preset Switcher">
+        <EnvironmentControls
+          activePreset={environment}
+          onSelectPreset={setEnvironment}
+        />
       </div>
 
       {/* Floating launcher to Material Test Lab */}

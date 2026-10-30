@@ -1,0 +1,884 @@
+/**
+ * atmospheric-environment.css
+ * Dedicated 5-Layer Atmospheric Environment Architecture (Phase 3)
+ * Provides spatial depth, coherent directional lighting, architectural geometry,
+ * and micro-texture to showcase 3D frosted glassmorphism across 4 presets in dark & light themes.
+ */
+
+/* ==========================================================================
+   Root Environment Container & Token Foundations
+   ========================================================================== */
+
+.atmospheric-env {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  contain: strict;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+  transition: background-color 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --------------------------------------------------------------------------
+   Default / Aurora Preset Tokens (Dark Theme)
+   -------------------------------------------------------------------------- */
+.atmospheric-env[data-preset="aurora"] {
+  --env-base-bg: #070913;
+  --env-base-gradient: radial-gradient(circle at 50% 30%, #0E1326 0%, #080A15 60%, #04050A 100%);
+  --env-vignette: radial-gradient(ellipse at center, transparent 40%, rgba(3, 4, 8, 0.75) 100%);
+  
+  /* Directional Lighting */
+  --env-light-primary: rgba(94, 162, 255, 0.30);
+  --env-light-primary-core: rgba(140, 200, 255, 0.50);
+  --env-light-secondary: rgba(168, 133, 255, 0.22);
+  --env-light-ambient: rgba(30, 200, 255, 0.16);
+  --env-light-floor: rgba(70, 110, 200, 0.12);
+
+  /* Geometry & Grid */
+  --env-grid-minor: rgba(255, 255, 255, 0.022);
+  --env-grid-major: rgba(255, 255, 255, 0.055);
+  --env-geom-panel: rgba(94, 162, 255, 0.045);
+  --env-geom-border: rgba(255, 255, 255, 0.06);
+  --env-column-light: linear-gradient(180deg, rgba(94, 162, 255, 0.12) 0%, rgba(94, 162, 255, 0.01) 80%);
+}
+
+/* Light Theme Aurora */
+[data-theme="light"] .atmospheric-env[data-preset="aurora"],
+.atmospheric-env[data-preset="aurora"][data-env-theme="light"] {
+  --env-base-bg: #F3F5FA;
+  --env-base-gradient: radial-gradient(circle at 45% 25%, #FFFFFF 0%, #F1F4FA 60%, #E4EAF4 100%);
+  --env-vignette: radial-gradient(ellipse at center, transparent 45%, rgba(185, 200, 225, 0.35) 100%);
+
+  --env-light-primary: rgba(59, 130, 246, 0.22);
+  --env-light-primary-core: rgba(94, 162, 255, 0.40);
+  --env-light-secondary: rgba(147, 51, 234, 0.16);
+  --env-light-ambient: rgba(14, 165, 233, 0.14);
+  --env-light-floor: rgba(190, 215, 250, 0.40);
+
+  --env-grid-minor: rgba(15, 23, 42, 0.035);
+  --env-grid-major: rgba(15, 23, 42, 0.07);
+  --env-geom-panel: rgba(59, 130, 246, 0.05);
+  --env-geom-border: rgba(15, 23, 42, 0.08);
+  --env-column-light: linear-gradient(180deg, rgba(59, 130, 246, 0.14) 0%, rgba(59, 130, 246, 0.01) 85%);
+}
+
+/* --------------------------------------------------------------------------
+   Chroma Preset Tokens (Optical Transmission & Progressive Diffusion Bench)
+   -------------------------------------------------------------------------- */
+.atmospheric-env[data-preset="chroma"] {
+  --env-base-bg: #080811;
+  --env-base-gradient: radial-gradient(circle at 40% 20%, #15102A 0%, #0A0815 65%, #040308 100%);
+  --env-vignette: radial-gradient(ellipse at center, transparent 35%, rgba(3, 2, 7, 0.85) 100%);
+
+  --env-light-primary: rgba(255, 45, 105, 0.35);
+  --env-light-primary-core: rgba(255, 120, 160, 0.55);
+  --env-light-secondary: rgba(0, 240, 255, 0.30);
+  --env-light-ambient: rgba(255, 170, 0, 0.22);
+  --env-light-floor: rgba(120, 40, 200, 0.20);
+
+  --env-grid-minor: rgba(255, 255, 255, 0.025);
+  --env-grid-major: rgba(255, 255, 255, 0.07);
+  --env-geom-panel: rgba(255, 255, 255, 0.035);
+  --env-geom-border: rgba(255, 255, 255, 0.10);
+  --env-column-light: linear-gradient(180deg, rgba(255, 0, 128, 0.18) 0%, transparent 80%);
+}
+
+[data-theme="light"] .atmospheric-env[data-preset="chroma"],
+.atmospheric-env[data-preset="chroma"][data-env-theme="light"] {
+  --env-base-bg: #F6F4FA;
+  --env-base-gradient: radial-gradient(circle at 40% 25%, #FFFFFF 0%, #F5F1FA 60%, #E8E2F2 100%);
+  --env-vignette: radial-gradient(ellipse at center, transparent 40%, rgba(200, 185, 225, 0.40) 100%);
+
+  --env-light-primary: rgba(235, 30, 95, 0.22);
+  --env-light-primary-core: rgba(255, 80, 135, 0.38);
+  --env-light-secondary: rgba(0, 185, 220, 0.20);
+  --env-light-ambient: rgba(245, 140, 0, 0.18);
+  --env-light-floor: rgba(180, 150, 230, 0.35);
+
+  --env-grid-minor: rgba(35, 20, 60, 0.04);
+  --env-grid-major: rgba(35, 20, 60, 0.08);
+  --env-geom-panel: rgba(255, 0, 128, 0.05);
+  --env-geom-border: rgba(35, 20, 60, 0.10);
+  --env-column-light: linear-gradient(180deg, rgba(235, 30, 95, 0.14) 0%, transparent 85%);
+}
+
+/* --------------------------------------------------------------------------
+   Cyber Preset Tokens (Technical Wireframe Architecture)
+   -------------------------------------------------------------------------- */
+.atmospheric-env[data-preset="cyber"] {
+  --env-base-bg: #05070B;
+  --env-base-gradient: radial-gradient(circle at 50% 20%, #0A1118 0%, #06090F 60%, #030407 100%);
+  --env-vignette: radial-gradient(ellipse at center, transparent 35%, rgba(2, 3, 5, 0.90) 100%);
+
+  --env-light-primary: rgba(0, 240, 255, 0.26);
+  --env-light-primary-core: rgba(120, 250, 255, 0.45);
+  --env-light-secondary: rgba(255, 42, 133, 0.20);
+  --env-light-ambient: rgba(10, 120, 180, 0.16);
+  --env-light-floor: rgba(0, 180, 216, 0.14);
+
+  --env-grid-minor: rgba(0, 240, 255, 0.035);
+  --env-grid-major: rgba(0, 240, 255, 0.08);
+  --env-geom-panel: rgba(0, 240, 255, 0.03);
+  --env-geom-border: rgba(0, 240, 255, 0.12);
+  --env-column-light: linear-gradient(180deg, rgba(0, 240, 255, 0.16) 0%, rgba(0, 240, 255, 0.01) 75%);
+}
+
+[data-theme="light"] .atmospheric-env[data-preset="cyber"],
+.atmospheric-env[data-preset="cyber"][data-env-theme="light"] {
+  --env-base-bg: #EEF3F8;
+  --env-base-gradient: radial-gradient(circle at 45% 20%, #FFFFFF 0%, #EDF4FA 60%, #DDE8F3 100%);
+  --env-vignette: radial-gradient(ellipse at center, transparent 40%, rgba(175, 195, 215, 0.40) 100%);
+
+  --env-light-primary: rgba(0, 165, 215, 0.20);
+  --env-light-primary-core: rgba(0, 205, 240, 0.35);
+  --env-light-secondary: rgba(225, 30, 115, 0.14);
+  --env-light-ambient: rgba(10, 140, 180, 0.12);
+  --env-light-floor: rgba(165, 205, 235, 0.35);
+
+  --env-grid-minor: rgba(10, 30, 50, 0.04);
+  --env-grid-major: rgba(0, 140, 200, 0.09);
+  --env-geom-panel: rgba(0, 170, 220, 0.045);
+  --env-geom-border: rgba(0, 140, 200, 0.12);
+  --env-column-light: linear-gradient(180deg, rgba(0, 160, 210, 0.12) 0%, transparent 80%);
+}
+
+/* --------------------------------------------------------------------------
+   Studio Preset Tokens (Neutral Optical Calibration Bench)
+   -------------------------------------------------------------------------- */
+.atmospheric-env[data-preset="studio"] {
+  --env-base-bg: #11141A;
+  --env-base-gradient: radial-gradient(circle at 45% 25%, #1D222C 0%, #12151D 65%, #0B0D12 100%);
+  --env-vignette: radial-gradient(ellipse at center, transparent 40%, rgba(6, 8, 11, 0.85) 100%);
+
+  --env-light-primary: rgba(255, 255, 255, 0.22);
+  --env-light-primary-core: rgba(255, 255, 255, 0.42);
+  --env-light-secondary: rgba(200, 210, 225, 0.15);
+  --env-light-ambient: rgba(150, 165, 185, 0.12);
+  --env-light-floor: rgba(130, 145, 170, 0.12);
+
+  --env-grid-minor: rgba(255, 255, 255, 0.04);
+  --env-grid-major: rgba(255, 255, 255, 0.10);
+  --env-geom-panel: rgba(255, 255, 255, 0.03);
+  --env-geom-border: rgba(255, 255, 255, 0.09);
+  --env-column-light: linear-gradient(180deg, rgba(255, 255, 255, 0.10) 0%, transparent 80%);
+}
+
+[data-theme="light"] .atmospheric-env[data-preset="studio"],
+.atmospheric-env[data-preset="studio"][data-env-theme="light"] {
+  --env-base-bg: #EEF1F6;
+  --env-base-gradient: radial-gradient(circle at 45% 25%, #FFFFFF 0%, #EEF1F7 60%, #DEE4EE 100%);
+  --env-vignette: radial-gradient(ellipse at center, transparent 45%, rgba(160, 175, 195, 0.35) 100%);
+
+  --env-light-primary: rgba(255, 255, 255, 0.85);
+  --env-light-primary-core: #FFFFFF;
+  --env-light-secondary: rgba(180, 195, 215, 0.30);
+  --env-light-ambient: rgba(140, 155, 180, 0.20);
+  --env-light-floor: rgba(175, 190, 210, 0.40);
+
+  --env-grid-minor: rgba(20, 30, 45, 0.05);
+  --env-grid-major: rgba(20, 30, 45, 0.11);
+  --env-geom-panel: rgba(255, 255, 255, 0.60);
+  --env-geom-border: rgba(20, 30, 45, 0.12);
+  --env-column-light: linear-gradient(180deg, rgba(255, 255, 255, 0.70) 0%, transparent 80%);
+}
+
+
+/* ==========================================================================
+   LAYER A — Base Environment (Graphite/Porcelain Foundation & Vignette)
+   ========================================================================== */
+
+.env-layer-base {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--env-base-bg);
+  background-image: var(--env-base-gradient);
+  z-index: 1;
+  transform: translateZ(0);
+}
+
+.env-vignette-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--env-vignette);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+
+/* ==========================================================================
+   LAYER B — Directional Lighting (Primary Softbox, Fill & Floor Bounce)
+   ========================================================================== */
+
+.env-layer-lighting {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  transform: translateZ(10px);
+  overflow: hidden;
+}
+
+/* Primary Softbox Illumination (Upper-Left 135°/-45° Alignment) */
+.env-light-softbox-primary {
+  position: absolute;
+  top: -18%;
+  left: -12%;
+  width: min(1000px, 90vw);
+  height: min(900px, 85vw);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 35% 35%,
+    var(--env-light-primary-core) 0%,
+    var(--env-light-primary) 40%,
+    transparent 72%
+  );
+  filter: blur(75px);
+  will-change: transform;
+  transform: translateZ(0);
+  animation: env-breathe-primary 24s ease-in-out infinite alternate;
+}
+
+/* Secondary Ambient Illumination (Opposite Side - Lower Right) */
+.env-light-secondary-fill {
+  position: absolute;
+  bottom: -15%;
+  right: -10%;
+  width: min(850px, 80vw);
+  height: min(800px, 75vw);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 55% 55%,
+    var(--env-light-secondary) 0%,
+    transparent 70%
+  );
+  filter: blur(85px);
+  will-change: transform;
+  transform: translateZ(0);
+  animation: env-breathe-secondary 28s ease-in-out infinite alternate;
+}
+
+/* Tertiary Ambient Mid-Elevation Accent */
+.env-light-ambient-mid {
+  position: absolute;
+  top: 38%;
+  left: 20%;
+  width: min(600px, 60vw);
+  height: min(600px, 60vw);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    var(--env-light-ambient) 0%,
+    transparent 68%
+  );
+  filter: blur(90px);
+  transform: translateZ(0);
+  animation: env-breathe-tertiary 32s ease-in-out infinite alternate;
+}
+
+/* Floor-Level Reflected Bounce Plane */
+.env-light-floor-bounce {
+  position: absolute;
+  bottom: -5%;
+  left: 10%;
+  width: 80%;
+  height: 25%;
+  background: radial-gradient(
+    ellipse 70% 50% at 50% 100%,
+    var(--env-light-floor) 0%,
+    transparent 80%
+  );
+  filter: blur(60px);
+  transform: translateZ(0);
+}
+
+
+/* ==========================================================================
+   LAYER C — Atmospheric Depth (3D Space Planes: Far, Mid, Near)
+   ========================================================================== */
+
+.env-layer-depth {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  transform-style: preserve-3d;
+}
+
+/* Far Plane: Deep Luminance Diffusion */
+.env-depth-far-plane {
+  position: absolute;
+  inset: -10%;
+  width: 120%;
+  height: 120%;
+  transform: translateZ(-250px) scale(1.22);
+  background: radial-gradient(ellipse 90% 60% at 50% 40%, rgba(255, 255, 255, 0.02) 0%, transparent 80%);
+}
+
+/* Mid Plane: Structural Architectural Lighting Bands */
+.env-depth-mid-plane {
+  position: absolute;
+  inset: 0;
+  transform: translateZ(-100px) scale(1.08);
+  display: flex;
+  justify-content: space-around;
+  pointer-events: none;
+}
+
+.env-depth-light-beam {
+  width: 120px;
+  height: 100%;
+  background: var(--env-column-light);
+  filter: blur(28px);
+  opacity: 0.7;
+}
+
+/* Near Plane: Fine Spatial Edge Light Cues */
+.env-depth-near-plane {
+  position: absolute;
+  inset: 0;
+  transform: translateZ(-30px);
+  pointer-events: none;
+}
+
+
+/* ==========================================================================
+   LAYER D — Environmental Geometry (Precision Grid, Columns & Test Cues)
+   ========================================================================== */
+
+.env-layer-geometry {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 4;
+  overflow: hidden;
+  transform: translateZ(0);
+}
+
+/* Dual-Cadence Architectural Grid (24px minor, 120px major) */
+.env-architectural-grid {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    /* Minor 24px grid lines */
+    linear-gradient(var(--env-grid-minor) 1px, transparent 1px),
+    linear-gradient(90deg, var(--env-grid-minor) 1px, transparent 1px),
+    /* Major 120px datum lines */
+    linear-gradient(var(--env-grid-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--env-grid-major) 1px, transparent 1px);
+  background-size:
+    24px 24px,
+    24px 24px,
+    120px 120px,
+    120px 120px;
+  background-position: center top;
+  opacity: 0.85;
+}
+
+/* Vertical Architectural Light Columns */
+.env-column-left {
+  position: absolute;
+  top: 0;
+  left: 18%;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--env-geom-border) 0%, transparent 80%);
+  box-shadow: 0 0 24px var(--env-light-primary);
+}
+
+.env-column-right {
+  position: absolute;
+  top: 0;
+  right: 22%;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--env-geom-border) 0%, transparent 85%);
+  box-shadow: 0 0 24px var(--env-light-secondary);
+}
+
+/* Sub-panel Geometric Structures (visible through glass panels) */
+.env-geom-panel-primary {
+  position: absolute;
+  top: 22%;
+  left: 12%;
+  width: min(440px, 45vw);
+  height: min(340px, 35vw);
+  border: 1px solid var(--env-geom-border);
+  background: var(--env-geom-panel);
+  border-radius: 20px;
+  backdrop-filter: blur(1px);
+}
+
+.env-geom-panel-secondary {
+  position: absolute;
+  top: 48%;
+  right: 14%;
+  width: min(400px, 42vw);
+  height: min(300px, 32vw);
+  border: 1px solid var(--env-geom-border);
+  background: var(--env-geom-panel);
+  border-radius: 16px;
+}
+
+/* Horizontal Datum Dividers */
+.env-datum-line-1 {
+  position: absolute;
+  top: 15%;
+  left: 5%;
+  width: 90%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--env-geom-border) 30%, var(--env-geom-border) 70%, transparent 100%);
+}
+
+.env-datum-line-2 {
+  position: absolute;
+  top: 68%;
+  left: 5%;
+  width: 90%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--env-geom-border) 25%, var(--env-geom-border) 75%, transparent 100%);
+}
+
+/* --------------------------------------------------------------------------
+   Preset-Specific Geometry: CHROMA
+   -------------------------------------------------------------------------- */
+.env-chroma-features {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.chroma-vector-band-1 {
+  position: absolute;
+  top: -300px;
+  left: 8%;
+  width: 220px;
+  height: 2200px;
+  background: linear-gradient(180deg, #FF0055 0%, #FFAA00 100%);
+  transform: rotate(-32deg);
+  opacity: 0.55;
+  filter: blur(18px);
+}
+
+.chroma-vector-band-2 {
+  position: absolute;
+  top: -200px;
+  left: 45%;
+  width: 180px;
+  height: 2200px;
+  background: linear-gradient(180deg, #00F0FF 0%, #0044FF 100%);
+  transform: rotate(-32deg);
+  opacity: 0.50;
+  filter: blur(14px);
+}
+
+.chroma-vector-band-3 {
+  position: absolute;
+  top: -400px;
+  left: 78%;
+  width: 160px;
+  height: 2200px;
+  background: linear-gradient(180deg, #9933FF 0%, #FF0088 100%);
+  transform: rotate(-32deg);
+  opacity: 0.45;
+  filter: blur(16px);
+}
+
+.chroma-optic-disk-1 {
+  position: absolute;
+  top: 18%;
+  right: 20%;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #00F0FF 0%, #0044FF 70%, transparent 90%);
+  opacity: 0.45;
+}
+
+.chroma-optic-disk-2 {
+  position: absolute;
+  bottom: 25%;
+  left: 18%;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #FF0055 0%, #FFAA00 70%, transparent 90%);
+  opacity: 0.40;
+}
+
+.chroma-optic-checker {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 280px;
+  height: 160px;
+  background-image: 
+    linear-gradient(45deg, rgba(255, 255, 255, 0.12) 25%, transparent 25%), 
+    linear-gradient(-45deg, rgba(255, 255, 255, 0.12) 25%, transparent 25%), 
+    linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.12) 75%), 
+    linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.12) 75%);
+  background-size: 24px 24px;
+  background-position: 0 0, 0 12px, 12px -12px, -12px 0px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+}
+
+/* --------------------------------------------------------------------------
+   Preset-Specific Geometry: CYBER
+   -------------------------------------------------------------------------- */
+.env-cyber-features {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.cyber-horizon-glow {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 38vh;
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 240, 255, 0.04) 40%, rgba(255, 42, 133, 0.08) 100%);
+  border-top: 1px solid rgba(0, 240, 255, 0.25);
+  box-shadow: 0 -4px 30px rgba(0, 240, 255, 0.15);
+}
+
+.cyber-perspective-floor {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 38vh;
+  background-image: 
+    linear-gradient(90deg, rgba(0, 240, 255, 0.12) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(0, 240, 255, 0.10) 1px, transparent 1px);
+  background-size: 60px 30px;
+  transform-origin: bottom center;
+  transform: perspective(300px) rotateX(45deg);
+  opacity: 0.6;
+}
+
+.cyber-laser-guide-1 {
+  position: absolute;
+  top: 0;
+  left: 32%;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(0, 240, 255, 0.6) 0%, rgba(0, 240, 255, 0.05) 80%);
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
+}
+
+.cyber-laser-guide-2 {
+  position: absolute;
+  top: 0;
+  right: 32%;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(255, 42, 133, 0.5) 0%, rgba(255, 42, 133, 0.05) 80%);
+  box-shadow: 0 0 12px rgba(255, 42, 133, 0.35);
+}
+
+/* --------------------------------------------------------------------------
+   Preset-Specific Geometry: STUDIO
+   -------------------------------------------------------------------------- */
+.env-studio-features {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.studio-target-bench {
+  position: absolute;
+  top: 18%;
+  right: 8%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-end;
+}
+
+/* Precision Line Gauges (1px, 2px, 4px pairs) */
+.studio-gauge-cluster {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 16px;
+  border: 1px solid var(--env-geom-border);
+  border-radius: 8px;
+  background: var(--env-geom-panel);
+}
+
+.studio-gauge-1px {
+  width: 160px;
+  height: 24px;
+  background-image: linear-gradient(90deg, var(--text-muted) 1px, transparent 1px);
+  background-size: 4px 100%;
+  opacity: 0.65;
+}
+
+.studio-gauge-2px {
+  width: 160px;
+  height: 24px;
+  background-image: linear-gradient(90deg, var(--text-muted) 2px, transparent 2px);
+  background-size: 8px 100%;
+  opacity: 0.75;
+}
+
+/* Calibrated Color Target Swatches */
+.studio-swatch-row {
+  display: flex;
+  gap: 4px;
+  padding: 6px;
+  background: var(--env-geom-panel);
+  border: 1px solid var(--env-geom-border);
+  border-radius: 6px;
+}
+
+.studio-color-chip {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Siemens Optical Starburst Target */
+.studio-starburst-target {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: repeating-conic-gradient(
+    var(--text-muted) 0deg 10deg,
+    transparent 10deg 20deg
+  );
+  opacity: 0.40;
+  border: 1px solid var(--env-geom-border);
+}
+
+.studio-spec-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  color: var(--text-subtle);
+  text-transform: uppercase;
+}
+
+
+/* ==========================================================================
+   LAYER E — Surface Texture (High-Efficiency Micro-Grain Overlay)
+   ========================================================================== */
+
+.env-layer-texture {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0.028;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 180px 180px;
+  transform: translateZ(0);
+}
+
+[data-theme="light"] .env-layer-texture {
+  opacity: 0.022;
+  mix-blend-mode: multiply;
+}
+
+
+/* ==========================================================================
+   ENVIRONMENT CONTROLLER WIDGET (Glass Switcher Dock)
+   ========================================================================== */
+
+.env-floating-dock {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  pointer-events: auto;
+}
+
+@media (max-width: 768px) {
+  .env-floating-dock {
+    bottom: 76px;
+    left: 16px;
+    right: auto;
+  }
+}
+
+.env-controls-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 6px;
+  background: var(--fg-dock-fill);
+  background-image: var(--fg-dock-gradient);
+  backdrop-filter: blur(var(--fg-blur)) saturate(var(--fg-saturation));
+  -webkit-backdrop-filter: blur(var(--fg-blur)) saturate(var(--fg-saturation));
+  border: 1px solid var(--fg-border);
+  border-top: 1.5px solid var(--fg-bevel-top);
+  border-left: 1px solid var(--fg-bevel-left);
+  border-bottom: 1px solid var(--fg-bevel-bottom);
+  border-right: 1px solid var(--fg-bevel-right);
+  border-radius: 9999px;
+  box-shadow: var(--fg-shadow-thickness), var(--fg-shadow-contact);
+  transition: all var(--duration-normal) var(--ease-liquid);
+  pointer-events: auto;
+  user-select: none;
+}
+
+.env-control-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 9999px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-liquid);
+  white-space: nowrap;
+}
+
+.env-control-btn:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="light"] .env-control-btn:hover {
+  background: rgba(15, 23, 42, 0.06);
+}
+
+.env-control-btn.active {
+  color: var(--text);
+  background: var(--fg-fill-hover);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.5), 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="light"] .env-control-btn.active {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: inset 0 1px 1px #FFFFFF, 0 2px 6px rgba(15, 23, 42, 0.12);
+  color: var(--accent);
+}
+
+.env-control-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 6px currentColor;
+}
+
+
+/* ==========================================================================
+   Smooth Drift & Breathing Animations (Hardware Accelerated)
+   ========================================================================== */
+
+@keyframes env-breathe-primary {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-35px, 25px, 0) scale(1.06); }
+  100% { transform: translate3d(20px, 15px, 0) scale(0.97); }
+}
+
+@keyframes env-breathe-secondary {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(30px, -20px, 0) scale(1.05); }
+  100% { transform: translate3d(-20px, 25px, 0) scale(0.96); }
+}
+
+@keyframes env-breathe-tertiary {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-20px, -30px, 0) scale(1.08); }
+  100% { transform: translate3d(25px, 20px, 0) scale(0.95); }
+}
+
+
+/* ==========================================================================
+   Accessibility & Mobile Optimizations
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .env-light-softbox-primary,
+  .env-light-secondary-fill,
+  .env-light-ambient-mid {
+    animation: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .env-floating-dock {
+    bottom: 16px;
+    left: 16px;
+    right: auto;
+  }
+
+  .lab-floating-launcher {
+    bottom: 16px !important;
+    right: 16px !important;
+    padding: 0.45rem 0.8rem !important;
+    font-size: 0.72rem !important;
+  }
+
+  .env-controls-pill {
+    padding: 3px 5px;
+    gap: 2px;
+  }
+
+  .env-control-btn {
+    padding: 6px 8px;
+  }
+
+  .env-control-btn span:not(.env-control-dot) {
+    display: none;
+  }
+
+  .env-light-softbox-primary {
+    width: 120vw;
+    height: 100vw;
+    filter: blur(55px);
+  }
+
+  .env-light-secondary-fill {
+    width: 110vw;
+    height: 90vw;
+    filter: blur(60px);
+  }
+
+  .env-geom-panel-primary,
+  .env-geom-panel-secondary {
+    display: none;
+  }
+
+  .chroma-vector-band-1,
+  .chroma-vector-band-2,
+  .chroma-vector-band-3 {
+    filter: blur(25px);
+    opacity: 0.35;
+  }
+
+  .studio-target-bench {
+    display: none;
+  }
+}

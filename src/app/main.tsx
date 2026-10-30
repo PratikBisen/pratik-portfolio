@@ -7,6 +7,7 @@ import '../styles/tokens.css';
 import '../styles/themes.css';
 import '../styles/glass.css';
 import '../styles/frosted-glass.css';
+import '../styles/atmospheric-environment.css';
 import '../styles/glass-lab.css';
 import '../styles/base.css';
 import '../styles/components.css';
