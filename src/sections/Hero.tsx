@@ -1,42 +1,45 @@
 import React from 'react';
-import { ArrowRight, Mail, Sparkles, Terminal, Laptop } from 'lucide-react';
+import { ArrowRight, Mail, Sparkles } from 'lucide-react';
 import { GitHubIcon, LinkedInIcon } from '../components/ui/Icons';
 import { PROFILE } from '../data/profile';
 import { GlassButton } from '../components/glass/GlassButton';
-import { GlassPanel } from '../components/glass/GlassPanel';
 import { GlassBadge } from '../components/glass/GlassBadge';
-import { GlassFloatingElement } from '../components/glass/GlassFloatingElement';
 import { Container } from '../components/layout/Container';
+import { HeroVisual } from '../components/hero/HeroVisual';
 
 export const Hero: React.FC = () => {
   return (
     <section id="hero" className="hero-section" aria-label="Introduction and Overview">
       <Container>
         <div className="hero-grid">
-          {/* Left Column: Identity & Positioning */}
+          {/* Left Column: Personal Identity & Engineering Focus */}
           <div className="hero-content">
+            {/* Academic Identity Pill */}
             <div className="hero-status-pill">
               <GlassBadge variant="accent" pulse>
                 <Sparkles size={13} aria-hidden="true" />
-                <span>IT Engineering • SGGSIE&T Nanded</span>
+                <span>IT Engineering Student • SGGSIE&T, Nanded</span>
               </GlassBadge>
             </div>
 
+            {/* Main Headline */}
             <h1 className="hero-title">
-              Hi, I’m <span className="hero-name-liquid">{PROFILE.name}</span>
+              Hi, I’m <span className="hero-name-gradient">Pratik Bisen.</span>
             </h1>
 
+            {/* Supporting Headline */}
             <p className="hero-headline">
-              {PROFILE.headline}
+              IT engineering student building thoughtful software and practical web projects.
             </p>
 
+            {/* Description */}
             <p className="hero-description">
               Building software engineering foundations through data structures and algorithms,
               web development, Linux, and hands-on projects. Focused on creating clean, practical software
               and contributing to technical communities.
             </p>
 
-            {/* Liquid Glass Action Buttons */}
+            {/* Tactile 3D Glass Action Controls */}
             <div className="hero-actions">
               <GlassButton
                 as="a"
@@ -44,6 +47,7 @@ export const Hero: React.FC = () => {
                 variant="primary"
                 icon={<ArrowRight size={17} />}
                 iconPosition="right"
+                aria-label="Explore my projects"
               >
                 Explore Projects
               </GlassButton>
@@ -54,12 +58,13 @@ export const Hero: React.FC = () => {
                 variant="secondary"
                 icon={<Mail size={17} />}
                 iconPosition="left"
+                aria-label="Get in touch with Pratik Bisen"
               >
                 Get in Touch
               </GlassButton>
             </div>
 
-            {/* Optical Profile Links */}
+            {/* Social Connection Links */}
             <div className="hero-socials">
               <span className="hero-socials-label">Profiles:</span>
               <div className="hero-socials-group">
@@ -67,78 +72,31 @@ export const Hero: React.FC = () => {
                   href={PROFILE.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="liquid-glass-control hero-social-link"
+                  className="glass-3d-button hero-social-pill"
                   aria-label="Visit Pratik Bisen's GitHub profile"
-                  title="GitHub"
+                  title="GitHub Profile"
                 >
-                  <GitHubIcon size={17} aria-hidden="true" />
+                  <GitHubIcon size={16} aria-hidden="true" />
                   <span>GitHub</span>
                 </a>
                 <a
                   href={PROFILE.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="liquid-glass-control hero-social-link"
+                  className="glass-3d-button hero-social-pill"
                   aria-label="Connect with Pratik Bisen on LinkedIn"
-                  title="LinkedIn"
+                  title="LinkedIn Profile"
                 >
-                  <LinkedInIcon size={17} aria-hidden="true" />
+                  <LinkedInIcon size={16} aria-hidden="true" />
                   <span>LinkedIn</span>
                 </a>
               </div>
             </div>
           </div>
 
-          {/* Right Column: iOS 26 Liquid Glass Portrait Enclosure */}
+          {/* Right Column: 3D Frosted Glass Identity Enclosure */}
           <div className="hero-visual">
-            <div className="liquid-portrait-stage">
-              {/* Environmental Caustic Light Glow */}
-              <div className="portrait-caustic-aura" aria-hidden="true" />
-
-              {/* Sculpted Liquid Glass Lens Pod */}
-              <GlassPanel variant="lens" className="liquid-portrait-pod">
-                {/* Convex specular light crescent */}
-                <div className="lens-specular-sheen" aria-hidden="true" />
-
-                {/* Internal Refractive Chamber */}
-                <div className="portrait-refraction-chamber">
-                  {/* Concentric Optical Lens Ripples */}
-                  <div className="optical-lens-rings" aria-hidden="true">
-                    <div className="lens-ring lens-ring-outer" />
-                    <div className="lens-ring lens-ring-mid" />
-                  </div>
-
-                  {/* Crystalline Core Identity Gem */}
-                  <div className="portrait-crystal-core">
-                    <span className="crystal-initials">PB</span>
-                  </div>
-
-                  {/* Refined Suspended Glass Badge */}
-                  <div className="portrait-status-capsule liquid-glass-droplet">
-                    <span className="status-bead" aria-hidden="true" />
-                    <span>Portrait • Photo Pending</span>
-                  </div>
-                </div>
-
-                {/* Sub-lens Reflection Gradient */}
-                <div className="lens-bottom-bevel" aria-hidden="true" />
-              </GlassPanel>
-
-              {/* Floating Optical Glass Satellite Chips (Refined Task 8) */}
-              <GlassFloatingElement
-                icon={<Terminal size={15} aria-hidden="true" />}
-                label="Core Focus"
-                sublabel="DSA & Web Systems"
-                className="floating-satellite satellite-left"
-              />
-
-              <GlassFloatingElement
-                icon={<Laptop size={15} aria-hidden="true" />}
-                label="Environment"
-                sublabel="Linux & Git Workflows"
-                className="floating-satellite satellite-right"
-              />
-            </div>
+            <HeroVisual />
           </div>
         </div>
       </Container>

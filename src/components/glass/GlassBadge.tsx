@@ -16,14 +16,19 @@ export const GlassBadge: React.FC<GlassBadgeProps> = ({
   ...rest
 }) => {
   let badgeStyle: React.CSSProperties = {
-    padding: '0.42rem 1rem',
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '6px',
+    padding: '0.38rem 0.85rem',
     borderRadius: 'var(--radius-full)',
-    fontSize: 'var(--text-xs)',
+    fontSize: '0.72rem',
     fontWeight: 600,
-    letterSpacing: '0.03em',
-    lineHeight: 1.35,
+    letterSpacing: '0.02em',
+    lineHeight: 1.2,
     textAlign: 'center',
     maxWidth: '100%',
+    whiteSpace: 'nowrap',
     ...style,
   };
 
@@ -57,7 +62,9 @@ export const GlassBadge: React.FC<GlassBadgeProps> = ({
           aria-hidden="true"
         />
       )}
-      <span style={{ display: 'inline' }}>{children}</span>
+      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', flexShrink: 1 }}>
+        {children}
+      </span>
     </span>
   );
 };
