@@ -28,7 +28,7 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="site-liquid-dock liquid-glass-pill">
           {/* Logo / Brand Mark */}
           <a
-            href="#"
+            href="#hero"
             className="brand-logo"
             aria-label="Pratik Bisen Home"
           >

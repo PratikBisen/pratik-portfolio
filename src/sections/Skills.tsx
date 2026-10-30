@@ -1,94 +1,119 @@
 import React from 'react';
 import { Section } from '../components/layout/Section';
 import { GlassPanel } from '../components/glass/GlassPanel';
-import { Terminal, Cpu, Globe } from 'lucide-react';
+import { SKILL_CATEGORIES } from '../data/profile';
+import { SkillProficiency } from '../types/portfolio';
+import {
+  Code2,
+  Globe,
+  Cpu,
+  Terminal,
+  Sparkles,
+  CheckCircle2,
+  BookOpenCheck,
+  Compass,
+} from 'lucide-react';
+
+const CATEGORY_ICONS: Record<string, React.ReactNode> = {
+  Code2: <Code2 size={20} aria-hidden="true" />,
+  Globe: <Globe size={20} aria-hidden="true" />,
+  Cpu: <Cpu size={20} aria-hidden="true" />,
+  Terminal: <Terminal size={20} aria-hidden="true" />,
+  Sparkles: <Sparkles size={20} aria-hidden="true" />,
+};
+
+const PROFICIENCY_CONFIG: Record<
+  SkillProficiency,
+  { label: string; icon: React.ReactNode; className: string }
+> = {
+  comfortable: {
+    label: 'Comfortable',
+    icon: <CheckCircle2 size={12} aria-hidden="true" />,
+    className: 'proficiency-comfortable',
+  },
+  learning: {
+    label: 'Learning',
+    icon: <BookOpenCheck size={12} aria-hidden="true" />,
+    className: 'proficiency-learning',
+  },
+  exploring: {
+    label: 'Exploring',
+    icon: <Compass size={12} aria-hidden="true" />,
+    className: 'proficiency-exploring',
+  },
+};
 
 export const Skills: React.FC = () => {
   return (
     <Section
       id="skills"
-      tag="Competencies & Tools"
-      title="Technical Areas & Tools"
-      subtitle="Honest proficiency groupings based on active coursework, projects, and learning goals—without misleading percentage meters."
+      tag="Competencies & Proficiencies"
+      title="Technical Constellation"
+      subtitle="Honest proficiency groupings reflecting active coursework, practical projects, and ongoing engineering studies—without fabricated percentage meters."
     >
-      <div className="skills-liquid-grid">
-        {/* Tray 1: Practiced Foundations */}
-        <GlassPanel variant="surface" className="skill-liquid-tray">
-          <div className="tray-lens-header">
-            <div className="tray-icon-bubble">
-              <Terminal size={20} aria-hidden="true" />
-            </div>
-            <div>
-              <h3 className="tray-title">Practiced Foundations</h3>
-              <span className="tray-subtitle">Languages & Core CS Concepts</span>
-            </div>
-          </div>
-          <div className="skill-pebbles-cluster">
-            {[
-              'C / C++',
-              'Data Structures & Algorithms',
-              'HTML5 / Semantic Web',
-              'CSS3 / Liquid Layouts',
-              'JavaScript (ES6+)',
-            ].map((skill) => (
-              <span key={skill} className="liquid-glass-droplet skill-pebble">
-                {skill}
-              </span>
-            ))}
-          </div>
-        </GlassPanel>
+      {/* Proficiency Legend Bar */}
+      <div className="skills-legend-bar">
+        <span className="legend-title">Proficiency Status:</span>
+        <div className="legend-items">
+          <span className="legend-pill proficiency-comfortable">
+            <CheckCircle2 size={13} aria-hidden="true" />
+            <span>Comfortable With</span>
+          </span>
+          <span className="legend-pill proficiency-learning">
+            <BookOpenCheck size={13} aria-hidden="true" />
+            <span>Currently Learning</span>
+          </span>
+          <span className="legend-pill proficiency-exploring">
+            <Compass size={13} aria-hidden="true" />
+            <span>Actively Exploring</span>
+          </span>
+        </div>
+      </div>
 
-        {/* Tray 2: Platforms & Toolchain */}
-        <GlassPanel variant="surface" className="skill-liquid-tray">
-          <div className="tray-lens-header">
-            <div className="tray-icon-bubble">
-              <Cpu size={20} aria-hidden="true" />
-            </div>
-            <div>
-              <h3 className="tray-title">Platforms & Toolchain</h3>
-              <span className="tray-subtitle">Operating Systems & Dev Tools</span>
-            </div>
-          </div>
-          <div className="skill-pebbles-cluster">
-            {[
-              'Git',
-              'GitHub',
-              'Linux / Bash CLI',
-              'VS Code',
-              'Responsive Design Architecture',
-            ].map((skill) => (
-              <span key={skill} className="liquid-glass-droplet skill-pebble">
-                {skill}
-              </span>
-            ))}
-          </div>
-        </GlassPanel>
+      {/* Differentiated Skills Composition */}
+      <div className="skills-differentiated-grid">
+        {SKILL_CATEGORIES.map((category) => {
+          return (
+            <GlassPanel
+              key={category.id}
+              variant="surface"
+              className={`skill-category-enclosure skill-tray-${category.id}`}
+            >
+              <div className="category-header-strip">
+                <div className="category-icon-orb">
+                  {CATEGORY_ICONS[category.iconName] || <Code2 size={20} />}
+                </div>
+                <div>
+                  <h3 className="category-title">{category.title}</h3>
+                  <p className="category-subtitle">{category.subtitle}</p>
+                </div>
+              </div>
 
-        {/* Tray 3: Currently Exploring */}
-        <GlassPanel variant="surface" className="skill-liquid-tray">
-          <div className="tray-lens-header">
-            <div className="tray-icon-bubble">
-              <Globe size={20} aria-hidden="true" />
-            </div>
-            <div>
-              <h3 className="tray-title">Currently Exploring</h3>
-              <span className="tray-subtitle">Active Learning Pathways</span>
-            </div>
-          </div>
-          <div className="skill-pebbles-cluster">
-            {[
-              'Python',
-              'React.js',
-              'Node.js',
-              'TypeScript',
-              'Modern System Foundations',
-            ].map((skill) => (
-              <span key={skill} className="liquid-glass-droplet skill-pebble">
-                {skill}
-              </span>
-            ))}
-          </div>
-        </GlassPanel>
+              <div className="category-skills-matrix">
+                {category.skills.map((skill) => {
+                  const prof = PROFICIENCY_CONFIG[skill.proficiency];
+                  return (
+                    <div
+                      key={skill.name}
+                      className={`skill-matrix-item ${prof.className}`}
+                    >
+                      <div className="skill-name-row">
+                        <span className="skill-name">{skill.name}</span>
+                        <span className={`skill-status-tag ${prof.className}`}>
+                          {prof.icon}
+                          <span>{prof.label}</span>
+                        </span>
+                      </div>
+                      {skill.note && (
+                        <span className="skill-context-note">{skill.note}</span>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </GlassPanel>
+          );
+        })}
       </div>
     </Section>
   );

@@ -1,79 +1,85 @@
 import React from 'react';
 import { Section } from '../components/layout/Section';
 import { GlassPanel } from '../components/glass/GlassPanel';
-import { Award, Shield, Terminal, Calendar } from 'lucide-react';
+import { EXPERIENCE_DATA } from '../data/profile';
+import { Award, Shield, Terminal, Calendar, CheckCircle2 } from 'lucide-react';
+
+const EXP_ICONS: Record<string, React.ReactNode> = {
+  Award: <Award size={22} aria-hidden="true" />,
+  Shield: <Shield size={22} aria-hidden="true" />,
+  Terminal: <Terminal size={22} aria-hidden="true" />,
+};
 
 export const Experience: React.FC = () => {
   return (
     <Section
       id="experience"
-      tag="Leadership & Community"
-      title="Community & Open Source"
-      subtitle="Selected student leadership, technical coordination, and open-source contribution initiatives."
+      tag="Leadership & Initiatives"
+      title="Experience & Community Leadership"
+      subtitle="Verified student coordination, technical community leadership, and collaborative open-source engineering initiatives."
     >
-      <div className="experience-liquid-grid">
-        {/* Item 1: CommitRush Open Source Challenge */}
-        <GlassPanel variant="surface" className="experience-liquid-card">
-          <div className="experience-card-header">
-            <div className="exp-icon-bubble">
-              <Terminal size={22} aria-hidden="true" />
-            </div>
-            <div className="exp-header-info">
-              <div className="exp-role-badge liquid-glass-droplet">Open-Source Challenge</div>
-              <h3 className="exp-title">COMMITRUSH 2026</h3>
-              <p className="exp-org">21-Day Open-Source Contribution Challenge</p>
-            </div>
-          </div>
-          <p className="exp-desc">
-            Organized community initiative fostering consistent version control habits, Git collaboration, and meaningful open-source contributions among engineering peers.
-          </p>
-          <div className="exp-date-tag">
-            <Calendar size={13} aria-hidden="true" />
-            <span>22 Sep – 12 Oct 2026</span>
-          </div>
-        </GlassPanel>
+      <div className="experience-timeline-stage">
+        {/* Glowing Central Timeline Spine */}
+        <div className="timeline-conduit-spine" aria-hidden="true">
+          <div className="timeline-conduit-pulse" />
+        </div>
 
-        {/* Item 2: HackIT Club */}
-        <GlassPanel variant="surface" className="experience-liquid-card">
-          <div className="experience-card-header">
-            <div className="exp-icon-bubble">
-              <Shield size={22} aria-hidden="true" />
-            </div>
-            <div className="exp-header-info">
-              <div className="exp-role-badge liquid-glass-droplet">Campus Technical Club</div>
-              <h3 className="exp-title">HackIT Club</h3>
-              <p className="exp-org">Ethical Hacking & Cyber Security Club • SGGSIE&T</p>
-            </div>
-          </div>
-          <p className="exp-desc">
-            Community co-leadership involvement organizing technical discussions, security awareness workshops, and collaborative coding sessions.
-          </p>
-          <div className="exp-date-tag">
-            <Award size={13} aria-hidden="true" />
-            <span>Community Co-Lead</span>
-          </div>
-        </GlassPanel>
+        <div className="experience-timeline-entries">
+          {EXPERIENCE_DATA.map((exp, index) => {
+            const isEven = index % 2 === 0;
+            return (
+              <div
+                key={exp.id}
+                className={`timeline-entry-row ${isEven ? 'entry-left' : 'entry-right'}`}
+              >
+                {/* 3D Glass Milestone Node on the Spine */}
+                <div className="timeline-milestone-anchor">
+                  <div className="milestone-3d-node">
+                    <div className="milestone-node-gem">
+                      {EXP_ICONS[exp.iconName] || <Award size={18} />}
+                    </div>
+                  </div>
+                </div>
 
-        {/* Item 3: ITSA Departmental Club */}
-        <GlassPanel variant="surface" className="experience-liquid-card">
-          <div className="experience-card-header">
-            <div className="exp-icon-bubble">
-              <Award size={22} aria-hidden="true" />
-            </div>
-            <div className="exp-header-info">
-              <div className="exp-role-badge liquid-glass-droplet">Departmental Organization</div>
-              <h3 className="exp-title">ITSA</h3>
-              <p className="exp-org">Information Technology Student Association • SGGSIE&T</p>
-            </div>
-          </div>
-          <p className="exp-desc">
-            Technical coordination of departmental academic and extracurricular workshops, hackathons, and technical orientation for incoming students.
-          </p>
-          <div className="exp-date-tag">
-            <Award size={13} aria-hidden="true" />
-            <span>Technical Coordinator</span>
-          </div>
-        </GlassPanel>
+                {/* Glass Timeline Narrative Card */}
+                <div className="timeline-content-card-wrapper">
+                  <GlassPanel variant="surface" className="timeline-glass-card">
+                    <div className="timeline-card-header">
+                      <div className="timeline-meta-top">
+                        <span className="timeline-category-tag">{exp.category}</span>
+                        <span className="timeline-period-pill">
+                          <Calendar size={12} aria-hidden="true" />
+                          <span>{exp.period}</span>
+                        </span>
+                      </div>
+
+                      <h3 className="timeline-role-title">{exp.role}</h3>
+                      <h4 className="timeline-org-name">{exp.organization}</h4>
+                    </div>
+
+                    <p className="timeline-description-text">{exp.description}</p>
+
+                    <div className="timeline-highlights-block">
+                      <span className="highlights-header">Key Responsibilities & Impact:</span>
+                      <ul className="timeline-bullets-list">
+                        {exp.highlights.map((item, idx) => (
+                          <li key={idx}>
+                            <CheckCircle2
+                              size={13}
+                              className="bullet-icon-check"
+                              aria-hidden="true"
+                            />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </GlassPanel>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </Section>
   );

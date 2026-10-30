@@ -10,6 +10,7 @@ import { About } from '../sections/About';
 import { Skills } from '../sections/Skills';
 import { Projects } from '../sections/Projects';
 import { Experience } from '../sections/Experience';
+import { OpenSource } from '../sections/OpenSource';
 import { Education } from '../sections/Education';
 import { Contact } from '../sections/Contact';
 import { GlassLab } from '../pages/GlassLab';
@@ -129,6 +130,7 @@ export const App: React.FC = () => {
           <Skills />
           <Projects />
           <Experience />
+          <OpenSource />
           <Education />
           <Contact />
         </main>
